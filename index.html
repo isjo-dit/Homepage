@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>내 첫 웹페이지</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1>안녕하세요 👋</h1>
+      <p>이건 HTML/CSS/JS로 만든 기본 스타터입니다.</p>
+      <nav>
+        <a href="#features">기능</a>
+        <a href="#contact">연락</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section id="features">
+        <h2>기능</h2>
+        <ul id="feature-list"></ul>
+      </section>
+
+      <section id="contact">
+        <h2>연락</h2>
+        <form id="contact-form">
+          <label>이메일 <input type="email" name="email" required /></label>
+          <label>메시지 <textarea name="message" required></textarea></label>
+          <button type="submit">보내기</button>
+        </form>
+        <p id="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <footer class="container">
+      <small>© 2025 My Site</small>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
