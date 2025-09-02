@@ -3,79 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DIT</title>
-  <meta name="description" content="DIT는 산업 현장을 위한 SOTA AI·데이터·로보틱스 솔루션을 제공합니다. 예측정비, 스마트팩토리, 로봇 비전/제어, 엣지·클라우드 통합." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>DeepAI-IT — State-of-the-Art Technology</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Open Graph -->
-  <meta property="og:title" content="DeepAI-IT — State-of-the-Art AI & Industrial Solutions">
-  <meta property="og:description" content="예측정비, 스마트팩토리, 로봇 비전/제어, 엣지·클라우드 통합">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://deepai-it.com/">
-  <meta property="og:image" content="https://deepai-it.com/og.png">
-  <!-- JSON-LD: 조직/사이트 기본 정보 -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"DeepAI-IT",
-    "url":"https://deepai-it.com",
-    "logo":"https://deepai-it.com/logo.png",
-    "sameAs": ["https://github.com/isjo-dit"]
-  }
-  </script>
 </head>
 <body>
+  <!-- 애니메이션 배경 캔버스 -->
+  <canvas id="bg" aria-hidden="true"></canvas>
+
   <!-- 고정 헤더 -->
   <header class="site-header">
     <div class="container">
-      <a href="#" class="brand">
-        <img src="logo.svg" alt="DIT Logo" class="logo">
-        <span>DeepAI-IT</span>
-      </a>
-      <nav class="nav" aria-label="주요">
-        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">메뉴</button>
-        <ul id="nav-menu">
-          <li><a href="#solutions">솔루션</a></li>
-          <li><a href="#cases">사례</a></li>
-          <li><a href="#tech">기술</a></li>
-          <li><a href="#contact" class="btn btn--sm">문의</a></li>
-        </ul>
+      <a href="#" class="brand">DeepAI-IT</a>
+      <nav class="nav">
+        <a href="#hero">Home</a>
+        <a href="#footer">Contact</a>
       </nav>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="hero">
+  <section class="hero" id="hero" role="main">
     <div class="container">
-      <h1 class="headline">
-        <span class="accent">AI & Robotics</span><br>산업 현장에 바로 적용되는 결과
-      </h1>
-
-      <ul class="trust">
-        <li>실증 데이터 기반</li>
-        <li>보안·신뢰성 우선</li>
-        <li>현장-맞춤형 배포</li>
-      </ul>
+      <h1 class="headline">State-of-the-Art Technology</h1>
     </div>
-    <div class="hero-bg" aria-hidden="true"></div>
   </section>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <strong>DeepAI-IT</strong><br>
-        <span class="muted">© <span id="year"></span> DeepAI-IT. All rights reserved.</span>
-      </div>
-      <nav aria-label="하단">
-        <a href="#solutions">솔루션</a>
-        <a href="#cases">사례</a>
-        <a href="#tech">기술</a>
-        <a href="#contact">문의</a>
-      </nav>
+  <!-- Footer -->
+  <footer class="site-footer" id="footer">
+    <div class="container">
+      <p>© <span id="year"></span> DIT. All rights reserved.</p>
     </div>
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
