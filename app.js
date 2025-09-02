@@ -1,34 +1,75 @@
-// 모바일 내비 토글
-const toggle = document.querySelector('.nav-toggle');
-const nav = document.querySelector('.nav');
-if (toggle) {
-  toggle.addEventListener('click', () => {
-    const expanded = nav.getAttribute('aria-expanded') === 'true';
-    nav.setAttribute('aria-expanded', (!expanded).toString());
-    toggle.setAttribute('aria-expanded', (!expanded).toString());
-  });
-}
+// ===== 배경 파티클(가벼운 캔버스 렌더) =====
+(() => {
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w, h, dpr, particles;
 
-// 스무스 스크롤
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const id = a.getAttribute('href').slice(1);
-    const el = document.getElementById(id);
-    if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-  })
-});
+  const DOTS = 80;        // 점 개수 (모바일에서 자동 감소)
+  const SPEED = 0.15;     // 이동 속도
+  const LINK_DIST = 120;  // 선 연결 거리(px)
+  const COLOR = 'rgba(255,255,255,0.08)'; // 은은한 밝은 회색
 
-// 폼 데모 처리 (GitHub Pages엔 서버가 없으므로 표시만)
-const form = document.getElementById('contact-form');
-const status = document.getElementById('status');
-if (form) {
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const data = new FormData(form);
-    status.textContent = `문의가 접수되었다고 가정합니다 — ${data.get('name')} / ${data.get('email')}`;
-    form.reset();
-  });
-}
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.width = Math.floor(innerWidth * dpr);
+    h = canvas.height = Math.floor(innerHeight * dpr);
+    canvas.style.width = innerWidth + 'px';
+    canvas.style.height = innerHeight + 'px';
+    if (!particles) init();
+  }
 
-// 푸터 연도
-document.getElementById('year').textContent = new Date().getFullYear();
+  function init() {
+    const count = Math.max(40, Math.min(DOTS, Math.floor(innerWidth / 20)));
+    particles = new Array(count).fill(0).map(() => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * SPEED * dpr,
+      vy: (Math.random() - 0.5) * SPEED * dpr,
+      r: (Math.random() * 1.8 + 0.6) * dpr
+    }));
+  }
+
+  function step() {
+    ctx.clearRect(0, 0, w, h);
+    // 점 이동 & 경계 반사
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    }
+    // 연결선
+    ctx.beginPath();
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.hypot(dx, dy) / dpr;
+        if (dist < LINK_DIST) {
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+        }
+      }
+    }
+    ctx.strokeStyle = COLOR;
+    ctx.lineWidth = 1 * dpr;
+    ctx.stroke();
+
+    // 점 그리기
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = COLOR;
+      ctx.fill();
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  // 사용자 ‘모션 감소’ 선호 시 파티클 비활성
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!reduceMotion.matches) {
+    window.addEventListener('resize', resize, { passive: true });
+    resize();
+    step();
+  }
+})();
