@@ -45,7 +45,7 @@ body::before{
 }
 
 /* 컨테이너 & 레이아웃 */
-.container{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+.container{max-width:var(--maxw); margin:0 auto; padding:0 12px}
 
 /* 헤더 */
 .site-header{
