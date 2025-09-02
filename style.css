@@ -1,23 +1,23 @@
 /* ===== 배경: 검정 → 회색 그라데이션 + 천천히 흐르는 애니메이션 ===== */
 :root{
   --bg-top:#000000;
-  --bg-bottom:#333333;
+  --bg-bottom:##55555;
   --text:#e5e7eb;
   --muted:#b3b3b3;
   --maxw:1100px;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
+html,body{height:100%; color-scheme: dark;}
 body{
   margin:0;
   color:var(--text);
   font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   min-height:100vh;
   display:flex; flex-direction:column;
-  /* 베이스 그라데이션 */
   background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
   position:relative; overflow-x:hidden;
 }
+
 /* 흐르는 그라데이션 오버레이 */
 body::before{
   content:"";
@@ -39,8 +39,9 @@ body::before{
 /* 파티클 캔버스 */
 #bg{
   position:fixed; inset:0;
-  z-index:0; /* 헤더/컨텐츠 아래 */
+  z-index:0;
   display:block;
+  pointer-events:none;
 }
 
 /* 컨테이너 & 레이아웃 */
@@ -51,6 +52,7 @@ body::before{
   position:sticky; top:0; z-index:10;
   background: rgba(0,0,0,.75);
   backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .site-header .container{
@@ -62,17 +64,19 @@ body::before{
 
 /* Hero */
 .hero{
-  position:relative; z-index:1; /* 캔버스 위에 표시 */
+  position:relative; z-index:1;
   flex:1; display:flex; align-items:center; justify-content:center;
-  text-align:center; padding:120px 20px 96px;
+  text-align:center; 
+  padding:80px 16px 60px; /* 상하 여백 줄임 */
 }
 .headline{
   margin:0;
-  font-size: clamp(36px, 6vw, 72px);
+  font-size: clamp(36px, 5vw, 64px); /* 조금 더 압축 */
   font-weight: 800;
   letter-spacing: .2px;
   color:#fff;
   text-shadow: 0 2px 30px rgba(255,255,255,.08);
+  max-width:900px; /* 가로 폭 제한 → 3줄 방지 */
 }
 
 /* Footer */
@@ -82,7 +86,8 @@ body::before{
   text-align:center; padding:22px 0; color:#bfbfbf; background:rgba(0,0,0,.35);
 }
 
-/* 접근성: 모션 감소 선호 시 애니메이션 비활성 */
+/* 접근성 */
 @media (prefers-reduced-motion: reduce){
   body::before{animation:none}
+  #bg{display:none}
 }
