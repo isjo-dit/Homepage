@@ -76,7 +76,6 @@ body::before{
   letter-spacing: .2px;
   color:#fff;
   text-shadow: 0 2px 30px rgba(255,255,255,.08);
-  max-width:900px; /* 가로 폭 제한 → 3줄 방지 */
 }
 
 /* Footer */
