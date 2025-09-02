@@ -1,42 +1,189 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>내 첫 웹페이지</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header class="container">
-      <h1>안녕하세요 👋</h1>
-      <p>이건 HTML/CSS/JS로 만든 기본 스타터입니다.</p>
-      <nav>
-        <a href="#features">기능</a>
-        <a href="#contact">연락</a>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeepAI-IT — State-of-the-Art AI & Industrial Solutions</title>
+  <meta name="description" content="DeepAI-IT는 산업 현장을 위한 SOTA AI·데이터·로보틱스 솔루션을 제공합니다. 예측정비, 스마트팩토리, 로봇 비전/제어, 엣지·클라우드 통합." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="DeepAI-IT — State-of-the-Art AI & Industrial Solutions">
+  <meta property="og:description" content="예측정비, 스마트팩토리, 로봇 비전/제어, 엣지·클라우드 통합">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deepai-it.com/">
+  <meta property="og:image" content="https://deepai-it.com/og.png">
+  <!-- JSON-LD: 조직/사이트 기본 정보 -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"DeepAI-IT",
+    "url":"https://deepai-it.com",
+    "logo":"https://deepai-it.com/logo.png",
+    "sameAs": ["https://github.com/isjo-dit"]
+  }
+  </script>
+</head>
+<body>
+  <!-- 고정 헤더 -->
+  <header class="site-header">
+    <div class="container">
+      <a href="#" class="brand">
+        <img src="logo.svg" alt="DeepAI-IT 로고" class="logo">
+        <span>DeepAI-IT</span>
+      </a>
+      <nav class="nav" aria-label="주요">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">메뉴</button>
+        <ul id="nav-menu">
+          <li><a href="#solutions">솔루션</a></li>
+          <li><a href="#cases">사례</a></li>
+          <li><a href="#tech">기술</a></li>
+          <li><a href="#contact" class="btn btn--sm">문의</a></li>
+        </ul>
       </nav>
-    </header>
+    </div>
+  </header>
 
-    <main class="container">
-      <section id="features">
-        <h2>기능</h2>
-        <ul id="feature-list"></ul>
-      </section>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="headline">
+        State-of-the-Art <span class="accent">AI & Robotics</span><br>산업 현장에 바로 적용되는 결과
+      </h1>
+      <p class="subhead">
+        예측정비(CBM) · 스마트팩토리 · 로봇 비전/제어 · 엣지-클라우드 분석을<br>
+        한 번의 통합 아키텍처로 구축합니다.
+      </p>
+      <div class="cta">
+        <a href="https://app.deepai-it.com" class="btn">서비스 시작하기</a>
+        <a href="#contact" class="btn btn--ghost">프로젝트 상담</a>
+      </div>
 
-      <section id="contact">
-        <h2>연락</h2>
-        <form id="contact-form">
-          <label>이메일 <input type="email" name="email" required /></label>
-          <label>메시지 <textarea name="message" required></textarea></label>
-          <button type="submit">보내기</button>
-        </form>
-        <p id="status" aria-live="polite"></p>
-      </section>
-    </main>
+      <ul class="trust">
+        <li>실증 데이터 기반</li>
+        <li>보안·신뢰성 우선</li>
+        <li>현장-맞춤형 배포</li>
+      </ul>
+    </div>
+    <div class="hero-bg" aria-hidden="true"></div>
+  </section>
 
-    <footer class="container">
-      <small>© 2025 My Site</small>
-    </footer>
+  <!-- 솔루션 -->
+  <section class="section" id="solutions">
+    <div class="container">
+      <h2 class="section-title">솔루션</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>예측정비 (HiCBM)</h3>
+          <p>고주파 진동/전류/가스 데이터를 융합한 이상탐지·수명예측. 10kHz+ 센싱 & 엣지 추론.</p>
+          <ul class="list">
+            <li>Anomaly Transformer / Autoencoder</li>
+            <li>경보/원인 분석 대시보드</li>
+            <li>OPC-UA/MQTT 연동</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>스마트 팩토리</h3>
+          <p>설비/공정/품질 데이터를 통합하고 KPI(UPH, OEE)를 실시간 최적화.</p>
+          <ul class="list">
+            <li>RAG 기반 분석 & 리포트</li>
+            <li>실시간 스트리밍 파이프라인</li>
+            <li>Role-based 접근제어</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>로봇 비전·제어</h3>
+          <p>6축 로봇의 궤적/토크/비전 데이터를 통합. Digital Twin 및 3D Viewer 제공.</p>
+          <ul class="list">
+            <li>React Three Fiber / Three.js</li>
+            <li>DH 파라미터·경로 최적화</li>
+            <li>이상 사이클 자동 탐지</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>FGSS & 에너지</h3>
+          <p>연료공급·압축·펌프 계측 데이터를 기반으로 안전·효율 동시 달성.</p>
+          <ul class="list">
+            <li>실시간 알림 & 레포트</li>
+            <li>장비별 상태 인덱스</li>
+            <li>배치/실시간 하이브리드</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <script src="app.js"></script>
-  </body>
+  <!-- 사례 -->
+  <section class="section" id="cases">
+    <div class="container">
+      <h2 class="section-title">고객 사례</h2>
+      <div class="grid grid--2">
+        <article class="case">
+          <h3>선박 구동계 CBM</h3>
+          <p>진동(10kHz) + 제어(10Hz) 융합으로 조기 이상 탐지, 계획정비 전환, 다운타임 22%↓</p>
+          <p class="meta">스택: Python, PyTorch, InfluxDB, Grafana, Edge TPU</p>
+        </article>
+        <article class="case">
+          <h3>스마트팩토리 로봇 라인</h3>
+          <p>3D Viewer로 궤적/토크/속도 모니터링 → 불량률 18%↓, 사이클타임 9%↑</p>
+          <p class="meta">스택: React-Three-Fiber, FastAPI, Kafka, Postgres</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 기술 스택 -->
+  <section class="section" id="tech">
+    <div class="container">
+      <h2 class="section-title">핵심 기술</h2>
+      <ul class="stack">
+        <li>PyTorch / Scikit-Learn / XGBoost</li>
+        <li>React / TypeScript / R3F / Three.js</li>
+        <li>Kafka / MQTT / OPC-UA</li>
+        <li>Docker / K8s / Grafana / Prometheus</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 문의 -->
+  <section class="section" id="contact">
+    <div class="container">
+      <h2 class="section-title">문의</h2>
+      <form id="contact-form" class="form" aria-describedby="form-note">
+        <label>회사/이름
+          <input type="text" name="name" required>
+        </label>
+        <label>이메일
+          <input type="email" name="email" required>
+        </label>
+        <label>문의 내용
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn">보내기</button>
+          <p id="form-note" class="muted">* GitHub Pages는 서버가 없어 데모 전송만 수행합니다.</p>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>DeepAI-IT</strong><br>
+        <span class="muted">© <span id="year"></span> DeepAI-IT. All rights reserved.</span>
+      </div>
+      <nav aria-label="하단">
+        <a href="#solutions">솔루션</a>
+        <a href="#cases">사례</a>
+        <a href="#tech">기술</a>
+        <a href="#contact">문의</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
 </html>
