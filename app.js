@@ -7,7 +7,7 @@
   const DOTS = 80;        // 점 개수 (모바일에서 자동 감소)
   const SPEED = 0.15;     // 이동 속도
   const LINK_DIST = 120;  // 선 연결 거리(px)
-  const COLOR = 'rgba(255,255,255,0.08)'; // 은은한 밝은 회색
+  const COLOR = 'rgba(255,255,255,0.2)'; // 은은한 밝은 회색
 
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -51,7 +51,7 @@
       }
     }
     ctx.strokeStyle = COLOR;
-    ctx.lineWidth = 1 * dpr;
+    ctx.lineWidth = 1.5 * dpr;
     ctx.stroke();
 
     // 점 그리기
