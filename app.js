@@ -1,24 +1,34 @@
-// 간단한 JS 예시
-const features = [
-  "반응형 레이아웃",
-  "접근성 고려(aria-live 등)",
-  "간단한 폼 검증",
-];
-const list = document.getElementById("feature-list");
-features.forEach(f => {
-  const li = document.createElement("li");
-  li.textContent = f;
-  list.appendChild(li);
+// 모바일 내비 토글
+const toggle = document.querySelector('.nav-toggle');
+const nav = document.querySelector('.nav');
+if (toggle) {
+  toggle.addEventListener('click', () => {
+    const expanded = nav.getAttribute('aria-expanded') === 'true';
+    nav.setAttribute('aria-expanded', (!expanded).toString());
+    toggle.setAttribute('aria-expanded', (!expanded).toString());
+  });
+}
+
+// 스무스 스크롤
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  })
 });
 
-const form = document.getElementById("contact-form");
-const status = document.getElementById("status");
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const formData = new FormData(form);
-  const email = formData.get("email");
-  const message = formData.get("message");
-  // 서버가 없는 정적 사이트에서는 실제 전송은 불가. 여기선 데모 메시지.
-  status.textContent = `(${email}) 로부터 메시지를 받았다고 가정합니다: "${message.slice(0, 80)}..."`;
-  form.reset();
-});
+// 폼 데모 처리 (GitHub Pages엔 서버가 없으므로 표시만)
+const form = document.getElementById('contact-form');
+const status = document.getElementById('status');
+if (form) {
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const data = new FormData(form);
+    status.textContent = `문의가 접수되었다고 가정합니다 — ${data.get('name')} / ${data.get('email')}`;
+    form.reset();
+  });
+}
+
+// 푸터 연도
+document.getElementById('year').textContent = new Date().getFullYear();
