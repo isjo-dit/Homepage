@@ -4,14 +4,14 @@
   --bg-bottom:##55555;
   --text:#e5e7eb;
   --muted:#b3b3b3;
-  --maxw:1100px;
+  --maxw:2500px;
 }
 *{box-sizing:border-box}
 html,body{height:100%; color-scheme: dark;}
 body{
   margin:0;
   color:var(--text);
-  font-family:system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
   min-height:100vh;
   display:flex; flex-direction:column;
   background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
@@ -23,8 +23,10 @@ body::before{
   content:"";
   position:fixed; inset:-20% -10% -10% -10%;
   background:
-    radial-gradient(40% 35% at 20% 15%, rgba(255,255,255,.05), transparent 60%),
-    radial-gradient(45% 40% at 85% 25%, rgba(255,255,255,.04), transparent 60%);
+    radial-gradient(30% 25% at 15% 20%, rgba(255,255,255,.04), transparent 50%),
+    radial-gradient(35% 30% at 85% 30%, rgba(255,255,255,.035), transparent 55%),
+    radial-gradient(25% 20% at 50% 70%, rgba(255,255,255,.03), transparent 45%),
+    radial-gradient(40% 35% at 25% 80%, rgba(255,255,255,.025), transparent 50%);
   mix-blend-mode: screen;
   filter: blur(2px);
   animation: floatBlob 28s linear infinite alternate;
@@ -33,7 +35,7 @@ body::before{
 }
 @keyframes floatBlob{
   0%   { transform: translate3d(0,0,0) scale(1); }
-  100% { transform: translate3d(-4%, 2%, 0) scale(1.05); }
+  100% { transform: translate3d(-3%, 1.5%, 0) scale(1.03); }
 }
 
 /* 파티클 캔버스 */
@@ -58,7 +60,16 @@ body::before{
 .site-header .container{
   display:flex; align-items:center; justify-content:space-between; height:64px;
 }
-.brand{font-weight:700; color:#fff; letter-spacing:.2px}
+.brand{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.logo{
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
 .nav a{color:#cfcfcf; text-decoration:none; margin-left:20px}
 .nav a:hover{color:#fff}
 
@@ -70,7 +81,8 @@ body::before{
   padding:80px 16px 60px; /* 상하 여백 줄임 */
 }
 .headline{
-  margin:0;
+  margin: 0 auto;
+  max-width: 1400px;
   font-size: clamp(36px, 5vw, 64px); /* 조금 더 압축 */
   font-weight: 800;
   letter-spacing: .2px;
@@ -82,6 +94,8 @@ body::before{
 .site-footer{
   z-index:1;
   border-top:1px solid rgba(255,255,255,.08);
+  letter-spacing: 0.5px;
+  font-size: 15px;
   text-align:center; padding:22px 0; color:#bfbfbf; background:rgba(0,0,0,.35);
 }
 

@@ -1,0 +1,194 @@
+/* ===== 파란색 그라데이션 테마 - 현대적인 느낌 ===== */
+:root{
+  --bg-top:#4f46e5;
+  --bg-middle:#6366f1;
+  --bg-bottom:#8b5cf6;
+  --text:#ffffff;
+  --text-secondary:#e0e7ff;
+  --muted:#c7d2fe;
+  --maxw:2500px;
+  --accent:#fbbf24;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%; color-scheme: light;}
+
+body{
+  margin:0;
+  color:var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  background: linear-gradient(135deg, var(--bg-top) 0%, var(--bg-middle) 50%, var(--bg-bottom) 100%);
+  position:relative; overflow-x:hidden;
+}
+
+/* 흐르는 그라데이션 오버레이 - 파란색 톤 */
+body::before{
+  content:"";
+  position:fixed; inset:-20% -10% -10% -10%;
+  background:
+    radial-gradient(30% 25% at 15% 20%, rgba(255,255,255,.12), transparent 50%),
+    radial-gradient(35% 30% at 85% 30%, rgba(255,255,255,.1), transparent 55%),
+    radial-gradient(25% 20% at 50% 70%, rgba(255,255,255,.08), transparent 45%),
+    radial-gradient(40% 35% at 25% 80%, rgba(255,255,255,.06), transparent 50%);
+  mix-blend-mode: soft-light;
+  filter: blur(1px);
+  animation: floatBlob 32s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes floatBlob{
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(-2%, 1%, 0) scale(1.02); }
+}
+
+/* 파티클 캔버스 */
+#bg{
+  position:fixed; inset:0;
+  z-index:0;
+  display:block;
+  pointer-events:none;
+  opacity: 0.7;
+}
+
+/* 컨테이너 & 레이아웃 */
+.container{max-width:var(--maxw); margin:0 auto; padding:0 12px}
+
+/* 헤더 - 파란색 반투명 */
+.site-header{
+  position:sticky; top:0; z-index:10;
+  background: rgba(79, 70, 229, .85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.15);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, .15);
+}
+
+.site-header .container{
+  display:flex; align-items:center; justify-content:space-between; height:64px;
+}
+
+.brand{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo{
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1.1) drop-shadow(0 2px 4px rgba(0,0,0,.1));
+}
+
+.nav a{
+  color: var(--text-secondary); 
+  text-decoration:none; 
+  margin-left:24px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.nav a:hover{
+  color: var(--text);
+  background: rgba(255,255,255,.1);
+  transform: translateY(-1px);
+}
+
+/* Hero - 현대적인 스타일링 */
+.hero{
+  position:relative; z-index:1;
+  flex:1; display:flex; align-items:center; justify-content:center;
+  text-align:center; 
+  padding:100px 20px 80px;
+}
+
+.headline{
+  margin: 0 auto;
+  max-width: 1400px;
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--text);
+  text-shadow: 0 4px 20px rgba(0,0,0,.15);
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Footer - 파란색 테마 */
+.site-footer{
+  z-index:1;
+  border-top:1px solid rgba(255,255,255,.15);
+  letter-spacing: 0.5px;
+  font-size: 15px;
+  text-align:center; 
+  padding:24px 0; 
+  color: var(--text-secondary); 
+  background: rgba(79, 70, 229, .3);
+  backdrop-filter: blur(8px);
+}
+
+/* 글로우 효과 추가 */
+.hero::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 30%;
+  background: radial-gradient(ellipse, rgba(255,255,255,.06) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 접근성 */
+@media (prefers-reduced-motion: reduce){
+  body::before{animation:none}
+  #bg{display:none}
+  .nav a{transition: none}
+}
+
+/* 반응형 개선 */
+@media (max-width: 768px) {
+  .hero{
+    padding: 60px 16px 50px;
+  }
+  
+  .nav a{
+    margin-left: 16px;
+    padding: 6px 8px;
+    font-size: 14px;
+  }
+  
+  .site-header .container{
+    padding: 0 16px;
+  }
+}
+
+/* 추가 시각적 효과 */
+.hero{
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
