@@ -107,7 +107,12 @@
       </a>
       <nav class="nav">
         <a href="index.html">Home</a>
-        <a href="service.html">Service</a>
+        <div class="dropdown">
+          <a href="#" class="dropbtn">Service</a>
+          <div class="dropdown-content">
+            <a href="service.html">Safety Monitoring</a>
+          </div>
+        </div>
         <a href="index.html#footer">Contact</a>
       </nav>
     </div>
@@ -116,7 +121,6 @@
   <main>
     <section id="overview" data-pdfhint="1" class="hero">
       <div class="wrap">
-        <button id="pdfExportBtn" class="pdf-btn" title="PDF로 저장" onclick="window.print();" type="button">PDF로 저장</button>
 
         <h1 class="h1">Industrial Safety Monitoring<br>Professional System</h1>
         <p class="sub">3D 포인트클라우드 + GPU 딥러닝으로 화재·누수·설비이상을 <strong>0.3초</strong> 내 감지.<br>현장 환경에 특화된 프로페셔널 관제·알림·리포팅을 제공합니다.</p>
