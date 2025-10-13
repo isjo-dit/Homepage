@@ -1,0 +1,508 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIT Vision AI – Industrial Professional System</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card: #0f1116;
+      --muted: #9aa4b2;
+      --text: #e7ecf3;
+      --accent: #59ffa7;
+      --accent-2: #7aa2ff;
+      --border: rgba(255,255,255,.08);
+      --danger: #ff5566;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 28px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,.7);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { letter-spacing: 6px; font-weight: 800; }
+    .nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+    .nav a { text-decoration: none; color: #c7d2e1; font-size: 13px; letter-spacing: 1px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px; }
+    .hero {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(122,162,255,.15), transparent),
+                  radial-gradient(1000px 500px at 80% 120%, rgba(89,255,167,.08), transparent);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 0 60px;
+    }
+    .h1 {
+      font-size: clamp(36px, 6vw, 58px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .sub { color: var(--muted); font-size: clamp(14px, 2.3vw, 18px); margin-bottom: 28px; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-top: 26px;
+    }
+    .stat { background: var(--card); border: 1px solid var(--border); padding: 18px; border-radius: 12px; text-align: center; }
+    .stat .v { font-size: 28px; font-weight: 800; }
+    .stat .l { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+    .title { font-size: 28px; margin: 0 0 12px; font-weight: 800; }
+    .desc { color: var(--muted); margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; letter-spacing: .5px; }
+    .badge.pro { background: rgba(122,162,255,.16); color: #dbe6ff; border: 1px solid rgba(122,162,255,.35); }
+    .badge.ind { background: rgba(89,255,167,.1); color: #c7ffe7; border: 1px solid rgba(89,255,167,.35); }
+    .feature-list { margin: 12px 0 0 0; padding-left: 18px; }
+    .feature-list li { margin: 6px 0; }
+    .highlight {
+      border: 1px dashed rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(122,162,255,.08), rgba(122,162,255,0) 50%), var(--card);
+      padding: 20px; border-radius: 12px;
+    }
+    .kpigrid { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; }
+    .kpi .big { font-weight: 800; font-size: 22px; }
+    .kpi .lab { color: var(--muted); font-size: 12px; }
+    .shot {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+    }
+    .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .footer { text-align: center; color: var(--muted); padding: 36px 0; }
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .kpigrid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+    @page { size: A4; margin: 14mm; }
+  </style>
+
+  <style>
+    
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', function(){
+      const btn = document.getElementById('pdfExportBtn');
+      if(btn){ btn.addEventListener('click', function(){ window.print(); }); }
+    });
+  </script>
+
+  <style>
+    .pdf-btn { 
+      background:#1f6feb; color:#fff; border:none; padding:10px 14px; 
+      border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25);
+      display:inline-block; margin: 0 0 12px 0;
+    }
+    .pdf-btn:hover { filter: brightness(1.05); }
+    @media print {.logo-box object{display:none !important;}  .pdf-btn { display:none; } }
+  </style>
+
+
+  <style>
+    .brand { display:flex; align-items:center; gap:10px; }
+    .brand .logo-box { display:inline-flex; align-items:center; }
+    .brand .logo-box object { height:28px; width:auto; aspect-ratio:auto; display:block; }
+    @media (min-width:900px){ .brand .logo-box object { height:34px; } }
+    @media print {.logo-box object{display:none !important;}  .brand .logo-box object { height:28px; } }
+  </style>
+
+
+<style>
+  @page { size: A4; margin: 12mm; }
+  @media print {
+    /* Layout simplification */
+    body { background: #fff !important; color: #000 !important; }
+    .nav, .footer { display: none !important; }
+    .hero { background: none !important; padding: 12px 0 !important; min-height: auto !important; }
+    .wrap { padding: 8px 0 !important; max-width: 100% !important; }
+    .section { padding: 10px 0 !important; border: none !important; }
+    .title { margin: 6px 0 6px !important; }
+    .sub, .desc { color: #222 !important; }
+    /* Components */
+    .card, .highlight, .stat, .kpi, .shot { 
+      page-break-inside: avoid !important; 
+      break-inside: avoid !important; 
+      box-shadow: none !important;
+      border-color: #ccc !important;
+    }
+    .grid-2, .grid-3, .stats, .kpigrid { gap: 8px !important; }
+    .shot, .shot img, img { max-width: 100% !important; height: auto !important; }
+    /* Typography scaling for print */
+    h1, .h1 { font-size: 24pt !important; }
+    h2.title { font-size: 16pt !important; }
+    .sub, .desc, li, p, table { font-size: 10.5pt !important; }
+    /* Tables */
+    table { page-break-inside: avoid !important; }
+    thead { display: table-header-group; }
+    /* Remove decorative backgrounds */
+    [style*="radial-gradient"], [style*="linear-gradient"] { background: none !important; }
+    /* Hide embedded PDF logo to avoid plugins interfering */
+    .logo-box object { display: none !important; }
+    /* Hide the print button itself */
+    #pdfExportBtn { display: none !important; }
+  }
+</style>
+
+
+<style id="print-dark-theme">
+  @media print {
+    :root {
+      --bg: #0b0c10; 
+      --card: #0f1116; 
+      --text: #e7ecf3; 
+      --muted: #b9c2cf; 
+      --border: rgba(255,255,255,.12);
+      --accent: #59ffa7;
+    }
+    html, body {
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    /* Keep A4 margins from previous CSS */
+    .nav, .footer { display: none !important; }
+    .hero {
+      background: none !important;
+      padding: 12px 0 !important;
+      min-height: auto !important;
+    }
+    .wrap { padding: 8px 0 !important; max-width: 100% !important; }
+    .section { padding: 10px 0 !important; border: none !important; }
+    .title { margin: 6px 0 8px !important; color: var(--text) !important; }
+    .sub, .desc { color: var(--muted) !important; }
+    .card, .highlight, .stat, .kpi, .shot {
+      background: var(--card) !important;
+      color: var(--text) !important;
+      border-color: var(--border) !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      box-shadow: none !important;
+    }
+    .grid-2, .grid-3, .stats, .kpigrid { gap: 8px !important; }
+    .shot, .shot img, img { max-width: 100% !important; height: auto !important; }
+    h1, .h1 { font-size: 24pt !important; }
+    h2.title { font-size: 16pt !important; }
+    .sub, .desc, li, p, table { font-size: 10.5pt !important; }
+    table { page-break-inside: avoid !important; }
+    thead { display: table-header-group; }
+    a { color: var(--text) !important; text-decoration: none !important; }
+    /* Hide PDF logo object to avoid plugin issues during print */
+    .logo-box object { display: none !important; }
+    #pdfExportBtn { display: none !important; }
+
+    /* -------- Page composition (A4 sections) -------- */
+    #overview { break-after: page !important; }
+    #anomaly { break-before: page !important; break-after: page !important; }
+    #specs   { break-before: page !important; break-after: page !important; }
+    /* Put deploy and compliance on separate pages for clarity */
+    #deploy { break-before: page !important; }
+    #compliance { break-before: page !important; break-after: page !important; }
+    #contact { break-before: page !important; }
+  }
+</style>
+
+</head>
+<body>
+
+  <main>
+    <section id="overview" data-pdfhint="1" class="hero">
+      <div class="wrap">
+        <button id="pdfExportBtn" class="pdf-btn" title="PDF로 저장" onclick="window.print();" type="button">PDF로 저장</button>
+
+        <h1 class="h1">Industrial Safety Monitoring<br>Professional System</h1>
+        <p class="sub">3D 포인트클라우드 + GPU 딥러닝으로 화재·누수·설비이상을 <strong>0.3초</strong> 내 감지.<br>현장 환경에 특화된 프로페셔널 관제·알림·리포팅을 제공합니다.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">0.3s</div><div class="l">DETECTION</div></div>
+          <div class="stat"><div class="v">99.7%</div><div class="l">ACCURACY</div></div>
+          <div class="stat"><div class="v">10 CH</div><div class="l">MULTI‑STREAM</div></div>
+          <div class="stat"><div class="v">24/7</div><div class="l">NON‑STOP</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="professional" class="section">
+      <div class="wrap">
+        <h2 class="title">Professional 시스템</h2>
+        <p class="desc">산업 현장 배치를 위한 하드닝, 고가용성, 보안·감사, 대시보드/리포트 자동화를 포함하는 상위 에디션입니다.</p>
+
+        <div class="grid-3">
+          
+          <article class="card">
+            <span class="badge pro">Professional</span>
+            <h3 style="margin:10px 0 6px">관제 & 운영</h3>
+            <ul class="feature-list">
+              <li>멀티 사이트·멀티 채널(최대 10CH) 동시 관제</li>
+              <li>ROI/클래스별 민감도·스케줄 정책 템플릿</li>
+              <li>이벤트 재생(타임라인) & 원클릭 증거 캡처</li>
+              <li>알림 라우팅(위험도/근무조/설비군 기준)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Professional</span>
+            <h3 style="margin:10px 0 6px">신뢰성 & 보안</h3>
+            <ul class="feature-list">
+              <li>이중화(Hot‑Standby) + 자동 페일오버</li>
+              <li>LDAP/SSO, 역할기반 권한(RBAC), 감사 로그</li>
+              <li>암호화 저장(영상 스냅샷/이벤트 메타)</li>
+              <li>오프라인 엣지 모드(내부 저장소 pip 패키지)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Professional</span>
+            <h3 style="margin:10px 0 6px">분석 & 리포트</h3>
+            <ul class="feature-list">
+              <li>일·주·월 단위 자동 리포트(PDF/Excel)</li>
+              <li>이벤트 히트맵, 오탐/미탐 통계, 트렌드 분석</li>
+              <li>예지정비 지표(RUL 후보, 이상 빈도/강도)</li>
+              <li>Webhook/REST로 MES/SCADA 연동</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="highlight" style="margin-top:18px">
+          <b>범 산업군 템플릿</b> — <span class="badge ind">제조</span> <span class="badge ind">발전·에너지</span> <span class="badge ind">물류</span> <span class="badge ind">화학·플랜트</span>에 맞춘 감지 클래스·알림 정책·리포트 양식을 기본 제공
+        </div>
+
+        <div class="kpigrid" style="margin-top:16px">
+          <div class="kpi"><div class="big">±10cm</div><div class="lab">3D 좌표 정확도</div></div>
+          <div class="kpi"><div class="big">4.3M+</div><div class="lab">동시 포인트 처리</div></div>
+          <div class="kpi"><div class="big">≤1.2s</div><div class="lab">평균 알림 전달</div></div>
+          <div class="kpi"><div class="big">50 ROI</div><div class="lab">동시 영역 관리</div></div>
+          <div class="kpi"><div class="big">CUDA</div><div class="lab">ONNX/TensorRT</div></div>
+          <div class="kpi"><div class="big">WebRTC/RTSP</div><div class="lab">카메라 호환</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="wrap">
+        <h2 class="title">핵심 기능</h2>
+        <div class="grid-2">
+          <article class="card">
+            <h3>실시간 AI 감지</h3>
+            <ul class="feature-list">
+              <li>SOTA 전이학습 모델 가속, 평균 312ms 탐지</li>
+              <li>화재/연기/누수/누유/가스/설비 이상</li>
+              <li>클래스 필터·존 필터·오탐 억제(지속시간)</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>3D 공간 인식</h3>
+            <ul class="feature-list">
+              <li>포인트클라우드 뷰어, 3D 감지 존 설정</li>
+              <li>객체 위치·이동 경로 추적(세계좌표)</li>
+              <li>자동 캘리브레이션 및 좌표 동기화</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>다중 카메라 통합</h3>
+            <ul class="feature-list">
+              <li>RTSP/WebRTC, Basler GigE, Thermal/스펙트럼</li>
+              <li>10 채널 동시 스트림, 채널별 파이프라인</li>
+              <li>대역폭·지연 관리, GPU 리소스 오토밸런싱</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>알림 & 연동</h3>
+            <ul class="feature-list">
+              <li>WebSocket 실시간 알림, SMS/Email/Push</li>
+              <li>위험도 3단계, 담당자·근무조별 라우팅</li>
+              <li>REST/Webhook, MQTT/OPC-UA 연계(옵션)</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="shots" class="section">
+      <div class="wrap">
+        <h2 class="title">실제 프로그램 샘플 화면</h2>
+        <p class="desc">아래 이미지는 Vision Inference Platform의 3D 포인트클라우드 관제 화면과 클래스 필터 예시입니다.</p>
+        <div class="grid-2">
+          <figure class="card shot">
+            <img src="image/샘플이미지1.png" alt="3D 포인트클라우드 관제 화면 샘플" />
+          </figure>
+          <figure class="card shot">
+            <img src="image/샘플이미지2.png" alt="클래스 필터 및 실시간 감지 결과 샘플" />
+          </figure>
+        </div>
+        <div class="highlight" style="margin-top:16px">
+          <strong>배포 팁</strong> – 사내망 엣지모드(오프라인)에서도 동작하도록 <code>pip --no-index --find-links &lt;내부패키지폴더&gt;</code> 구성을 권장합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2 class="title">도입/데모 문의</h2>
+        <div class="grid-3">
+          <div class="card"><b>Email</b><br><span class="muted">deepai-it@deepai-it.com</span></div>
+          <div class="card"><b>Phone</b><br><span class="muted">010-6757-4367</span></div>
+          <div class="card"><b>Address</b><br><span class="muted">Ulsan, Republic of Korea</span></div>
+        </div>
+        <p class="footer">© 2025 DIT · DIT Vision AI Professional</p>
+</div>
+    </section>
+  
+    <section id="anomaly" class="section">
+      <div class="wrap">
+        <h2 class="title">이상 감지 솔루션 (실증 적용: 누출 테이프 & 열화상)</h2>
+        <p class="desc">현장 사진에서 <b>누출 감지 테이프(노란색, 누출 시 색 변화)</b>와 <b>열화상 카메라</b>를 함께 활용하여
+        누출·과열·막힘 등 <b>설비 이상</b>을 탐지·경보하는 구성입니다. 아래 이미지는 실제 현장 데이터에 대해 적용한 결과 화면이며, 고객사 현장에서 검증된 운영 시나리오를 기준으로 표기했습니다.</p>
+        <div class="grid-2">
+          <figure class="card shot">
+            <img src="image/leak_user_boxes.png" alt="사용자 편집 박스가 반영된 누출 테이프 감지 예시"/>
+          </figure>
+          <figure class="card shot">
+            <img src="image/thermal_detect_sample.png" alt="열화상 모드에서 파이프 Hot Zone 예시"/>
+          </figure>
+        </div>
+
+        <div class="grid-3" style="margin-top:16px">
+          <div class="card">
+            <b>가시광(누출 테이프) — 운영 정책</b>
+            <ul class="feature-list">
+              <li>ROI: 사용자 교정 박스 기준(U-ID)</li>
+              <li>HSV 색/채도 변화 + 지속시간(예: ≥2s)</li>
+              <li>오탐 억제: 조명 반사·그림자 보정</li>
+              <li>결과 코드: <em>LEAK_SUSPECTED / LEAK_CONFIRMED</em></li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>열화상(Hot Zone) — 운영 정책</b>
+            <ul class="feature-list">
+              <li>ROI: 파이프/플랜지/밸브 주변</li>
+              <li>ΔT 임계값(주변 대비 +12°C 등) + 상승속도</li>
+              <li>방사율/반사 보정, Auto-baseline 러닝</li>
+              <li>결과 코드: <em>THERMAL_ANOMALY</em></li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>융합 판단(Fusion) — 경보 등급</b>
+            <ul class="feature-list">
+              <li>등급 규칙: (LEAK_SUSPECTED OR THERMAL_ANOMALY) → Warning</li>
+              <li>등급 규칙: (LEAK_CONFIRMED AND THERMAL_ANOMALY) → <b>Critical</b></li>
+              <li>후속 액션: 펌프 감속/차단, 밸브 전환, 출입 통제</li>
+              <li>리포트: 스냅샷/타임라인/히트맵 자동 수집</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight" style="margin-top:16px">
+          <b>초기 셋업 팁</b> — 사용자 박스(U-ID)를 기준으로 현장별 색 공간·조명 편차를 러닝하고, 열화상은 ΔT 임계값을 라인별로 다르게 설정하세요.
+          두 채널의 이벤트를 5초 윈도우로 집계하여 Critical 승급 조건을 구성하면 효과적입니다.
+        </div>
+      </div>
+    </section>
+
+  
+    <section class="section" id="specs">
+      <div class="wrap">
+        <h2 class="title">도입 구성 · 사양 (Production)</h2>
+        <div class="card" style="overflow:auto">
+          <table style="width:100%; border-collapse:collapse; font-size:14px">
+            <thead>
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #333">항목</th>
+                <th style="text-align:left; border-bottom:1px solid #333">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>지원 카메라</td><td>RTSP/WebRTC, Basler GigE, 열화상(예: FLIR), 스펙트럼/써멀 혼합</td></tr>
+              <tr><td>처리 성능</td><td>최대 10채널 동시, 평균 지연 0.3~0.6초(채널·모델·해상도에 따라 상이)</td></tr>
+              <tr><td>3D/ROI</td><td>포인트클라우드 기반 3D 존/라인, 사용자 교정 박스(U-ID) 기반 ROI</td></tr>
+              <tr><td>알림</td><td>등급: Info/Warning/Critical, SMS/Email/Push/Webhook, 근무조·라인 라우팅</td></tr>
+              <tr><td>리포트</td><td>일·주·월 자동 PDF/Excel, Hot Zone 히트맵, 오탐/미탐, MTBF/MTTR</td></tr>
+              <tr><td>가용성</td><td>이중화(Hot-Standby) + 자동 페일오버, 무중단 업데이트(창구별 단계적)</td></tr>
+              <tr><td>보안</td><td>RBAC/SSO, 감사 로그, 저장 데이터 암호화, 엣지오프라인 배포 지원</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deploy">
+      <div class="wrap">
+        <h2 class="title">배포 옵션 · 유지보수</h2>
+        <div class="grid-3">
+          <div class="card">
+            <b>On-Prem/Edge</b>
+            <ul class="feature-list">
+              <li>네트워크 격리망 운영, 내부 패키지 리포지토리</li>
+              <li>GPU: NVIDIA RTX/Jetson, ONNX/TensorRT 최적화</li>
+              <li>백업/복구 절차 표준화, 헬스체크/오토리커버리</li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>SLA · 운영지표</b>
+            <ul class="feature-list">
+              <li>알림 전달 T90 ≤ 1.5s (현장 조건 부)</li>
+              <li>가용성 ≥ 99.5% (이중화 구성 시)</li>
+              <li>정기 점검/모델 재학습(분기/반기) 계획</li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>연동</b>
+            <ul class="feature-list">
+              <li>REST/Webhook, MQTT, OPC-UA(옵션)</li>
+              <li>MES/SCADA/CMMS(작업지시) 이벤트 연계</li>
+              <li>계정/조직/라인 메타데이터 동기화</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="compliance">
+      <div class="wrap">
+        <h2 class="title">규정 · 안전 준수</h2>
+        <div class="card">
+          <ul class="feature-list">
+            <li>화학물질 취급 구역: 카메라/열화상 방폭 등급 사양 검토</li>
+            <li>개인정보: 작업자 식별 비활성화(필요 시 모자이크/비식별화)</li>
+            <li>감사/추적성: 이벤트 원본 스냅샷 해시 저장(무결성 보강)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
