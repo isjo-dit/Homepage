@@ -4,205 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI-Powered Engine Fault Monitoring System – DIT Professional Solution</title>
+  <link rel="stylesheet" href="../style_update.css">
   <style>
-    :root {
-      --bg: #0b0c10;
-      --card: #0f1116;
-      --muted: #9aa4b2;
-      --text: #e7ecf3;
-      --accent: #59ffa7;
-      --accent-2: #7aa2ff;
-      --border: rgba(255,255,255,.08);
-      --danger: #ff5566;
-      --warning: #ffaa00;
-      --ai-purple: #a78bfa;
-      --ai-cyan: #22d3ee;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-      line-height: 1.6;
-    }
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      padding: 16px 28px;
-      backdrop-filter: blur(10px);
-      background: rgba(11,12,16,.85);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .brand { 
-      letter-spacing: 6px; 
-      font-weight: 800;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .brand-logo {
-      height: 40px;
-      width: auto;
-      display: block;
-      margin-right: -4px;
-    }
-    .nav ul { 
-      display: flex; 
-      gap: 22px; 
-      list-style: none; 
-      margin: 0; 
-      padding: 0; 
-    }
-    .nav a { 
-      text-decoration: none; 
-      color: #c7d2e1; 
-      font-size: 13px; 
-      letter-spacing: 1px;
-      transition: color 0.2s;
-    }
-    .nav a:hover {
-      color: var(--accent);
-    }
-    .wrap { 
-      max-width: 1200px; 
-      margin: 0 auto; 
-      padding: 40px 28px; 
-    }
+    /* Engine AI Monitoring - Page-specific styles */
+    
+    /* AI-themed hero background - different from standard */
     .hero {
-      min-height: 70vh;
-      display: grid;
-      place-items: center;
-      text-align: center;
       background: radial-gradient(1200px 600px at 50% -10%, rgba(167,139,250,.15), transparent),
                   radial-gradient(1000px 500px at 80% 120%, rgba(34,211,238,.08), transparent);
-      border-bottom: 1px solid var(--border);
-      padding: 80px 0 60px;
     }
-    .h1 {
-      font-size: clamp(36px, 6vw, 58px);
-      line-height: 1.1;
-      margin: 0 0 12px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-    .sub { 
-      color: var(--muted); 
-      font-size: clamp(14px, 2.3vw, 18px); 
-      margin-bottom: 28px; 
-      max-width: 800px;
-    }
-    .stats {
-      display: grid; 
-      grid-template-columns: repeat(4, minmax(0,1fr)); 
-      gap: 14px; 
-      margin-top: 26px;
-    }
-    .stat { 
-      background: var(--card); 
-      border: 1px solid var(--border); 
-      padding: 18px; 
-      border-radius: 12px; 
-      text-align: center;
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .stat:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 0 8px 24px rgba(0,0,0,.35); 
-    }
-    .stat .v { 
-      font-size: 28px; 
-      font-weight: 800; 
-      color: var(--accent);
-    }
-    .stat .l { 
-      font-size: 12px; 
-      color: var(--muted); 
-      letter-spacing: 1px; 
-      text-transform: uppercase; 
-      margin-top: 4px;
-    }
-    .section { 
-      padding: 60px 0; 
-      border-bottom: 1px solid var(--border); 
-    }
-    .title { 
-      font-size: 28px; 
-      margin: 0 0 12px; 
-      font-weight: 800; 
-    }
-    .desc { 
-      color: var(--muted); 
-      margin-bottom: 24px; 
-    }
-    .grid-3 { 
-      display: grid; 
-      grid-template-columns: repeat(3, minmax(0,1fr)); 
-      gap: 16px; 
-    }
-    .grid-2 { 
-      display: grid; 
-      grid-template-columns: repeat(2, minmax(0,1fr)); 
-      gap: 20px; 
-    }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .card:hover { 
-      transform: translateY(-4px); 
-      box-shadow: 0 8px 24px rgba(0,0,0,.35); 
-    }
-    .badge { 
-      display: inline-block; 
-      padding: 4px 10px; 
-      border-radius: 999px; 
-      font-size: 12px; 
-      letter-spacing: .5px;
-      font-weight: 600;
-    }
-    .badge.pro { 
-      background: rgba(122,162,255,.16); 
-      color: #dbe6ff; 
-      border: 1px solid rgba(122,162,255,.35); 
-    }
-    .badge.ind { 
-      background: rgba(89,255,167,.1); 
-      color: #c7ffe7; 
-      border: 1px solid rgba(89,255,167,.35); 
-    }
-    .badge.ai { 
-      background: linear-gradient(135deg, rgba(167,139,250,.2), rgba(34,211,238,.2)); 
-      color: #e0d4ff; 
-      border: 1px solid rgba(167,139,250,.4); 
-    }
-    .feature-list { 
-      margin: 12px 0 0 0; 
-      padding-left: 18px; 
-      font-size: 14px;
-    }
-    .feature-list li { 
-      margin: 8px 0; 
-    }
+    
+    /* AI-specific highlight with purple/cyan gradient */
     .highlight {
-      border: 1px dashed rgba(255,255,255,.18);
       background: linear-gradient(180deg, rgba(167,139,250,.08), rgba(34,211,238,.05) 50%), var(--card);
-      padding: 20px; 
-      border-radius: 12px;
-      margin-top: 18px;
     }
+    
+    /* AI glow effects specific to engine monitoring */
     .ai-glow {
       box-shadow: 0 0 20px rgba(167,139,250,.3);
       border-color: var(--ai-purple);
     }
+    
+    /* Engine-specific shot container with AI hover effects */
     .shot-container {
       position: relative;
       border-radius: 12px;
@@ -212,11 +35,14 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       transition: all 0.3s ease;
     }
+    
     .shot-container:hover {
       transform: translateY(-2px);
       box-shadow: 0 16px 40px rgba(167,139,250,0.3);
       border-color: var(--ai-purple);
     }
+    
+    /* AI-themed shot labels */
     .shot-label {
       position: absolute;
       top: 12px;
@@ -235,6 +61,7 @@
       align-items: center;
       gap: 6px;
     }
+    
     .shot-label::before {
       content: '';
       width: 8px;
@@ -243,82 +70,18 @@
       border-radius: 50%;
       animation: pulse 2s ease-in-out infinite;
     }
+    
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
-    canvas {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    .kpigrid { 
-      display: grid; 
-      grid-template-columns: repeat(6, minmax(0,1fr)); 
-      gap: 10px; 
-    }
-    .kpi { 
-      background: var(--card); 
-      border: 1px solid var(--border); 
-      border-radius: 12px; 
-      padding: 14px; 
-      text-align: center; 
-    }
+    
+    /* AI-themed KPI styling override */
     .kpi .big { 
-      font-weight: 800; 
-      font-size: 22px; 
       color: var(--ai-purple);
     }
-    .kpi .lab { 
-      color: var(--muted); 
-      font-size: 12px; 
-      margin-top: 4px;
-    }
-    /* Footer */
-    .footer { 
-      text-align: center; 
-      color: var(--muted); 
-      padding: 60px 28px;
-      background: var(--card);
-    }
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .footer-logo {
-      height: 42px;
-      width: auto;
-      display: block;
-      margin: 0 auto 20px;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      margin-bottom: 40px;
-      text-align: left;
-    }
-    .footer-section h4 {
-      color: var(--text);
-      margin-bottom: 16px;
-      font-size: 16px;
-    }
-    .footer-section p, .footer-section a {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-      display: block;
-      margin-bottom: 8px;
-    }
-    .footer-section a:hover {
-      color: var(--accent);
-    }
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
+    
+    /* AI technical stack tags */
     .tech-tag {
       padding: 6px 12px;
       background: rgba(167,139,250,.15);
@@ -328,71 +91,12 @@
       font-weight: 600;
       color: var(--ai-purple);
     }
-    
-    @media (max-width: 900px) {
-      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .grid-3, .grid-2 { grid-template-columns: 1fr; }
-      .kpigrid { grid-template-columns: repeat(3, minmax(0,1fr)); }
-      .brand-logo { height: 30px; }
-      .brand { font-size: 16px; letter-spacing: 4px; gap: 8px; }
-      .footer-logo { height: 36px; }
-    }
-    
-    /* Dropdown Menu */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      min-width: 200px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      z-index: 100;
-      top: 100%;
-      right: 0;
-      backdrop-filter: blur(10px);
-      margin-top: 8px;
-    }
-    .dropdown-content a {
-      color: var(--text);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 13px;
-      letter-spacing: 0.5px;
-      transition: all 0.2s;
-      border-bottom: 1px solid var(--border);
-    }
-    .dropdown-content a:last-child {
-      border-bottom: none;
-    }
-    .dropdown-content a:hover {
-      background: rgba(89,255,167,0.1);
-      color: var(--accent);
-    }
-    .dropdown.show .dropdown-content {
-      display: block;
-      animation: dropdownFadeIn 0.2s ease-out;
-    }
-    @keyframes dropdownFadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .dropdown-arrow {
-      margin-left: 4px;
-      font-size: 10px;
-      transition: transform 0.2s;
-    }
-    .dropdown.show .dropdown-arrow {
-      transform: rotate(180deg);
-    }
   </style>
 </head>
 <body>
+  <!-- 파티클 배경 캔버스 -->
+  <canvas id="bg" aria-hidden="true"></canvas>
+
   <!-- Navigation -->
   <header class="nav">
     <div class="brand">
@@ -403,7 +107,7 @@
     <ul>
       <li><a href="../index.html#strengths">Advantages</a></li>
       <li class="dropdown">
-        <a href="../index.html#solutions" onclick="toggleDropdown(event)">Solutions<span class="dropdown-arrow"></span></a>
+        <a href="../index.html#solutions">Solutions<span class="dropdown-arrow"></span></a>
         <div class="dropdown-content">
           <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
           <a href="../safety_monitoring/dit-vision-ai-updated.html">Vision AI</a>
@@ -762,35 +466,13 @@
         </div>
       </div>
       
-      <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
-        © 2025 DeepAI Industrial Transfer · All Rights Reserved
+      <p style="margin-top: 40px; padding-top: 20px;">
+        © 2025 DIT · All Rights Reserved
       </p>
     </div>
   </footer>
 
   <script>
-    // Dropdown 메뉴 토글 함수
-    function toggleDropdown(event) {
-      event.preventDefault();
-      const dropdown = event.target.closest('.dropdown');
-      
-      // 다른 열린 드롭다운 닫기
-      document.querySelectorAll('.dropdown.show').forEach(d => {
-        if (d !== dropdown) d.classList.remove('show');
-      });
-      
-      // 현재 드롭다운 토글
-      dropdown.classList.toggle('show');
-    }
-    
-    // 외부 클릭 시 드롭다운 닫기
-    document.addEventListener('click', function(event) {
-      if (!event.target.closest('.dropdown')) {
-        document.querySelectorAll('.dropdown.show').forEach(d => {
-          d.classList.remove('show');
-        });
-      }
-    });
 
     // Monitoring Dashboard with AI indicators
     function drawMonitoringScreen() {
@@ -1148,5 +830,8 @@
       drawVibrationScreen();
     });
   </script>
+  
+  <!-- 파티클 배경 스크립트 -->
+  <script src="../src/app.js"></script>
 </body>
 </html>
