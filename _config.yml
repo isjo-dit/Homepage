@@ -1,2 +1,4 @@
+url: https://deepai-it.com
+baseurl: ""   # 커스텀 도메인이면 보통 빈 문자열
 plugins:
   - jekyll-redirect-from
