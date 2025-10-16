@@ -117,6 +117,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      padding-bottom: 10px;
     }
     .hero-sub { 
       color: var(--muted); 
@@ -523,10 +524,12 @@
   </style>
 </head>
 <body>
+  <!-- <canvas id="bg"></canvas> -->
+
   <!-- Navigation -->
   <header class="nav">
     <div class="brand">
-      <a href="https://deepai-it.com" target="_blank">
+      <a href="https://deepai-it.com">
         <img src="src/logo3.png" alt="DIT logo" class="brand-logo">
       </a>
     </div>
@@ -588,19 +591,19 @@
         
         <div class="grid-3">
           <div class="strength-card">
-            <div class="strength-icon">ROI</div>
+            <!-- <div class="strength-icon">ROI</div> -->
             <h3>ROI 중심 접근</h3>
             <p>단순한 기술 도입이 아닌, 실질적인 비용 절감과 생산성 향상에 초점을 맞춘 솔루션을 제공합니다. 평균 40% 이상의 운영비용 절감과 측정 가능한 성과를 실현합니다.</p>
           </div>
           
           <div class="strength-card">
-            <div class="strength-icon">SEC</div>
+            <!-- <div class="strength-icon">ECS</div> -->
             <h3>엔터프라이즈급 보안</h3>
             <p>On-Premise 및 Private Cloud 환경에서 구동되는 AI 솔루션으로 민감한 제조 데이터의 완벽한 보안을 보장합니다. Air-gap 환경 및 하이브리드 배포를 지원합니다.</p>
           </div>
           
           <div class="strength-card">
-            <div class="strength-icon">EFF</div>
+            <!-- <div class="strength-icon">FIS</div> -->
             <h3>신속한 도입</h3>
             <p>산업별 맞춤형 템플릿과 사전 학습된 AI 모델로 도입 기간을 최소화합니다. 2주 무료 PoC를 통해 실제 데이터로 검증된 효과를 먼저 경험하실 수 있습니다.</p>
           </div>
@@ -813,19 +816,16 @@
         
         <div class="grid-3">
           <div class="strength-card">
-            <div class="strength-icon">@</div>
             <h3>Email</h3>
             <p style="color: var(--accent); font-weight: 600;">deepai-it@deepai-it.com</p>
           </div>
           
           <div class="strength-card">
-            <div class="strength-icon">TEL</div>
             <h3>Phone</h3>
             <p style="color: var(--accent); font-weight: 600;">010-6757-4367</p>
           </div>
           
           <div class="strength-card">
-            <div class="strength-icon">LOC</div>
             <h3>Location</h3>
             <p style="color: var(--accent); font-weight: 600;">Seongnam, Republic of Korea<br>Ulsan, Republic of Korea</p>
           </div>
@@ -859,8 +859,8 @@
           <h4>Contact Information</h4>
           <p>Email: deepai-it@deepai-it.com</p>
           <p>Phone: 010-6757-4367</p>
-          <p>Location: Seongnam, Republic of Korea</p>
-          <p>Location: Ulsan, Republic of Korea</p>
+          <p>Location 1: Seongnam, Republic of Korea</p>
+          <p>Location 2: Ulsan, Republic of Korea</p>
         </div>
       </div>
       
@@ -1020,5 +1020,6 @@
       drawEngineCanvas();
     });
   </script>
+  <script src="src/app.js"></script>
 </body>
 </html>
