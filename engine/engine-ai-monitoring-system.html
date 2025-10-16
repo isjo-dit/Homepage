@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Powered Engine Fault Monitoring System – DIT Professional Solution</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card: #0f1116;
+      --muted: #9aa4b2;
+      --text: #e7ecf3;
+      --accent: #59ffa7;
+      --accent-2: #7aa2ff;
+      --border: rgba(255,255,255,.08);
+      --danger: #ff5566;
+      --warning: #ffaa00;
+      --ai-purple: #a78bfa;
+      --ai-cyan: #22d3ee;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 28px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,.85);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { 
+      letter-spacing: 6px; 
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      height: 40px;
+      width: auto;
+      display: block;
+      margin-right: -4px;
+    }
+    .nav ul { 
+      display: flex; 
+      gap: 22px; 
+      list-style: none; 
+      margin: 0; 
+      padding: 0; 
+    }
+    .nav a { 
+      text-decoration: none; 
+      color: #c7d2e1; 
+      font-size: 13px; 
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .nav a:hover {
+      color: var(--accent);
+    }
+    .wrap { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 40px 28px; 
+    }
+    .hero {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(167,139,250,.15), transparent),
+                  radial-gradient(1000px 500px at 80% 120%, rgba(34,211,238,.08), transparent);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 0 60px;
+    }
+    .h1 {
+      font-size: clamp(36px, 6vw, 58px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .sub { 
+      color: var(--muted); 
+      font-size: clamp(14px, 2.3vw, 18px); 
+      margin-bottom: 28px; 
+      max-width: 800px;
+    }
+    .stats {
+      display: grid; 
+      grid-template-columns: repeat(4, minmax(0,1fr)); 
+      gap: 14px; 
+      margin-top: 26px;
+    }
+    .stat { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      padding: 18px; 
+      border-radius: 12px; 
+      text-align: center;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .stat:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 24px rgba(0,0,0,.35); 
+    }
+    .stat .v { 
+      font-size: 28px; 
+      font-weight: 800; 
+      color: var(--accent);
+    }
+    .stat .l { 
+      font-size: 12px; 
+      color: var(--muted); 
+      letter-spacing: 1px; 
+      text-transform: uppercase; 
+      margin-top: 4px;
+    }
+    .section { 
+      padding: 60px 0; 
+      border-bottom: 1px solid var(--border); 
+    }
+    .title { 
+      font-size: 28px; 
+      margin: 0 0 12px; 
+      font-weight: 800; 
+    }
+    .desc { 
+      color: var(--muted); 
+      margin-bottom: 24px; 
+    }
+    .grid-3 { 
+      display: grid; 
+      grid-template-columns: repeat(3, minmax(0,1fr)); 
+      gap: 16px; 
+    }
+    .grid-2 { 
+      display: grid; 
+      grid-template-columns: repeat(2, minmax(0,1fr)); 
+      gap: 20px; 
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 24px rgba(0,0,0,.35); 
+    }
+    .badge { 
+      display: inline-block; 
+      padding: 4px 10px; 
+      border-radius: 999px; 
+      font-size: 12px; 
+      letter-spacing: .5px;
+      font-weight: 600;
+    }
+    .badge.pro { 
+      background: rgba(122,162,255,.16); 
+      color: #dbe6ff; 
+      border: 1px solid rgba(122,162,255,.35); 
+    }
+    .badge.ind { 
+      background: rgba(89,255,167,.1); 
+      color: #c7ffe7; 
+      border: 1px solid rgba(89,255,167,.35); 
+    }
+    .badge.ai { 
+      background: linear-gradient(135deg, rgba(167,139,250,.2), rgba(34,211,238,.2)); 
+      color: #e0d4ff; 
+      border: 1px solid rgba(167,139,250,.4); 
+    }
+    .feature-list { 
+      margin: 12px 0 0 0; 
+      padding-left: 18px; 
+      font-size: 14px;
+    }
+    .feature-list li { 
+      margin: 8px 0; 
+    }
+    .highlight {
+      border: 1px dashed rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(167,139,250,.08), rgba(34,211,238,.05) 50%), var(--card);
+      padding: 20px; 
+      border-radius: 12px;
+      margin-top: 18px;
+    }
+    .ai-glow {
+      box-shadow: 0 0 20px rgba(167,139,250,.3);
+      border-color: var(--ai-purple);
+    }
+    .shot-container {
+      position: relative;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .shot-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(167,139,250,0.3);
+      border-color: var(--ai-purple);
+    }
+    .shot-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      color: var(--ai-cyan);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .shot-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--ai-cyan);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .kpigrid { 
+      display: grid; 
+      grid-template-columns: repeat(6, minmax(0,1fr)); 
+      gap: 10px; 
+    }
+    .kpi { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 14px; 
+      text-align: center; 
+    }
+    .kpi .big { 
+      font-weight: 800; 
+      font-size: 22px; 
+      color: var(--ai-purple);
+    }
+    .kpi .lab { 
+      color: var(--muted); 
+      font-size: 12px; 
+      margin-top: 4px;
+    }
+    /* Footer */
+    .footer { 
+      text-align: center; 
+      color: var(--muted); 
+      padding: 60px 28px;
+      background: var(--card);
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .footer-section h4 {
+      color: var(--text);
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+    .footer-section p, .footer-section a {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .footer-section a:hover {
+      color: var(--accent);
+    }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .tech-tag {
+      padding: 6px 12px;
+      background: rgba(167,139,250,.15);
+      border: 1px solid rgba(167,139,250,.3);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ai-purple);
+    }
+    
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      .kpigrid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .brand-logo { height: 30px; }
+      .brand { font-size: 16px; letter-spacing: 4px; gap: 8px; }
+      .footer-logo { height: 36px; }
+    }
+    
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-width: 200px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 100;
+      top: 100%;
+      right: 0;
+      backdrop-filter: blur(10px);
+      margin-top: 8px;
+    }
+    .dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      border-bottom: 1px solid var(--border);
+    }
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+    .dropdown-content a:hover {
+      background: rgba(89,255,167,0.1);
+      color: var(--accent);
+    }
+    .dropdown.show .dropdown-content {
+      display: block;
+      animation: dropdownFadeIn 0.2s ease-out;
+    }
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-arrow {
+      margin-left: 4px;
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+    .dropdown.show .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="brand">
+      <a href="https://deepai-it.com" target="_blank">
+        <img src="../src/logo3.png" alt="DIT logo" class="brand-logo">
+      </a>
+    </div>
+    <ul>
+      <li><a href="../index.html#strengths">Advantages</a></li>
+      <li class="dropdown">
+        <a href="../index.html#solutions" onclick="toggleDropdown(event)">Solutions<span class="dropdown-arrow">▼</span></a>
+        <div class="dropdown-content">
+          <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
+          <a href="../safety_monitoring/dit-vision-ai-updated.html">Vision AI</a>
+          <a href="engine-ai-monitoring-system.html">Engine Monitoring</a>
+          <a href="../robot_analysis/robot-analysis-updated.html">Robot Analysis</a>
+        </div>
+      </li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section id="overview" class="hero">
+      <div class="wrap">
+        <h1 class="h1">AI-Powered Engine<br>Fault Monitoring System</h1>
+        <p class="sub">차세대 <strong>딥러닝 기반 이상 감지</strong>와 <strong>예지 정비</strong>를 통해<br>
+        산업용 엔진의 다운타임을 최소화하고 운영 효율을 극대화하는 지능형 솔루션</p>
+        <div class="stats">
+          <div class="stat"><div class="v">99.2%</div><div class="l">AI 정확도</div></div>
+          <div class="stat"><div class="v">0.15s</div><div class="l">실시간 예측</div></div>
+          <div class="stat"><div class="v">32+</div><div class="l">다변량 분석</div></div>
+          <div class="stat"><div class="v">RUL</div><div class="l">수명 예측</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens" class="section">
+      <div class="wrap">
+        <h2 class="title">AI 통합 모니터링 대시보드</h2>
+        <p class="desc">실시간 딥러닝 분석으로 엔진 건전성을 평가하고 이상 징후를 조기 탐지합니다.</p>
+        <div class="grid-2">
+          <div class="shot-container">
+            <span class="shot-label">AI Health Index</span>
+            <canvas id="monitoringScreen" width="800" height="500"></canvas>
+          </div>
+          <div class="shot-container">
+            <span class="shot-label">Anomaly Detection</span>
+            <canvas id="vibrationScreen" width="800" height="500"></canvas>
+          </div>
+        </div>
+        <div class="highlight ai-glow" style="margin-top:16px; text-align:center">
+          <strong>AI 예측 엔진</strong> – Transformer 및 LSTM Autoencoder 기반 다변량 시계열 분석으로<br>
+          정상 패턴을 학습하고 미세한 이상 징후도 실시간 탐지합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="system-overview" class="section">
+      <div class="wrap">
+        <h2 class="title">솔루션 개요</h2>
+        <p class="desc">산업용 엔진의 센서 데이터를 AI로 분석하여 고장을 사전에 예방합니다.</p>
+        <div class="highlight">
+          <ul class="feature-list">
+            <li><strong>대상:</strong> 디젤/가스 엔진, 발전기, 선박용 엔진, 중장비 등 모든 산업용 동력 시스템</li>
+            <li><strong>목적:</strong> 딥러닝 기반 이상 감지로 예지 정비 실현 및 예상치 못한 다운타임 방지</li>
+            <li><strong>핵심 기술:</strong> Transformer 시계열 분석, LSTM Autoencoder, VAE 잠재 공간 분석, Isolation Forest 앙상블</li>
+            <li><strong>효과:</strong> 고장 예측 정확도 99%+, 평균 고장 감지 시간 30일 전, 유지보수 비용 40% 절감</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai-features" class="section">
+      <div class="wrap">
+        <h2 class="title">AI 핵심 기술</h2>
+        <p class="desc">최신 딥러닝 및 머신러닝 기법을 적용한 차세대 이상 감지 시스템</p>
+
+        <div class="grid-3">
+          <article class="card ai-glow">
+            <span class="badge ai">Deep Learning</span>
+            <h3 style="margin:10px 0 6px">Transformer 이상 감지</h3>
+            <ul class="feature-list">
+              <li>Self-Attention 기반 시계열 분석</li>
+              <li>장기 의존성 패턴 학습</li>
+              <li>다변량 상관관계 자동 추출</li>
+              <li>실시간 추론 (150ms 이내)</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">PyTorch</span>
+              <span class="tech-tag">Attention</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Autoencoder</span>
+            <h3 style="margin:10px 0 6px">LSTM Autoencoder</h3>
+            <ul class="feature-list">
+              <li>정상 패턴 압축 학습</li>
+              <li>재구성 오차 기반 이상 탐지</li>
+              <li>비지도 학습으로 라벨링 불필요</li>
+              <li>적응형 임계값 자동 조정</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">LSTM</span>
+              <span class="tech-tag">Unsupervised</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Ensemble</span>
+            <h3 style="margin:10px 0 6px">하이브리드 앙상블</h3>
+            <ul class="feature-list">
+              <li>Isolation Forest + VAE 조합</li>
+              <li>다중 모델 투표 시스템</li>
+              <li>False Positive 최소화</li>
+              <li>신뢰도 점수 제공</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Ensemble</span>
+              <span class="tech-tag">VAE</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <b>AI Health Index 도출 프로세스</b>
+          <ul class="feature-list">
+            <li><strong>1단계:</strong> 다변량 센서 데이터 전처리 및 특징 추출 (온도, 압력, 진동, 음향 등)</li>
+            <li><strong>2단계:</strong> Transformer로 시간적 패턴 분석, LSTM Autoencoder로 정상 범위 학습</li>
+            <li><strong>3단계:</strong> Attention Mechanism으로 중요 센서 가중치 자동 계산</li>
+            <li><strong>4단계:</strong> Multi-Task Learning으로 Health Index (0-100), RUL (잔여 수명), 이상 확률 동시 예측</li>
+            <li><strong>5단계:</strong> 베이지안 최적화로 모델 지속 업데이트 및 성능 향상</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="alarm-types" class="section">
+      <div class="wrap">
+        <h2 class="title">AI 기반 알람 시스템</h2>
+        <p class="desc">다층 이상 감지 알고리즘으로 다양한 유형의 고장을 조기 탐지합니다.</p>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge pro">Predictive</span>
+            <h3 style="margin:10px 0 6px">예측적 알람</h3>
+            <ul class="feature-list">
+              <li><strong>RUL Warning:</strong> 잔여 수명 30일 미만 시 사전 경보</li>
+              <li><strong>Trend Deterioration:</strong> 건강 지수 지속적 하락 패턴 감지</li>
+              <li><strong>Anomaly Score:</strong> 이상 점수가 임계값 초과 시 알림</li>
+              <li><strong>Confidence Level:</strong> 예측 신뢰도 함께 제공 (70-99%)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Pattern-based</span>
+            <h3 style="margin:10px 0 6px">패턴 기반 알람</h3>
+            <ul class="feature-list">
+              <li><strong>Concept Drift:</strong> 운전 패턴 점진적 변화 감지</li>
+              <li><strong>Sudden Shift:</strong> 급격한 레벨 변화 (센서 고장 가능성)</li>
+              <li><strong>Cyclic Anomaly:</strong> 주기적 이상 패턴 발견</li>
+              <li><strong>Multi-variate Correlation:</strong> 센서 간 상관관계 이탈</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Classical</span>
+            <h3 style="margin:10px 0 6px">전통적 알람 (보조)</h3>
+            <ul class="feature-list">
+              <li><strong>Threshold Violation:</strong> 설정값 초과/미달</li>
+              <li><strong>Rate of Change:</strong> 변화율 급증 감지</li>
+              <li><strong>Statistical Outlier:</strong> 3-sigma 범위 이탈</li>
+              <li><strong>Sensor Fault:</strong> 센서 신호 이상 (단선, 노이즈)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge ai">Specialized</span>
+            <h3 style="margin:10px 0 6px">특화 알람</h3>
+            <ul class="feature-list">
+              <li><strong>Wear Indicator:</strong> 철분 센서 기반 마모도 증가 추세</li>
+              <li><strong>Vibration Signature:</strong> FFT 스펙트럼 이상 주파수 탐지</li>
+              <li><strong>Thermal Imbalance:</strong> 실린더 간 온도 불균형</li>
+              <li><strong>Lubrication Degradation:</strong> 윤활유 성능 저하 예측</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="highlight ai-glow">
+          <strong>스마트 알람 우선순위</strong> – AI가 알람의 심각도와 긴급도를 자동으로 분류합니다.<br>
+          <strong style="color: var(--danger)">Critical (즉시 조치)</strong> / 
+          <strong style="color: var(--warning)">Warning (관찰 필요)</strong> / 
+          <strong style="color: var(--accent)">Info (정보성)</strong>로 구분되며, 
+          과거 이력 기반으로 False Positive를 자동 필터링합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <div class="wrap">
+        <h2 class="title">시스템 아키텍처</h2>
+        <p class="desc">확장 가능한 마이크로서비스 기반 AI 분석 플랫폼</p>
+        
+        <div class="grid-3">
+          <div class="card">
+            <span class="badge ind">Data Acquisition</span>
+            <h3 style="margin:10px 0 6px">데이터 수집 계층</h3>
+            <ul class="feature-list">
+              <li><strong>범용 프로토콜:</strong> Modbus TCP/IP, OPC-UA, MQTT</li>
+              <li><strong>산업용 I/O:</strong> NI cDAQ, Siemens S7, Beckhoff EtherCAT</li>
+              <li><strong>센서 통합:</strong> 진동, 온도, 압력, 유량, 음향, 철분</li>
+              <li><strong>샘플링:</strong> 최대 100kHz, 동기화된 다채널 수집</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <span class="badge ind">AI Processing</span>
+            <h3 style="margin:10px 0 6px">AI 분석 계층</h3>
+            <ul class="feature-list">
+              <li><strong>추론 엔진:</strong> ONNX Runtime (GPU 가속)</li>
+              <li><strong>모델 관리:</strong> MLflow 버전 관리</li>
+              <li><strong>실시간 처리:</strong> Apache Kafka 스트리밍</li>
+              <li><strong>배치 분석:</strong> Apache Spark 분산 처리</li>
+              <li><strong>온라인 학습:</strong> 적응형 모델 자동 업데이트</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <span class="badge ind">Application</span>
+            <h3 style="margin:10px 0 6px">응용 계층</h3>
+            <ul class="feature-list">
+              <li><strong>대시보드:</strong> React 기반 실시간 시각화</li>
+              <li><strong>알람:</strong> Email, SMS, Webhook 다중 채널</li>
+              <li><strong>API:</strong> RESTful + GraphQL 지원</li>
+              <li><strong>리포트:</strong> PDF 자동 생성 및 이메일 발송</li>
+              <li><strong>모바일:</strong> iOS/Android 앱 지원</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="kpigrid" style="margin-top:16px">
+          <div class="kpi"><div class="big">Edge</div><div class="lab">엣지 처리</div></div>
+          <div class="kpi"><div class="big">99.2%</div><div class="lab">AI 정확도</div></div>
+          <div class="kpi"><div class="big">150ms</div><div class="lab">추론 속도</div></div>
+          <div class="kpi"><div class="big">32+</div><div class="lab">동시 분석</div></div>
+          <div class="kpi"><div class="big">CUDA</div><div class="lab">GPU 가속</div></div>
+          <div class="kpi"><div class="big">Cloud</div><div class="lab">하이브리드</div></div>
+        </div>
+
+        <div class="highlight" style="margin-top:20px">
+          <strong>하이브리드 배포</strong> – Edge에서 실시간 추론, Cloud에서 모델 훈련 및 업데이트를 수행하는 하이브리드 아키텍처를 지원합니다.
+          인터넷 연결이 끊겨도 Edge 디바이스에서 독립적으로 작동하며, 연결 복구 시 자동으로 데이터 동기화 및 모델 업데이트를 수행합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="specs" class="section">
+      <div class="wrap">
+        <h2 class="title">기술 사양 · 호환성</h2>
+        <div class="card" style="overflow:auto">
+          <table style="width:100%; border-collapse:collapse; font-size:14px">
+            <thead>
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px; width:25%">항목</th>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">적용 대상</td><td style="padding:8px">디젤 엔진, 가스 터빈, 발전기, 컴프레서, 펌프 등 모든 회전 기계류</td></tr>
+              <tr><td style="padding:8px">지원 프로토콜</td><td style="padding:8px">Modbus TCP/RTU, OPC-UA, MQTT, Profinet, EtherNet/IP, BACnet</td></tr>
+              <tr><td style="padding:8px">제어기 호환성</td><td style="padding:8px">Siemens, Allen-Bradley, Schneider, Mitsubishi, Omron, 범용 PLC/DCS</td></tr>
+              <tr><td style="padding:8px">분석 주기</td><td style="padding:8px">데이터 수집 10-100ms, AI 추론 150ms, 트렌드 분석 1초, RUL 예측 1시간</td></tr>
+              <tr><td style="padding:8px">센서 채널</td><td style="padding:8px">최대 128채널 동시 처리 (확장 가능)</td></tr>
+              <tr><td style="padding:8px">AI 모델</td><td style="padding:8px">Transformer, LSTM Autoencoder, VAE, Isolation Forest, Random Forest</td></tr>
+              <tr><td style="padding:8px">데이터베이스</td><td style="padding:8px">InfluxDB (시계열), PostgreSQL (메타), Redis (캐시)</td></tr>
+              <tr><td style="padding:8px">배포 환경</td><td style="padding:8px">On-Premise, Cloud (AWS/Azure/GCP), Hybrid, Kubernetes 지원</td></tr>
+              <tr><td style="padding:8px">운영체제</td><td style="padding:8px">Windows 10/11, Ubuntu 20.04+, Industrial Linux</td></tr>
+              <tr><td style="padding:8px">추천 사양</td><td style="padding:8px">CPU: Intel i7/Xeon, GPU: NVIDIA RTX 3060+, RAM: 32GB, SSD: 1TB NVMe</td></tr>
+              <tr><td style="padding:8px">최소 사양</td><td style="padding:8px">CPU: Intel i5 8세대+, RAM: 16GB, SSD: 500GB (GPU 없이도 동작)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>확장성 및 범용성</strong> – 모듈식 설계로 다양한 산업 환경에 신속하게 적용 가능합니다.
+          엔진 타입, 제어기 제조사, 센서 종류에 관계없이 표준 인터페이스를 통해 연동됩니다.
+          전이 학습(Transfer Learning)을 통해 신규 엔진 모델에도 최소한의 데이터로 빠르게 적응합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="performance" class="section">
+      <div class="wrap">
+        <h2 class="title">성능 지표</h2>
+        <p class="desc">실제 산업 현장에서 검증된 AI 모델 성능</p>
+        
+        <div class="kpigrid">
+          <div class="kpi"><div class="big" style="color: var(--accent)">99.2%</div><div class="lab">정확도</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">98.7%</div><div class="lab">재현율</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">97.5%</div><div class="lab">정밀도</div></div>
+          <div class="kpi"><div class="big" style="color: var(--warning)">2.3%</div><div class="lab">오탐률</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">0.1s</div><div class="lab">실시간 감지</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">40%</div><div class="lab">비용 절감</div></div>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
+          <div class="card">
+            <h3>실증 사례</h3>
+            <ul class="feature-list">
+              <li>선박용 6기통 엔진: 베어링 고장 실시간 예측 성공</li>
+              <li>철분 센서 기반 실린더 고장 예측 적용</li>
+              <li>엔진 성능 이상 예측 성공</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>AI 모델 업데이트</h3>
+            <ul class="feature-list">
+              <li>월 1회 자동 재학습 (옵션)</li>
+              <li>신규 데이터로 지속적 성능 개선</li>
+              <li>A/B 테스트로 안정적 배포</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2 class="title">도입 문의 · 무료 컨설팅</h2>
+        <div class="grid-3">
+          <div class="card"><b>Email</b><br><span style="color:var(--muted)">deepai-it@deepai-it.com</span></div>
+          <div class="card"><b>Phone</b><br><span style="color:var(--muted)">010-6757-4367</span></div>
+          <div class="card"><b>Location</b><br><span style="color:var(--muted)">Seongnam, Republic of Korea<br>Ulsan, Republic of Korea</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="../src/logo3.png" alt="DIT logo" class="footer-logo">
+      </div>
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>DIT - DeepAI Industrial Transfer</h4>
+          <p>Enterprise AI Solutions for Manufacturing</p>
+          <p>Smart Factory Innovation Partner</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Solutions</h4>
+          <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
+          <a href="../safety_monitoring/dit-vision-ai-updated.html">Vision AI Professional</a>
+          <a href="engine-ai-monitoring-system.html">Engine Monitoring</a>
+          <a href="../robot_analysis/robot-analysis-updated.html">Robot Analysis</a>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contact Information</h4>
+          <p>Email: deepai-it@deepai-it.com</p>
+          <p>Phone: 010-6757-4367</p>
+          <p>Location: Seongnam, Republic of Korea</p>
+          <p>Location: Ulsan, Republic of Korea</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
+        © 2025 DeepAI Industrial Transfer · All Rights Reserved
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Dropdown 메뉴 토글 함수
+    function toggleDropdown(event) {
+      event.preventDefault();
+      const dropdown = event.target.closest('.dropdown');
+      
+      // 다른 열린 드롭다운 닫기
+      document.querySelectorAll('.dropdown.show').forEach(d => {
+        if (d !== dropdown) d.classList.remove('show');
+      });
+      
+      // 현재 드롭다운 토글
+      dropdown.classList.toggle('show');
+    }
+    
+    // 외부 클릭 시 드롭다운 닫기
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown.show').forEach(d => {
+          d.classList.remove('show');
+        });
+      }
+    });
+
+    // Monitoring Dashboard with AI indicators
+    function drawMonitoringScreen() {
+      const canvas = document.getElementById('monitoringScreen');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = '#0f1116';
+      ctx.fillRect(0, 0, w, h);
+
+      // Header
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(0, 0, w, 50);
+      
+      const gradient = ctx.createLinearGradient(0, 0, 200, 0);
+      gradient.addColorStop(0, '#a78bfa');
+      gradient.addColorStop(1, '#22d3ee');
+      ctx.fillStyle = gradient;
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('🤖 AI Engine Monitor', 20, 30);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '12px sans-serif';
+      ctx.fillText('Real-time Inference', w - 150, 30);
+
+      // AI Health Index gauge
+      const centerX = 150;
+      const centerY = 150;
+      const radius = 60;
+      const healthIndex = 94;
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fillStyle = '#1a1d24';
+      ctx.fill();
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Progress arc
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius - 5, -Math.PI / 2, -Math.PI / 2 + (healthIndex / 100) * Math.PI * 2);
+      ctx.strokeStyle = '#a78bfa';
+      ctx.lineWidth = 8;
+      ctx.stroke();
+
+      ctx.fillStyle = '#a78bfa';
+      ctx.font = 'bold 36px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(healthIndex, centerX, centerY + 10);
+      ctx.font = '12px sans-serif';
+      ctx.fillStyle = '#9aa4b2';
+      ctx.fillText('AI Health Index', centerX, centerY + 30);
+
+      // Status
+      ctx.fillStyle = '#59ffa7';
+      ctx.fillRect(centerX + 80, centerY - 10, 8, 20);
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = '14px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('EXCELLENT', centerX + 95, centerY + 5);
+
+      // Multi-variate sensor chart
+      drawAILineChart(ctx, 300, 80, 450, 120, 'Transformer Analysis', 
+        [[85, 87, 86, 88, 87, 89, 88, 90, 89, 91, 90, 88],
+         [65, 66, 67, 66, 68, 67, 69, 68, 70, 69, 68, 67]], 
+        ['#a78bfa', '#22d3ee']);
+
+      // Anomaly Score Timeline
+      drawAnomalyScore(ctx, 300, 230, 450, 100);
+
+      // AI Alert Panel
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(20, 300, 260, 180);
+      ctx.strokeStyle = '#a78bfa';
+      ctx.strokeRect(20, 300, 260, 180);
+      
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('🔔 AI Predictions', 30, 325);
+      
+      const alerts = [
+        { time: '10:29:14', msg: 'RUL Warning: 28 days', color: '#ffaa00' },
+        { time: '10:28:52', msg: 'Anomaly Score: 0.87', color: '#ff6b9d' },
+        { time: '10:27:33', msg: 'Concept Drift Detected', color: '#7aa2ff' }
+      ];
+      
+      ctx.font = '11px monospace';
+      alerts.forEach((alert, i) => {
+        ctx.fillStyle = alert.color;
+        ctx.fillText(alert.time, 30, 350 + i * 30);
+        ctx.fillStyle = '#9aa4b2';
+        ctx.fillText(alert.msg, 30, 365 + i * 30);
+      });
+
+      // RUL Prediction
+      drawRULChart(ctx, 300, 360, 450, 100);
+    }
+
+    function drawVibrationScreen() {
+      const canvas = document.getElementById('vibrationScreen');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = '#0f1116';
+      ctx.fillRect(0, 0, w, h);
+
+      // Header
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(0, 0, w, 50);
+      
+      const gradient = ctx.createLinearGradient(0, 0, 250, 0);
+      gradient.addColorStop(0, '#a78bfa');
+      gradient.addColorStop(1, '#22d3ee');
+      ctx.fillStyle = gradient;
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText('🎯 Anomaly Detection', 20, 30);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '12px sans-serif';
+      ctx.fillText('LSTM Autoencoder', w - 150, 30);
+
+      // Reconstruction Error
+      const errorY = 80;
+      const errorH = 160;
+      
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(20, errorY, w - 40, errorH);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(20, errorY, w - 40, errorH);
+      
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText('Reconstruction Error (Real-time)', 30, errorY + 20);
+
+      // Draw reconstruction error line
+      ctx.strokeStyle = '#a78bfa';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      
+      const points = 100;
+      for (let i = 0; i < points; i++) {
+        const x = 40 + (i / points) * (w - 80);
+        const baseError = 0.1;
+        const spike = (i > 70 && i < 75) ? 0.5 : 0;
+        const noise = Math.random() * 0.05;
+        const error = baseError + spike + noise;
+        const y = errorY + errorH - 30 - (error * 100);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Threshold line
+      ctx.strokeStyle = '#ff5566';
+      ctx.setLineDash([5, 5]);
+      ctx.beginPath();
+      ctx.moveTo(40, errorY + errorH - 60);
+      ctx.lineTo(w - 40, errorY + errorH - 60);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      
+      ctx.fillStyle = '#ff5566';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('Threshold', w - 100, errorY + errorH - 65);
+
+      // Anomaly detected marker
+      ctx.fillStyle = 'rgba(255, 85, 102, 0.3)';
+      ctx.fillRect(40 + (w - 80) * 0.7, errorY + 40, (w - 80) * 0.05, errorH - 70);
+      ctx.fillStyle = '#ff5566';
+      ctx.font = '10px sans-serif';
+      ctx.fillText('Anomaly', 40 + (w - 80) * 0.705, errorY + 35);
+
+      // Feature Importance (Attention Weights)
+      const attY = errorY + errorH + 30;
+      const attH = 140;
+      
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(20, attY, w - 40, attH);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(20, attY, w - 40, attH);
+      
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText('Feature Importance (Attention)', 30, attY + 20);
+
+      // Draw attention bars
+      const features = ['Temp', 'Press', 'Vib', 'RPM', 'Load', 'Oil'];
+      const importance = [0.85, 0.62, 0.91, 0.45, 0.38, 0.73];
+      
+      features.forEach((feat, i) => {
+        const barX = 50 + i * 110;
+        const barW = 80;
+        const barH = importance[i] * 80;
+        
+        const barGrad = ctx.createLinearGradient(barX, attY + attH - 30, barX, attY + attH - 30 - barH);
+        barGrad.addColorStop(0, '#a78bfa');
+        barGrad.addColorStop(1, '#22d3ee');
+        ctx.fillStyle = barGrad;
+        ctx.fillRect(barX, attY + attH - 30 - barH, barW, barH);
+        
+        ctx.fillStyle = '#9aa4b2';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(feat, barX + barW / 2, attY + attH - 10);
+        ctx.fillText(importance[i].toFixed(2), barX + barW / 2, attY + attH - 35 - barH);
+      });
+      ctx.textAlign = 'left';
+
+      // Model Confidence
+      drawConfidence(ctx, 20, attY + attH + 20, w - 40, 60);
+    }
+
+    function drawAILineChart(ctx, x, y, w, h, title, datasets, colors) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText(title, x + 10, y + 20);
+
+      // Grid
+      ctx.strokeStyle = '#2a2d34';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 5; i++) {
+        const gy = y + 30 + (h - 40) * i / 4;
+        ctx.beginPath();
+        ctx.moveTo(x + 10, gy);
+        ctx.lineTo(x + w - 10, gy);
+        ctx.stroke();
+      }
+
+      // Draw datasets
+      datasets.forEach((data, idx) => {
+        ctx.strokeStyle = colors[idx % colors.length];
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        
+        data.forEach((val, i) => {
+          const px = x + 10 + (i / (data.length - 1)) * (w - 20);
+          const py = y + h - 15 - ((val - 60) / 40) * (h - 50);
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+      });
+    }
+
+    function drawAnomalyScore(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('Anomaly Score Timeline', x + 10, y + 20);
+
+      // Area chart
+      ctx.fillStyle = 'rgba(167, 139, 250, 0.3)';
+      ctx.beginPath();
+      
+      const points = 50;
+      for (let i = 0; i <= points; i++) {
+        const px = x + 10 + (i / points) * (w - 20);
+        const score = Math.random() * 0.3 + (i > 40 ? 0.6 : 0);
+        const py = y + h - 15 - (score * (h - 35));
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.lineTo(x + w - 10, y + h - 15);
+      ctx.lineTo(x + 10, y + h - 15);
+      ctx.closePath();
+      ctx.fill();
+
+      // Line
+      ctx.strokeStyle = '#a78bfa';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i <= points; i++) {
+        const px = x + 10 + (i / points) * (w - 20);
+        const score = Math.random() * 0.3 + (i > 40 ? 0.6 : 0);
+        const py = y + h - 15 - (score * (h - 35));
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    function drawRULChart(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('RUL Prediction (Remaining Useful Life)', x + 10, y + 20);
+
+      // Progress bar
+      const barY = y + 45;
+      const barH = 30;
+      const rul = 28; // days
+      const maxRul = 90;
+      const percentage = rul / maxRul;
+      
+      // Background
+      ctx.fillStyle = '#2a2d34';
+      ctx.fillRect(x + 20, barY, w - 40, barH);
+      
+      // Fill
+      const barGrad = ctx.createLinearGradient(x + 20, barY, x + 20 + (w - 40) * percentage, barY);
+      barGrad.addColorStop(0, '#ffaa00');
+      barGrad.addColorStop(1, '#ff5566');
+      ctx.fillStyle = barGrad;
+      ctx.fillRect(x + 20, barY, (w - 40) * percentage, barH);
+      
+      // Text
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${rul} days`, x + w / 2, barY + barH / 2 + 5);
+      ctx.textAlign = 'left';
+    }
+
+    function drawConfidence(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#59ffa7';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 12px sans-serif';
+      ctx.fillText('Model Confidence: 96.3%', x + 10, y + 20);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('Status: High confidence in current predictions', x + 10, y + 40);
+    }
+
+    window.addEventListener('load', () => {
+      drawMonitoringScreen();
+      drawVibrationScreen();
+    });
+
+    window.addEventListener('resize', () => {
+      drawMonitoringScreen();
+      drawVibrationScreen();
+    });
+  </script>
+</body>
+</html>

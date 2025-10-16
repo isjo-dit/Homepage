@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DIT Vision AI – Industrial Professional System</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card: #0f1116;
+      --muted: #9aa4b2;
+      --text: #e7ecf3;
+      --accent: #59ffa7;
+      --accent-2: #7aa2ff;
+      --border: rgba(255,255,255,.08);
+      --danger: #ff5566;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 28px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,.7);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { letter-spacing: 6px; font-weight: 800; }
+    .nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+    .nav a { text-decoration: none; color: #c7d2e1; font-size: 13px; letter-spacing: 1px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px; }
+    .hero {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(122,162,255,.15), transparent),
+                  radial-gradient(1000px 500px at 80% 120%, rgba(89,255,167,.08), transparent);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 0 60px;
+    }
+    .h1 {
+      font-size: clamp(36px, 6vw, 58px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .sub { color: var(--muted); font-size: clamp(14px, 2.3vw, 18px); margin-bottom: 28px; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-top: 26px;
+    }
+    .stat { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      padding: 18px; 
+      border-radius: 12px; 
+      text-align: center;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .stat:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .stat .v { font-size: 28px; font-weight: 800; }
+    .stat .l { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+    .title { font-size: 28px; margin: 0 0 12px; font-weight: 800; }
+    .desc { color: var(--muted); margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; letter-spacing: .5px; }
+    .badge.pro { background: rgba(122,162,255,.16); color: #dbe6ff; border: 1px solid rgba(122,162,255,.35); }
+    .badge.ind { background: rgba(89,255,167,.1); color: #c7ffe7; border: 1px solid rgba(89,255,167,.35); }
+    .feature-list { margin: 12px 0 0 0; padding-left: 18px; }
+    .feature-list li { margin: 6px 0; }
+    .highlight {
+      border: 1px dashed rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(122,162,255,.08), rgba(122,162,255,0) 50%), var(--card);
+      padding: 20px; border-radius: 12px;
+    }
+    .kpigrid { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; }
+    .kpi .big { font-weight: 800; font-size: 22px; }
+    .kpi .lab { color: var(--muted); font-size: 12px; }
+    
+    /* 개선된 비디오 스타일 */
+    .shot {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    
+    .shot video { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain;
+      display: block;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .shot img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain;
+      display: block;
+    }
+    
+    .shot canvas { 
+      width: 100%; 
+      height: 100%; 
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .shot.loaded {
+      background: #000;
+    }
+    
+    .shot:hover {
+      transform: translateY(-2px);  
+      box-shadow: 0 16px 40px rgba(89,255,167,0.2);
+      border-color: var(--accent);
+    }
+    
+    .shot:hover video {
+      filter: brightness(1.1);
+    }
+    
+    .video-controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 15;
+    }
+    
+    .shot:hover .video-controls {
+      opacity: 1;
+    }
+    
+    .video-btn {
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    
+    .video-btn:hover {
+      background: rgba(89,255,167,0.2);
+      border-color: var(--accent);
+    }
+    
+    .shot-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .shot-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .footer { text-align: center; color: var(--muted); padding: 36px 0; }
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .kpigrid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+    @page { size: A4; margin: 14mm; }
+    
+    /* Navigation */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 28px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,.85);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { 
+      letter-spacing: 6px; 
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      height: 40px;
+      width: auto;
+      display: block;
+      margin-right: -4px;
+    }
+    @media (max-width: 900px) {
+      .brand-logo { height: 30px; }
+      .brand { font-size: 16px; letter-spacing: 4px; gap: 8px; }
+      .footer-logo { height: 36px; }
+    }
+    .nav ul { 
+      display: flex; 
+      gap: 22px; 
+      list-style: none; 
+    }
+    .nav a { 
+      font-size: 13px; 
+      letter-spacing: 1px;
+      color: #c7d2e1;
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--accent); }
+    
+    /* Footer */
+    .footer { 
+      text-align: center; 
+      color: var(--muted); 
+      padding: 60px 28px;
+      background: var(--card);
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .footer-section h4 {
+      color: var(--text);
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+    .footer-section p, .footer-section a {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .footer-section a:hover {
+      color: var(--accent);
+    }
+  </style>
+
+  <style>
+    .pdf-btn { 
+      background:#1f6feb; color:#fff; border:none; padding:10px 14px; 
+      border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25);
+      display:inline-block; margin: 0 0 12px 0;
+    }
+    .pdf-btn:hover { filter: brightness(1.05); }
+    @media print {.logo-box object{display:none !important;}  .pdf-btn { display:none; } }
+    
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-width: 200px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 100;
+      top: 100%;
+      right: 0;
+      backdrop-filter: blur(10px);
+      margin-top: 8px;
+    }
+    .dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      border-bottom: 1px solid var(--border);
+    }
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+    .dropdown-content a:hover {
+      background: rgba(89,255,167,0.1);
+      color: var(--accent);
+    }
+    .dropdown.show .dropdown-content {
+      display: block;
+      animation: dropdownFadeIn 0.2s ease-out;
+    }
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-arrow {
+      margin-left: 4px;
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+    .dropdown.show .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+  </style>
+
+  <style>
+    .brand { display:flex; align-items:center; gap:10px; }
+    .brand .logo-box { display:inline-flex; align-items:center; }
+    .brand .logo-box object { height:28px; width:auto; aspect-ratio:auto; display:block; }
+    @media (min-width:900px){ .brand .logo-box object { height:34px; } }
+    @media print {.logo-box object{display:none !important;}  .brand .logo-box object { height:28px; } }
+  </style>
+
+  <style>
+    @page { size: A4; margin: 12mm; }
+    @media print {
+      body { background: #fff !important; color: #000 !important; }
+      .nav, .footer { display: none !important; }
+      .hero { background: none !important; padding: 12px 0 !important; min-height: auto !important; }
+      .wrap { padding: 8px 0 !important; max-width: 100% !important; }
+      .section { padding: 10px 0 !important; border: none !important; }
+      .title { margin: 6px 0 6px !important; }
+      .sub, .desc { color: #222 !important; }
+      .card, .highlight, .stat, .kpi, .shot { 
+        page-break-inside: avoid !important; 
+        break-inside: avoid !important; 
+        box-shadow: none !important;
+        border-color: #ccc !important;
+      }
+      .grid-2, .grid-3, .stats, .kpigrid { gap: 8px !important; }
+      .shot, .shot img, img { max-width: 100% !important; height: auto !important; }
+      h1, .h1 { font-size: 24pt !important; }
+      h2.title { font-size: 16pt !important; }
+      .sub, .desc, li, p, table { font-size: 10.5pt !important; }
+      table { page-break-inside: avoid !important; }
+      thead { display: table-header-group; }
+      [style*="radial-gradient"], [style*="linear-gradient"] { background: none !important; }
+      .logo-box object { display: none !important; }
+      #pdfExportBtn { display: none !important; }
+      .video-controls { display: none !important; }
+      .shot-label { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand">
+      <a href="https://deepai-it.com" target="_blank">
+        <img src="../src/logo3.png" alt="DIT logo" class="brand-logo">
+      </a>
+    </div>
+    <ul>
+      <li><a href="../index.html#strengths">Advantages</a></li>
+      <li class="dropdown">
+        <a href="../index.html#solutions" onclick="toggleDropdown(event)">Solutions<span class="dropdown-arrow">▼</span></a>
+        <div class="dropdown-content">
+          <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
+          <a href="dit-vision-ai-updated.html">Vision AI</a>
+          <a href="../engine/engine-ai-monitoring-system.html">Engine Monitoring</a>
+          <a href="../robot_analysis/robot-analysis-updated.html">Robot Analysis</a>
+        </div>
+      </li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section id="overview" data-pdfhint="1" class="hero">
+      <div class="wrap">
+        <h1 class="h1">Industrial Safety Monitoring<br>Professional System</h1>
+        <p class="sub">3D 포인트클라우드 + GPU 딥러닝으로 화재·누수·설비이상을 <strong>0.3초</strong> 내 감지.<br>현장 환경에 특화된 프로페셔널 관제·알림·리포팅을 제공합니다.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">0.3s</div><div class="l">DETECTION</div></div>
+          <div class="stat"><div class="v">99.7%</div><div class="l">ACCURACY</div></div>
+          <div class="stat"><div class="v">10 CH</div><div class="l">MULTI‑STREAM</div></div>
+          <div class="stat"><div class="v">24/7</div><div class="l">NON‑STOP</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shots" class="section">
+      <div class="wrap">
+        <h2 class="title">실제 프로그램 샘플 화면</h2>
+        <p class="desc">아래 영상과 3D 뷰는 Vision Inference Platform의 실시간 모니터링 화면입니다.</p>
+        <div class="grid-2" style="gap: 20px; padding: 20px 0;">
+          <figure class="shot" id="demo1" style="margin: 0; padding: 0;">
+            <span class="shot-label">Live Demo</span>
+            <video 
+                 autoplay 
+                 loop 
+                 muted 
+                 playsinline
+                 onloadeddata="this.parentElement.classList.add('loaded')">
+              <source src="ref1.mp4" type="video/mp4">
+              <source src="ref1.webm" type="video/webm">
+              브라우저가 비디오를 지원하지 않습니다.
+            </video>
+            <div class="video-controls">
+              <button class="video-btn" onclick="togglePlayPause(this)">⏸️ 일시정지</button>
+              <button class="video-btn" onclick="toggleFullscreen(this)">🔳 전체화면</button>
+            </div>
+          </figure>
+          <figure class="shot" id="demo2" style="margin: 0; padding: 0;">
+            <span class="shot-label">3D View</span>
+            <canvas id="3d-canvas"></canvas>
+          </figure>
+        </div>
+        <div class="highlight" style="margin-top:16px">
+          <strong>배포 팁</strong> — 사내망 엣지모드(오프라인)에서도 동작하도록 <code>pip --no-index --find-links &lt;내부패키지폴더&gt;</code> 구성을 권장합니다.
+        </div>
+      </div>
+    </section>
+  
+    <section id="anomaly" class="section">
+      <div class="wrap">
+        <h2 class="title">이상 감지 솔루션 (실증 적용: 누출 테이프 & 열화상)</h2>
+        <p class="desc">현장 사진에서 <b>누출 감지 테이프(노란색, 누출 시 색 변화)</b>와 <b>열화상 카메라</b>를 함께 활용하여
+        누출·과열·막힘 등 <b>설비 이상</b>을 탐지·경보하는 구성입니다. 아래 이미지는 실제 현장 데이터에 대해 적용한 결과 화면이며, 고객사 현장에서 검증된 운영 시나리오를 기준으로 표기했습니다.</p>
+        <div class="grid-2" style="gap: 20px; padding: 20px 0;">
+          <figure class="shot" id="demo3" style="margin: 0; padding: 0;">
+            <span class="shot-label">Leak Detection</span>
+            <video 
+                 autoplay 
+                 loop 
+                 muted 
+                 playsinline
+                 onloadeddata="this.parentElement.classList.add('loaded')">
+              <source src="ref2.mp4" type="video/mp4">
+              <source src="ref2.webm" type="video/webm">
+              브라우저가 비디오를 지원하지 않습니다.
+            </video>
+            <div class="video-controls">
+              <button class="video-btn" onclick="togglePlayPause(this)">⏸️ 일시정지</button>
+              <button class="video-btn" onclick="toggleFullscreen(this)">🔳 전체화면</button>
+            </div>
+          </figure>
+          <figure class="shot" style="margin: 0; padding: 0;">
+            <span class="shot-label">Thermal View</span>
+            <img src="thermal_detect_sample.png" alt="열화상 모드에서 파이프 Hot Zone 예시"/>
+          </figure>
+        </div>
+
+        <div class="grid-3" style="margin-top:16px">
+          <div class="card">
+            <b>가시광(누출 테이프) — 운영 정책</b>
+            <ul class="feature-list">
+              <li>ROI: 사용자 교정 박스 기준(U-ID)</li>
+              <li>HSV 색/채도 변화 + 지속시간(예: ≥2s)</li>
+              <li>오탐 억제: 조명 반사·그림자 보정</li>
+              <li>결과 코드: <em>LEAK_SUSPECTED / LEAK_CONFIRMED</em></li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>열화상(Hot Zone) — 운영 정책</b>
+            <ul class="feature-list">
+              <li>ROI: 파이프/플랜지/밸브 주변</li>
+              <li>ΔT 임계값(주변 대비 +12°C 등) + 상승속도</li>
+              <li>방사율/반사 보정, Auto-baseline 러닝</li>
+              <li>결과 코드: <em>THERMAL_ANOMALY</em></li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>융합 판단(Fusion) — 경보 등급</b>
+            <ul class="feature-list">
+              <li>등급 규칙: (LEAK_SUSPECTED OR THERMAL_ANOMALY) → Warning</li>
+              <li>등급 규칙: (LEAK_CONFIRMED AND THERMAL_ANOMALY) → <b>Critical</b></li>
+              <li>후속 액션: 펌프 감속/차단, 밸브 전환, 출입 통제</li>
+              <li>리포트: 스냅샷/타임라인/히트맵 자동 수집</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight" style="margin-top:16px">
+          <b>초기 셋업 팁</b> — 사용자 박스(U-ID)를 기준으로 현장별 색 공간·조명 편차를 러닝하고, 열화상은 ΔT 임계값을 라인별로 다르게 설정하세요.
+          두 채널의 이벤트를 5초 윈도우로 집계하여 Critical 승급 조건을 구성하면 효과적입니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="professional" class="section">
+      <div class="wrap">
+        <h2 class="title">Professional 시스템</h2>
+        <p class="desc">산업 현장 배치를 위한 하드닝, 고가용성, 보안·감사, 대시보드/리포트 자동화를 포함하는 상위 에디션입니다.</p>
+
+        <div class="grid-3">
+          
+          <article class="card">
+            <span class="badge pro">Professional</span>
+            <h3 style="margin:10px 0 6px">관제 & 운영</h3>
+            <ul class="feature-list">
+              <li>멀티 사이트·멀티 채널(최대 10CH) 동시 관제</li>
+              <li>ROI/클래스별 민감도·스케줄 정책 템플릿</li>
+              <li>이벤트 재생(타임라인) & 원클릭 증거 캡처</li>
+              <li>알림 라우팅(위험도/근무조/설비군 기준)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Professional</span>
+            <h3 style="margin:10px 0 6px">신뢰성 & 보안</h3>
+            <ul class="feature-list">
+              <li>이중화(Hot‑Standby) + 자동 페일오버</li>
+              <li>LDAP/SSO, 역할기반 권한(RBAC), 감사 로그</li>
+              <li>암호화 저장(영상 스냅샷/이벤트 메타)</li>
+              <li>오프라인 엣지 모드(내부 저장소 pip 패키지)</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Professional</span>
+            <h3 style="margin:10px 0 6px">분석 & 리포트</h3>
+            <ul class="feature-list">
+              <li>일·주·월 단위 자동 리포트(PDF/Excel)</li>
+              <li>이벤트 히트맵, 오탐/미탐 통계, 트렌드 분석</li>
+              <li>예지정비 지표(RUL 후보, 이상 빈도/강도)</li>
+              <li>Webhook/REST로 MES/SCADA 연동</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="highlight" style="margin-top:18px">
+          <b>범 산업군 템플릿</b> — <span class="badge ind">제조</span> <span class="badge ind">발전·에너지</span> <span class="badge ind">물류</span> <span class="badge ind">화학·플랜트</span>에 맞춘 감지 클래스·알림 정책·리포트 양식을 기본 제공
+        </div>
+
+        <div class="kpigrid" style="margin-top:16px">
+          <div class="kpi"><div class="big">±10cm</div><div class="lab">3D 좌표 정확도</div></div>
+          <div class="kpi"><div class="big">4.3M+</div><div class="lab">동시 포인트 처리</div></div>
+          <div class="kpi"><div class="big">≤1.2s</div><div class="lab">평균 알림 전달</div></div>
+          <div class="kpi"><div class="big">50 ROI</div><div class="lab">동시 영역 관리</div></div>
+          <div class="kpi"><div class="big">CUDA</div><div class="lab">ONNX/TensorRT</div></div>
+          <div class="kpi"><div class="big">WebRTC/RTSP</div><div class="lab">카메라 호환</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="wrap">
+        <h2 class="title">핵심 기능</h2>
+        <div class="grid-2">
+          <article class="card">
+            <h3>실시간 AI 감지</h3>
+            <ul class="feature-list">
+              <li>SOTA 전이학습 모델 가속, 평균 312ms 탐지</li>
+              <li>화재/연기/누수/누유/가스/설비 이상</li>
+              <li>클래스 필터·존 필터·오탐 억제(지속시간)</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>3D 공간 인식</h3>
+            <ul class="feature-list">
+              <li>포인트클라우드 뷰어, 3D 감지 존 설정</li>
+              <li>객체 위치·이동 경로 추적(세계좌표)</li>
+              <li>자동 캘리브레이션 및 좌표 동기화</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>다중 카메라 통합</h3>
+            <ul class="feature-list">
+              <li>RTSP/WebRTC, Basler GigE, Thermal/스펙트럼</li>
+              <li>10 채널 동시 스트림, 채널별 파이프라인</li>
+              <li>대역폭·지연 관리, GPU 리소스 오토밸런싱</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>알림 & 연동</h3>
+            <ul class="feature-list">
+              <li>WebSocket 실시간 알림, SMS/Email/Push</li>
+              <li>위험도 3단계, 담당자·근무조별 라우팅</li>
+              <li>REST/Webhook, MQTT/OPC-UA 연계(옵션)</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="specs">
+      <div class="wrap">
+        <h2 class="title">도입 구성 · 사양 (Production)</h2>
+        <div class="card" style="overflow:auto">
+          <table style="width:100%; border-collapse:collapse; font-size:14px">
+            <thead>
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px">항목</th>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">지원 카메라</td><td style="padding:8px">RTSP/WebRTC, Basler GigE, 열화상(예: FLIR), 스펙트럼/써멀 혼합</td></tr>
+              <tr><td style="padding:8px">처리 성능</td><td style="padding:8px">최대 10채널 동시, 평균 지연 0.3~0.6초(채널·모델·해상도에 따라 상이)</td></tr>
+              <tr><td style="padding:8px">3D/ROI</td><td style="padding:8px">포인트클라우드 기반 3D 존/라인, 사용자 교정 박스(U-ID) 기반 ROI</td></tr>
+              <tr><td style="padding:8px">알림</td><td style="padding:8px">등급: Info/Warning/Critical, SMS/Email/Push/Webhook, 근무조·라인 라우팅</td></tr>
+              <tr><td style="padding:8px">리포트</td><td style="padding:8px">일·주·월 자동 PDF/Excel, Hot Zone 히트맵, 오탐/미탐, MTBF/MTTR</td></tr>
+              <tr><td style="padding:8px">가용성</td><td style="padding:8px">이중화(Hot-Standby) + 자동 페일오버, 무중단 업데이트(창구별 단계적)</td></tr>
+              <tr><td style="padding:8px">보안</td><td style="padding:8px">RBAC/SSO, 감사 로그, 저장 데이터 암호화, 엣지오프라인 배포 지원</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deploy">
+      <div class="wrap">
+        <h2 class="title">배포 옵션 · 유지보수</h2>
+        <div class="grid-3">
+          <div class="card">
+            <b>On-Prem/Edge</b>
+            <ul class="feature-list">
+              <li>네트워크 격리망 운영, 내부 패키지 리포지토리</li>
+              <li>GPU: NVIDIA RTX/Jetson, ONNX/TensorRT 최적화</li>
+              <li>백업/복구 절차 표준화, 헬스체크/오토리커버리</li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>SLA · 운영지표</b>
+            <ul class="feature-list">
+              <li>알림 전달 T90 ≤ 1.5s (현장 조건 부)</li>
+              <li>가용성 ≥ 99.5% (이중화 구성 시)</li>
+              <li>정기 점검/모델 재학습(분기/반기) 계획</li>
+            </ul>
+          </div>
+          <div class="card">
+            <b>연동</b>
+            <ul class="feature-list">
+              <li>REST/Webhook, MQTT, OPC-UA(옵션)</li>
+              <li>MES/SCADA/CMMS(작업지시) 이벤트 연계</li>
+              <li>계정/조직/라인 메타데이터 동기화</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="compliance">
+      <div class="wrap">
+        <h2 class="title">규정 · 안전 준수</h2>
+        <div class="card">
+          <ul class="feature-list">
+            <li>화학물질 취급 구역: 카메라/열화상 방폭 등급 사양 검토</li>
+            <li>개인정보: 작업자 식별 비활성화(필요 시 모자이크/비식별화)</li>
+            <li>감사/추적성: 이벤트 원본 스냅샷 해시 저장(무결성 보강)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2 class="title">도입/데모 문의</h2>
+        <div class="grid-3">
+          <div class="card"><b>Email</b><br><span class="muted">deepai-it@deepai-it.com</span></div>
+          <div class="card"><b>Phone</b><br><span class="muted">010-6757-4367</span></div>
+          <div class="card"><b>Address</b><br><span class="muted">Seongnam, Republic of Korea<br>Ulsan, Republic of Korea</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="../src/logo3.png" alt="DIT logo" class="footer-logo">
+      </div>
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>DIT - DeepAI Industrial Transfer</h4>
+          <p>Enterprise AI Solutions for Manufacturing</p>
+          <p>Smart Factory Innovation Partner</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Solutions</h4>
+          <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
+          <a href="dit-vision-ai-updated.html">Vision AI Professional</a>
+          <a href="../engine/engine-ai-monitoring-system.html">Engine Monitoring</a>
+          <a href="../robot_analysis/robot-analysis-updated.html">Robot Analysis</a>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contact Information</h4>
+          <p>Email: deepai-it@deepai-it.com</p>
+          <p>Phone: 010-6757-4367</p>
+          <p>Location: Seongnam, Republic of Korea</p>
+          <p>Location: Ulsan, Republic of Korea</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
+        © 2025 DeepAI Industrial Transfer · All Rights Reserved
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Dropdown 메뉴 토글 함수
+    function toggleDropdown(event) {
+      event.preventDefault();
+      const dropdown = event.target.closest('.dropdown');
+      
+      // 다른 열린 드롭다운 닫기
+      document.querySelectorAll('.dropdown.show').forEach(d => {
+        if (d !== dropdown) d.classList.remove('show');
+      });
+      
+      // 현재 드롭다운 토글
+      dropdown.classList.toggle('show');
+    }
+    
+    // 외부 클릭 시 드롭다운 닫기
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown.show').forEach(d => {
+          d.classList.remove('show');
+        });
+      }
+    });
+
+    // 비디오 컨트롤 함수
+    function togglePlayPause(btn) {
+      const video = btn.closest('.shot').querySelector('video');
+      if (video.paused) {
+        video.play();
+        btn.innerHTML = '⏸️ 일시정지';
+      } else {
+        video.pause();
+        btn.innerHTML = '▶️ 재생';
+      }
+    }
+    
+    function toggleFullscreen(btn) {
+      const video = btn.closest('.shot').querySelector('video');
+      if (!document.fullscreenElement) {
+        video.requestFullscreen().catch(err => {
+          console.log(`전체화면 오류: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // MP4 비디오 자동 재생 및 로딩 처리
+    document.addEventListener('DOMContentLoaded', function() {
+      const videos = document.querySelectorAll('.shot video');
+      
+      videos.forEach(video => {
+        // 비디오 로드 에러 처리
+        video.onerror = function() {
+          this.style.display = 'none';
+          const placeholder = document.createElement('div');
+          placeholder.style.cssText = 'width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:14px;';
+          placeholder.innerHTML = '<div style="text-align:center"><div style="font-size:48px; margin-bottom:12px">🎬</div>데모 영상 준비 중<br><small style="opacity:0.7">' + (this.src.includes('ref1') ? 'ref1' : 'ref2') + '.mp4</small></div>';
+          this.parentElement.appendChild(placeholder);
+        };
+        
+        // IntersectionObserver로 뷰포트에 들어올 때 재생
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              // 비디오 재생
+              entry.target.play().catch(e => {
+                console.log('자동 재생 실패:', e);
+              });
+            } else {
+              // 뷰포트 밖으로 나가면 일시정지 (성능 최적화)
+              entry.target.pause();
+            }
+          });
+        }, { threshold: 0.3 });
+        
+        observer.observe(video);
+        
+        // 비디오 메타데이터 로드 시 재생 시도
+        video.addEventListener('loadedmetadata', function() {
+          this.play().catch(e => {
+            console.log('초기 재생 실패:', e);
+            // 사용자 상호작용 필요시 클릭으로 재생
+            this.closest('.shot').addEventListener('click', function() {
+              video.play();
+            }, { once: true });
+          });
+        });
+      });
+    });
+
+    // 3D 뷰어 초기화
+    let scene, camera, renderer, pointCloud, detectionBoxes = [];
+
+    function init3DViewer() {
+      const container = document.getElementById('3d-canvas');
+      if (!container) return;
+      
+      // Scene 설정
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x000000);
+      
+      // Camera 설정
+      const aspect = 16 / 9;
+      camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+      camera.position.set(10, 10, 10);
+      camera.lookAt(0, 0, 0);
+      
+      // Renderer 설정
+      renderer = new THREE.WebGLRenderer({ canvas: container, antialias: true });
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      renderer.setSize(width, height);
+      
+      // 포인트 클라우드 생성
+      const geometry = new THREE.BufferGeometry();
+      const positions = [];
+      const colors = [];
+      
+      // 바닥과 벽 생성 (공장 내부 시뮬레이션)
+      for (let x = -15; x <= 15; x += 0.3) {
+        for (let z = -15; z <= 15; z += 0.3) {
+          // 바닥
+          positions.push(x, 0, z);
+          colors.push(0.3, 0.3, 0.3);
+          
+          // 벽면
+          if (Math.abs(x) > 14 || Math.abs(z) > 14) {
+            for (let y = 0; y <= 8; y += 0.5) {
+              positions.push(x, y, z);
+              colors.push(0.4, 0.4, 0.4);
+            }
+          }
+        }
+      }
+      
+      // 파이프 시뮬레이션
+      for (let i = 0; i < 100; i++) {
+        const t = i / 100;
+        positions.push(-10 + t * 20, 3, -8);
+        colors.push(0.6, 0.6, 0.6);
+      }
+      
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+      
+      const material = new THREE.PointsMaterial({ size: 0.15, vertexColors: true });
+      pointCloud = new THREE.Points(geometry, material);
+      scene.add(pointCloud);
+      
+      // 감지 박스 추가
+      addDetectionBox(-5, 3, -8, 2, 1.5, 1, 0xff0000);
+      addDetectionBox(8, 1, 5, 1.5, 2, 1.5, 0xff6600);
+      addDetectionBox(-8, 0.5, 10, 1, 1, 1, 0xffaa00);
+      
+      // 조명
+      const light = new THREE.AmbientLight(0xffffff, 0.8);
+      scene.add(light);
+      
+      // 애니메이션
+      animate3D();
+    }
+    
+    function addDetectionBox(x, y, z, w, h, d, color) {
+      const geometry = new THREE.BoxGeometry(w, h, d);
+      const edges = new THREE.EdgesGeometry(geometry);
+      const material = new THREE.LineBasicMaterial({ color: color, linewidth: 3 });
+      const box = new THREE.LineSegments(edges, material);
+      box.position.set(x, y, z);
+      scene.add(box);
+      detectionBoxes.push(box);
+    }
+    
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      
+      // 카메라 자동 회전
+      const time = Date.now() * 0.0003;
+      camera.position.x = Math.cos(time) * 20;
+      camera.position.z = Math.sin(time) * 20;
+      camera.lookAt(0, 3, 0);
+      
+      // 감지 박스 펄스 애니메이션
+      detectionBoxes.forEach((box, i) => {
+        const scale = 1 + Math.sin(Date.now() * 0.003 + i) * 0.05;
+        box.scale.set(scale, scale, scale);
+      });
+      
+      renderer.render(scene, camera);
+    }
+    
+    // 초기화
+    window.addEventListener('load', () => {
+      init3DViewer();
+    });
+    
+    // 리사이즈 처리
+    window.addEventListener('resize', () => {
+      if (renderer && camera) {
+        const container = document.getElementById('3d-canvas');
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      }
+    });
+  </script>
+</body>
+</html>

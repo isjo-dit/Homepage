@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robot Monitoring CBM System — DIT DeepAI Industrial Transfer</title>
+  <link rel="stylesheet" as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card: #0f1116;
+      --muted: #9aa4b2;
+      --text: #e7ecf3;
+      --accent: #59ffa7;
+      --accent-2: #7aa2ff;
+      --border: rgba(255,255,255,.08);
+      --danger: #ff5566;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+      line-height: 1.6;
+    }
+    a { color: inherit; }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 28px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,.7);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { 
+      letter-spacing: 6px; 
+      font-weight: 800;
+      display:flex; 
+      align-items:center; 
+      gap:10px;
+    }
+    .brand .logo-box { 
+      display:inline-flex; 
+      align-items:center; 
+      width:28px; 
+      height:28px;
+    }
+    .brand .logo-box object { 
+      height:28px; 
+      width:auto; 
+      aspect-ratio:auto; 
+      display:block; 
+    }
+    @media (min-width:900px){ 
+      .brand .logo-box object { height:34px; } 
+    }
+    .nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+    .nav a { text-decoration: none; color: #c7d2e1; font-size: 13px; letter-spacing: 1px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 28px; }
+    .hero {
+      min-height: 70vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(122,162,255,.15), transparent),
+                  radial-gradient(1000px 500px at 80% 120%, rgba(89,255,167,.08), transparent);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 0 60px;
+    }
+    .h1 {
+      font-size: clamp(36px, 6vw, 58px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .sub { color: var(--muted); font-size: clamp(14px, 2.3vw, 18px); margin-bottom: 28px; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; margin-top: 26px;
+    }
+    .stat { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      padding: 18px; 
+      border-radius: 12px; 
+      text-align: center;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .stat:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+    .stat .v { font-size: 28px; font-weight: 800; }
+    .stat .l { font-size: 12px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+    .section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+    .title { font-size: 28px; margin: 0 0 12px; font-weight: 800; }
+    .desc { color: var(--muted); margin-bottom: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 8px 24px rgba(0,0,0,.35); 
+    }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; letter-spacing: .5px; }
+    .badge.pro { background: rgba(122,162,255,.16); color: #dbe6ff; border: 1px solid rgba(122,162,255,.35); }
+    .badge.ind { background: rgba(89,255,167,.1); color: #c7ffe7; border: 1px solid rgba(89,255,167,.35); }
+    .badge.secure { background: rgba(255,85,102,.1); color: #ffb3bd; border: 1px solid rgba(255,85,102,.35); }
+    .feature-list { margin: 12px 0 0 0; padding-left: 18px; }
+    .feature-list li { margin: 6px 0; }
+    .highlight {
+      border: 1px dashed rgba(255,255,255,.18);
+      background: linear-gradient(180deg, rgba(122,162,255,.08), rgba(122,162,255,0) 50%), var(--card);
+      padding: 20px; border-radius: 12px;
+    }
+    .kpigrid { display: grid; grid-template-columns: repeat(6, minmax(0,1fr)); gap: 10px; }
+    .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; text-align: center; }
+    .kpi .big { font-weight: 800; font-size: 22px; }
+    .kpi .lab { color: var(--muted); font-size: 12px; }
+    .shot {
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .shot video { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: contain;
+      display: block;
+      opacity: 0;
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .shot.loaded {
+      background: #000;
+    }
+    .shot:hover {
+      transform: translateY(-2px);  
+      box-shadow: 0 16px 40px rgba(89,255,167,0.2);
+      border-color: var(--accent);
+    }
+    .shot:hover video {
+      filter: brightness(1.1);
+    }
+    .video-controls {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 15;
+    }
+    .shot:hover .video-controls {
+      opacity: 1;
+    }
+    .video-btn {
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .video-btn:hover {
+      background: rgba(89,255,167,0.2);
+      border-color: var(--accent);
+    }
+    .shot-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .shot-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .footer { text-align: center; color: var(--muted); padding: 36px 0; }
+    
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .kpigrid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    }
+    @page { size: A4; margin: 14mm; }
+    
+    /* Navigation */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 16px 28px;
+      backdrop-filter: blur(10px);
+      background: rgba(11,12,16,.85);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { 
+      letter-spacing: 6px; 
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      height: 40px;
+      width: auto;
+      display: block;
+      margin-right: -4px;
+    }
+    @media (max-width: 900px) {
+      .brand-logo { height: 30px; }
+      .brand { font-size: 16px; letter-spacing: 4px; gap: 8px; }
+      .footer-logo { height: 36px; }
+    }
+    .nav ul { 
+      display: flex; 
+      gap: 22px; 
+      list-style: none; 
+    }
+    .nav a { 
+      font-size: 13px; 
+      letter-spacing: 1px;
+      color: #c7d2e1;
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--accent); }
+    
+    /* Footer */
+    .footer { 
+      text-align: center; 
+      color: var(--muted); 
+      padding: 60px 28px;
+      background: var(--card);
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer-logo {
+      height: 42px;
+      width: auto;
+      display: block;
+      margin: 0 auto 20px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 40px;
+      text-align: left;
+    }
+    .footer-section h4 {
+      color: var(--text);
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+    .footer-section p, .footer-section a {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .footer-section a:hover {
+      color: var(--accent);
+    }
+    
+    .pdf-btn { 
+      background:#1f6feb; color:#fff; border:none; padding:10px 14px; 
+      border-radius:10px; font-weight:700; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25);
+      display:inline-block; margin: 0 0 12px 0;
+    }
+    .pdf-btn:hover { filter: brightness(1.05); }
+    @media print {
+      .logo-box object{display:none !important;}  
+      .pdf-btn { display:none; }
+    }
+    
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-width: 200px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      z-index: 100;
+      top: 100%;
+      right: 0;
+      backdrop-filter: blur(10px);
+      margin-top: 8px;
+    }
+    .dropdown-content a {
+      color: var(--text);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      transition: all 0.2s;
+      border-bottom: 1px solid var(--border);
+    }
+    .dropdown-content a:last-child {
+      border-bottom: none;
+    }
+    .dropdown-content a:hover {
+      background: rgba(89,255,167,0.1);
+      color: var(--accent);
+    }
+    .dropdown.show .dropdown-content {
+      display: block;
+      animation: dropdownFadeIn 0.2s ease-out;
+    }
+    @keyframes dropdownFadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-arrow {
+      margin-left: 4px;
+      font-size: 10px;
+      transition: transform 0.2s;
+    }
+    .dropdown.show .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="brand">
+      <a href="https://deepai-it.com" target="_blank">
+        <img src="../src/logo3.png" alt="DIT logo" class="brand-logo">
+      </a>
+    </div>
+    <ul>
+      <li><a href="../index.html#strengths">Advantages</a></li>
+      <li class="dropdown">
+        <a href="../index.html#solutions" onclick="toggleDropdown(event)">Solutions<span class="dropdown-arrow">▼</span></a>
+        <div class="dropdown-content">
+          <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
+          <a href="../safety_monitoring/dit-vision-ai-updated.html">Vision AI</a>
+          <a href="../engine/engine-ai-monitoring-system.html">Engine Monitoring</a>
+          <a href="robot-analysis-updated.html">Robot Analysis</a>
+        </div>
+      </li>
+      <li><a href="../index.html#contact">Contact</a></li>
+    </ul>
+  </header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <h1 class="h1">Robot Analysis System</h1>
+      <p class="sub">산업용 로봇의 <strong>실시간 상태 모니터링</strong>과 <strong>이상 탐지</strong>, <strong>3D 시각화</strong>를 통합 제공.<br>데이터 기반 <strong>예지정비</strong>와 <strong>운영 최적화</strong>를 지원합니다.</p>
+      <div class="stats">
+        <div class="stat"><div class="v">Monitoring</div><div class="l">Robot & Environment</div></div>
+        <div class="stat"><div class="v">3D</div><div class="l">Digital Twin</div></div>
+        <div class="stat"><div class="v">CBM</div><div class="l">Condition Based Maintenance</div></div>
+        <div class="stat"><div class="v">Realtime</div><div class="l">Analysis</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- System Preview - 상단으로 이동 -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="title">시스템 화면</h2>
+      <p class="desc">로봇의 동작 궤적, Cycle별 이상 구간, 주요 센서 데이터를 직관적으로 확인할 수 있습니다.</p>
+
+      <div class="grid-2" style="gap: 20px; padding: 20px 0;">
+        <figure class="shot" id="demo1" style="margin: 0; padding: 0;">
+          <span class="shot-label">Live Demo 1</span>
+          <video 
+               autoplay 
+               loop 
+               muted 
+               playsinline
+               onloadeddata="this.parentElement.classList.add('loaded')">
+            <source src="ref1.mp4" type="video/mp4">
+            <source src="ref1.webm" type="video/webm">
+            브라우저가 비디오를 지원하지 않습니다.
+          </video>
+          <div class="video-controls">
+            <button class="video-btn" onclick="togglePlayPause(this)">⏸️ 일시정지</button>
+            <button class="video-btn" onclick="toggleFullscreen(this)">🔳 전체화면</button>
+          </div>
+        </figure>
+        
+        <figure class="shot" id="demo2" style="margin: 0; padding: 0;">
+          <span class="shot-label">Live Demo 2</span>
+          <video 
+               autoplay 
+               loop 
+               muted 
+               playsinline
+               onloadeddata="this.parentElement.classList.add('loaded')">
+            <source src="ref2.mp4" type="video/mp4">
+            <source src="ref2.webm" type="video/webm">
+            브라우저가 비디오를 지원하지 않습니다.
+          </video>
+          <div class="video-controls">
+            <button class="video-btn" onclick="togglePlayPause(this)">⏸️ 일시정지</button>
+            <button class="video-btn" onclick="toggleFullscreen(this)">🔳 전체화면</button>
+          </div>
+        </figure>
+      </div>
+      
+      <div class="highlight" style="margin-top:16px; text-align:center">
+        <strong>실시간 데모</strong> — 위 화면은 실제 Robot Analysis System 운영 화면입니다.<br>
+        3D 궤적 시각화부터 이상 탐지, Cycle 분석까지 모든 과정이 실시간으로 처리됩니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="title">시스템 개요</h2>
+      <p class="desc">로봇 모니터링 CBM 시스템은 <strong>실시간 데이터 수집–분석–시각화</strong>를 일원화하여 로봇 상태를 정밀 진단하고, 이상 징후를 사전에 탐지합니다. 생산라인 효율과 안정성을 높이는 <strong>디지털 트윈형 예지정비 플랫폼</strong>입니다.</p>
+      <div class="highlight">
+        <ul class="feature-list">
+          <li>로봇 제어기·센서 데이터의 실시간 스트리밍 및 통합 관리</li>
+          <li>Cycle 기반 궤적·토크·속도 이상 탐지 알고리즘</li>
+          <li>3D 시각화 엔진으로 동작 패턴 및 이상 구간 재현</li>
+          <li>예지정비·품질관리·라인운영 최적화를 위한 분석 리포트 생성</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 핵심 기능 -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="title">핵심 기능</h2>
+      <p class="desc">현장 로봇 데이터를 기반으로 이상을 조기 탐지하고, Cycle 단위 정밀 분석을 수행합니다.</p>
+
+      <div class="grid-3">
+        <article class="card">
+          <span class="badge pro">3D</span>
+          <h3 style="margin:10px 0 6px">3D 디지털 트윈 시각화</h3>
+          <ul class="feature-list">
+            <li>로봇 모델 렌더링</li>
+            <li>Cycle 경로 및 관절 궤적 실시간 표시</li>
+            <li>0.25×~8× 속도 제어 및 프레임 이동 지원</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge pro">CBM</span>
+          <h3 style="margin:10px 0 6px">이상 탐지 및 진단</h3>
+          <ul class="feature-list">
+            <li>Torque·Speed·Position 등 센서 기반 이상 탐지</li>
+            <li>Cycle별 이상 점수 산출 및 임계값 경보</li>
+            <li>AI 기반 패턴 분석과 주요 축 표시</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge pro">Integration</span>
+          <h3 style="margin:10px 0 6px">데이터 연계·저장</h3>
+          <ul class="feature-list">
+            <li>DB/Modbus/TCP-API 실시간 연동</li>
+            <li>분석결과 자동 저장 및 이력 조회</li>
+            <li>주간·월간 리포트 자동 생성</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="highlight" style="margin-top:18px">
+        <b>산업 전용 맞춤형 알고리즘</b> — 각 제조 라인 특성에 맞춰 센서 데이터 가중치를 조정하여 <strong>현장별 최적의 분석 성능</strong>을 제공합니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- Professional 시스템 -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="title">Professional 시스템</h2>
+      <p class="desc">실제 산업현장 운영에 최적화된 엔터프라이즈급 로봇 상태 모니터링 및 예지정비 시스템입니다.</p>
+
+      <div class="grid-3">
+        <article class="card">
+          <span class="badge pro">Monitoring</span>
+          <h3>실시간 현장 모니터링</h3>
+          <ul class="feature-list">
+            <li>라인·로봇 상태지수 및 알람 타임라인</li>
+            <li>Cycle Replay 및 상태 점수 시각화</li>
+            <li>현장 3D Point Cloud 통합 뷰</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge pro">Prediction</span>
+          <h3>예지정비 & 이상 경보</h3>
+          <ul class="feature-list">
+            <li>Cycle 이상 발생 시 즉시 경보</li>
+            <li>정비 알림 및 운전모드 자동 전환</li>
+            <li>Downtime 최소화를 위한 조기 대응</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="badge pro">Dashboard</span>
+          <h3>운영 대시보드</h3>
+          <ul class="feature-list">
+            <li>라인/로봇 상태 현황 요약</li>
+            <li>작업 사이클 트렌드 분석</li>
+            <li>통계 기반 생산 효율 지표 제공</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 사양 -->
+  <section class="section">
+    <div class="wrap">
+      <h2 class="title">도입 구성 · 사양</h2>
+      <div class="card" style="overflow:auto">
+        <table style="width:100%; border-collapse:collapse; font-size:14px; color:var(--text)">
+          <thead>
+            <tr>
+              <th style="text-align:left; border-bottom:1px solid #333; padding:8px">항목</th>
+              <th style="text-align:left; border-bottom:1px solid #333; padding:8px">내용</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:8px">지원 대상</td><td style="padding:8px">6축 로봇, 컨트롤러, PLC, 드라이브, 비전센서, MES/QA 로그</td></tr>
+            <tr><td style="padding:8px">분석 기능</td><td style="padding:8px">Cycle 단위 이상 탐지, 예지정비, 센서 융합 분석, 리포트 자동화</td></tr>
+            <tr><td style="padding:8px">시각화</td><td style="padding:8px">3D 궤적 렌더링, 포인트 클라우드, Cycle Replay</td></tr>
+            <tr><td style="padding:8px">연동</td><td style="padding:8px">DB/Modbus/TCP-API, MES·ERP·CMMS 통합 연계</td></tr>
+            <tr><td style="padding:8px">운영 환경</td><td style="padding:8px">On-Prem / Edge, 실시간 데이터 파이프라인, GPU 가속</td></tr>
+            <tr><td style="padding:8px">보안</td><td style="padding:8px">데이터 암호화 저장, 접근 권한 관리, 로그 추적성</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="title">도입/데모 문의</h2>
+      <div class="grid-3">
+        <div class="card"><b>Email</b><br><span style="color:var(--muted)">deepai-it@deepai-it.com</span></div>
+        <div class="card"><b>Phone</b><br><span style="color:var(--muted)">010-6757-4367</span></div>
+        <div class="card"><b>Address</b><br><span style="color:var(--muted)">Seongnam, Republic of Korea<br>Ulsan, Republic of Korea</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="../src/logo3.png" alt="DIT logo" class="footer-logo">
+      </div>
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>DIT - DeepAI Industrial Transfer</h4>
+          <p>Enterprise AI Solutions for Manufacturing</p>
+          <p>Smart Factory Innovation Partner</p>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Solutions</h4>
+          <a href="../document_assistance/dit-brochure-reordered.html">Document Assistant</a>
+          <a href="../safety_monitoring/dit-vision-ai-updated.html">Vision AI Professional</a>
+          <a href="../engine/engine-ai-monitoring-system.html">Engine Monitoring</a>
+          <a href="robot-analysis-updated.html">Robot Analysis</a>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Contact Information</h4>
+          <p>Email: deepai-it@deepai-it.com</p>
+          <p>Phone: 010-6757-4367</p>
+          <p>Location: Seongnam, Republic of Korea</p>
+          <p>Location: Ulsan, Republic of Korea</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border);">
+        © 2025 DeepAI Industrial Transfer · All Rights Reserved
+      </p>
+    </div>
+  </footer>
+
+<script>
+  // Dropdown 메뉴 토글 함수
+  function toggleDropdown(event) {
+    event.preventDefault();
+    const dropdown = event.target.closest('.dropdown');
+    
+    // 다른 열린 드롭다운 닫기
+    document.querySelectorAll('.dropdown.show').forEach(d => {
+      if (d !== dropdown) d.classList.remove('show');
+    });
+    
+    // 현재 드롭다운 토글
+    dropdown.classList.toggle('show');
+  }
+  
+  // 외부 클릭 시 드롭다운 닫기
+  document.addEventListener('click', function(event) {
+    if (!event.target.closest('.dropdown')) {
+      document.querySelectorAll('.dropdown.show').forEach(d => {
+        d.classList.remove('show');
+      });
+    }
+  });
+
+  // 비디오 컨트롤 함수
+  function togglePlayPause(btn) {
+    const video = btn.closest('.shot').querySelector('video');
+    if (video.paused) {
+      video.play();
+      btn.innerHTML = '⏸️ 일시정지';
+    } else {
+      video.pause();
+      btn.innerHTML = '▶️ 재생';
+    }
+  }
+  
+  function toggleFullscreen(btn) {
+    const video = btn.closest('.shot').querySelector('video');
+    if (!document.fullscreenElement) {
+      video.requestFullscreen().catch(err => {
+        console.log(`전체화면 오류: ${err.message}`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+  // MP4 비디오 자동 재생 및 로딩 처리
+  document.addEventListener('DOMContentLoaded', function() {
+    const videos = document.querySelectorAll('.shot video');
+    
+    videos.forEach(video => {
+      // 비디오 로드 에러 처리
+      video.onerror = function() {
+        this.style.display = 'none';
+        const placeholder = document.createElement('div');
+        placeholder.style.cssText = 'width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:14px;';
+        placeholder.innerHTML = '<div style="text-align:center"><div style="font-size:48px; margin-bottom:12px">🎬</div>데모 영상 준비 중<br><small style="opacity:0.7">' + (this.src.includes('ref1') ? 'ref1' : 'ref2') + '.mp4</small></div>';
+        this.parentElement.appendChild(placeholder);
+      };
+      
+      // IntersectionObserver로 뷰포트에 들어올 때 재생
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 비디오 재생
+            entry.target.play().catch(e => {
+              console.log('자동 재생 실패:', e);
+            });
+          } else {
+            // 뷰포트 밖으로 나가면 일시정지 (성능 최적화)
+            entry.target.pause();
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      observer.observe(video);
+      
+      // 비디오 메타데이터 로드 시 재생 시도
+      video.addEventListener('loadedmetadata', function() {
+        this.play().catch(e => {
+          console.log('초기 재생 실패:', e);
+          // 사용자 상호작용 필요시 클릭으로 재생
+          this.closest('.shot').addEventListener('click', function() {
+            video.play();
+          }, { once: true });
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
