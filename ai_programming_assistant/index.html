@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Programming Assistant – DIT Professional Solution</title>
+  <link rel="stylesheet" href="../style_update.css">
+  <style>
+    /* AI Programming Assistant - Page-specific styles */
+    
+    /* AI-themed hero background */
+    .hero {
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(122,162,255,.15), transparent),
+                  radial-gradient(1000px 500px at 80% 120%, rgba(89,255,167,.08), transparent);
+    }
+    
+    /* AI-specific highlight with green/blue gradient */
+    .highlight {
+      background: linear-gradient(180deg, rgba(89,255,167,.08), rgba(122,162,255,.05) 50%), var(--card);
+    }
+    
+    /* AI glow effects */
+    .ai-glow {
+      box-shadow: 0 0 20px rgba(89,255,167,.3);
+      border-color: var(--accent);
+    }
+    
+    /* Shot container with AI hover effects */
+    .shot-container {
+      position: relative;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .shot-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(89,255,167,0.3);
+      border-color: var(--accent);
+    }
+    
+    /* AI-themed shot labels */
+    .shot-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .shot-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* AI-themed KPI styling override */
+    .kpi .big { 
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <!-- 파티클 배경 캔버스 -->
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="brand">
+      <a href="https://deepai-it.com">
+        <img src="../src/logo3.png" alt="DIT logo" class="brand-logo">
+      </a>
+    </div>
+    <ul>
+      <li><a href="https://deepai-it.com/#strengths">Advantages</a></li>
+      <li class="dropdown">
+        <a href="">Solutions<span class="dropdown-arrow"></span></a>
+        <div class="dropdown-content">
+          <a href="../document_assistance/">Document Assistant</a>
+          <a href="../safety_monitoring/">Vision AI</a>
+          <a href="../engine/">Engine Monitoring</a>
+          <a href="../robot_analysis/">Robot Analysis</a>
+          <a href="../ai_programming_assistant/">AI Programming Assistant</a>
+          <a href="../performance_ai/">Performance Optimization</a>
+        </div>
+      </li>
+      <li><a href="https://deepai-it.com/#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section id="overview" class="hero">
+      <div class="wrap">
+        <h1 class="h1">AI Programming<br>Assistant</h1>
+        <p class="sub">AI 기반 <strong>POC 자동 생성</strong>과 <strong>커스터마이징 솔루션 사전 검증</strong>으로<br>
+        SI 프로젝트 대비 <strong>70% 비용 절감</strong> 및 도입 리스크 최소화</p>
+        <div class="stats">
+          <div class="stat"><div class="v">70%</div><div class="l">비용 절감</div></div>
+          <div class="stat"><div class="v">~1시간</div><div class="l">POC 생성</div></div>
+          <div class="stat"><div class="v">On-Premise</div><div class="l">완전 격리</div></div>
+          <div class="stat"><div class="v">Optimizaion</div><div class="l">시스템 연동</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens" class="section">
+      <div class="wrap">
+        <h2 class="title">POC 자동 생성 인터페이스</h2>
+        <p class="desc">요구사항 입력만으로 약 1시간 내 동작하는 POC를 생성하여 실제 도입 전 완벽한 사전 검증이 가능합니다. (프로젝트 크기에 따라 시간 차이 발생)</p>
+        <div class="grid-2">
+          <div class="shot-container">
+            <span class="shot-label">POC Workflow</span>
+            <canvas id="workflowScreen" width="800" height="500"></canvas>
+          </div>
+          <div class="shot-container">
+            <span class="shot-label">Project Management</span>
+            <canvas id="projectScreen" width="800" height="500"></canvas>
+          </div>
+        </div>
+        <div class="highlight ai-glow" style="margin-top:20px; text-align:center">
+          <strong>POC 자동 생성 엔진</strong> – 요구사항을 AI가 자동 분석하여 독립된 단일 시스템으로 POC를 생성,<br>
+          실제 연동 프로그램으로 임시 테스트가 가능하며, DIT가 본격적인 최적화 연동을 지원합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="system-overview" class="section">
+      <div class="wrap">
+        <h2 class="title">솔루션 개요</h2>
+        <p class="desc">커스터마이징이 필요한 솔루션의 POC를 AI로 자동 생성하여 실제 도입 전 완벽한 검증을 제공합니다.</p>
+        <div class="highlight">
+          <ul class="feature-list">
+            <li><strong>대상:</strong> 커스터마이징 솔루션 도입 검토 기업, SI 프로젝트 발주 담당자, 제조·물류·에너지 분야 기술팀</li>
+            <li><strong>목적:</strong> 실제 도입 전 POC로 솔루션 적합성 검증, SI 프로젝트 대비 70% 비용 절감</li>
+            <li><strong>핵심 기술:</strong> AI 기반 POC 자동 생성, 역할별 코드 생성, On-Premise 완전 격리 배포, DIT 최적화 연동</li>
+            <li><strong>효과:</strong> 도입 리스크 90% 감소, 비용 70% 절감, POC 약 1시간 생성, DIT 최적화로 실제 시스템 연동 지원</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="si-comparison" class="section">
+      <div class="wrap">
+        <h2 class="title">기존 SI 프로젝트 vs AI Programming Assistant</h2>
+        <p class="desc">전통적인 SI 개발 방식과 비교하여 압도적인 시간 단축과 비용 절감을 실현합니다.</p>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge secure">Traditional SI</span>
+            <h3 style="margin:10px 0 6px">기존 SI 프로젝트 방식</h3>
+            <ul class="feature-list">
+              <li><strong>요구사항 분석:</strong> 2-4주 (담당자 미팅, 문서화)</li>
+              <li><strong>설계 및 기획:</strong> 2-3주 (아키텍처, DB 설계)</li>
+              <li><strong>개발:</strong> 8-12주 (코딩, 단위 테스트)</li>
+              <li><strong>테스트 및 디버깅:</strong> 3-4주 (통합 테스트, 버그 수정)</li>
+              <li><strong>배포 및 연동:</strong> 2-3주 (환경 구축, 시스템 연동)</li>
+              <li><strong>총 소요 기간:</strong> 16-25주 (4-6개월)</li>
+              <li><strong>비용:</strong> 개발비 + 연동비 + 유지보수 = 수천만원 ~ 수억원</li>
+              <li><strong>리스크:</strong> 요구사항 변경 시 추가 비용 발생, 연동 실패 리스크</li>
+            </ul>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">AI Assistant</span>
+            <h3 style="margin:10px 0 6px">AI Programming Assistant</h3>
+            <ul class="feature-list">
+              <li><strong>요구사항 분석:</strong> 즉시 (AI 자동 분석)</li>
+              <li><strong>설계 및 기획:</strong> 5-10분 (AI Planner 자동 설계)</li>
+              <li><strong>개발:</strong> 30-40분 (AI Coder 자동 구현, 프로젝트 크기에 따라 차이)</li>
+              <li><strong>테스트 및 디버깅:</strong> 10-15분 (AI Debugger 자동 수정)</li>
+              <li><strong>배포:</strong> 독립 시스템 (POC 단독 실행, On-Premise 가능)</li>
+              <li><strong>총 소요 기간:</strong> 약 1시간 (POC 생성), DIT 최적화 연동 1-2주</li>
+              <li><strong>비용:</strong> 라이선스 비용 + DIT 최적화 비용 (기존 SI 대비 70% 절감)</li>
+              <li><strong>리스크:</strong> POC로 사전 검증 완료, DIT가 실제 시스템 연동 최적화 지원</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="kpigrid" style="margin-top:20px">
+          <div class="kpi"><div class="big" style="color: #59ffa7">70%</div><div class="lab">비용 절감</div></div>
+          <div class="kpi"><div class="big" style="color: #59ffa7">90%</div><div class="lab">리스크 감소</div></div>
+          <div class="kpi"><div class="big" style="color: #59ffa7">~1시간</div><div class="lab">POC 생성</div></div>
+          <div class="kpi"><div class="big" style="color: #59ffa7">1-2주</div><div class="lab">DIT 최적화</div></div>
+          <div class="kpi"><div class="big" style="color: #59ffa7">독립</div><div class="lab">단일 시스템</div></div>
+          <div class="kpi"><div class="big" style="color: #59ffa7">연동</div><div class="lab">테스트 지원</div></div>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>SI 프로젝트 비용 절감 효과</strong>
+          <ul class="feature-list">
+            <li><strong>기존 방식:</strong> 요구사항 분석 → 설계 → 개발 → 테스트 → 배포 + 연동 (4-6개월, 수천만원~수억원)</li>
+            <li><strong>AI 방식:</strong> 요구사항 입력 → AI 자동 생성 (약 1시간) → DIT 최적화 연동 (1-2주)</li>
+            <li><strong>비용 구조:</strong> 라이선스 비용 + DIT 최적화 비용 = <strong>기존 SI 대비 70% 절감</strong></li>
+            <li><strong>POC 검증:</strong> 독립된 단일 시스템으로 POC 생성 → 실제 연동 프로그램으로 임시 테스트 가능</li>
+            <li><strong>DIT 지원:</strong> POC 검증 후 실제 시스템에 최적화 연동 작업 수행</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai-features" class="section">
+      <div class="wrap">
+        <h2 class="title">AI 핵심 기술</h2>
+        <p class="desc">5단계 역할 기반 AI가 POC 생성부터 검증까지 전체 프로세스를 자동화합니다.</p>
+
+        <div class="grid-3">
+          <article class="card ai-glow">
+            <span class="badge ai">Orchestrator</span>
+            <h3 style="margin:10px 0 6px">오케스트레이터</h3>
+            <ul class="feature-list">
+              <li>고객 요구사항 자동 분석</li>
+              <li>POC 범위 및 목표 설정</li>
+              <li>적절한 역할로 태스크 자동 분배</li>
+              <li>전체 프로세스 흐름 제어</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Requirement Analysis</span>
+              <span class="tech-tag">Task Routing</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Planner</span>
+            <h3 style="margin:10px 0 6px">플래너</h3>
+            <ul class="feature-list">
+              <li>고객 환경에 맞는 아키텍처 설계</li>
+              <li>커스터마이징 포인트 식별</li>
+              <li>파일 구조 및 모듈 설계</li>
+              <li>기술 스택 및 제약사항 정의</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Custom Architecture</span>
+              <span class="tech-tag">Design</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Coder</span>
+            <h3 style="margin:10px 0 6px">코더</h3>
+            <ul class="feature-list">
+              <li>고객 요구사항 기반 코드 생성</li>
+              <li>다중 파일 프로젝트 자동 구현</li>
+              <li>베스트 프랙티스 코드 작성</li>
+              <li>커스터마이징 가능한 구조 설계</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Code Generation</span>
+              <span class="tech-tag">Multi-file</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid-2" style="margin-top:16px">
+          <article class="card ai-glow">
+            <span class="badge ai">Runner</span>
+            <h3 style="margin:10px 0 6px">러너</h3>
+            <ul class="feature-list">
+              <li>생성된 POC 즉시 실행</li>
+              <li>Flask, FastAPI, Node.js, 정적 HTML 지원</li>
+              <li>고정 포트 자동 할당</li>
+              <li>실제 운영 환경 시뮬레이션</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Auto Execute</span>
+              <span class="tech-tag">Multi Framework</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Debugger</span>
+            <h3 style="margin:10px 0 6px">디버거</h3>
+            <ul class="feature-list">
+              <li>실행 오류 자동 분석</li>
+              <li>근본 원인 파악 및 수정</li>
+              <li>최대 5회 자동 재시도</li>
+              <li>완벽한 동작 보장</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Auto Fix</span>
+              <span class="tech-tag">Root Cause</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <b>POC 자동 생성 프로세스 (약 1시간 소요, 프로젝트 크기에 따라 차이)</b>
+          <ul class="feature-list">
+            <li><strong>1단계 (Orchestrator):</strong> 고객 요구사항 분석 및 POC 범위 설정</li>
+            <li><strong>2단계 (Planner):</strong> 커스터마이징 포인트를 고려한 아키텍처 설계</li>
+            <li><strong>3단계 (Coder):</strong> 실제 동작하는 완전한 POC 코드 생성 (독립 단일 시스템)</li>
+            <li><strong>4단계 (Runner):</strong> POC 자동 실행 및 동작 검증</li>
+            <li><strong>5단계 (Debugger):</strong> 오류 발생 시 자동 수정 (최대 5회)</li>
+            <li><strong>완료:</strong> 독립 POC로 임시 연동 테스트 가능, DIT가 실제 운영 환경에 최적화 연동 지원</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="onpremise" class="section">
+      <div class="wrap">
+        <h2 class="title">On-Premise 완전 격리 배포</h2>
+        <p class="desc">고객 사내 네트워크에 완전히 격리된 환경으로 배포하여 데이터 보안과 독립성을 보장합니다.</p>
+
+        <div class="grid-2">
+          <article class="card ai-glow">
+            <span class="badge secure">Air-Gap</span>
+            <h3 style="margin:10px 0 6px">완전 격리 환경</h3>
+            <ul class="feature-list">
+              <li><strong>인터넷 차단:</strong> 외부 네트워크 완전 차단 가능</li>
+              <li><strong>사내망 배포:</strong> 고객 내부 서버에 독립 설치</li>
+              <li><strong>오프라인 설치:</strong> _wheels 폴더 기반 패키지 설치</li>
+              <li><strong>데이터 유출 방지:</strong> 모든 데이터가 사내에만 존재</li>
+              <li><strong>독립 운영:</strong> 외부 의존성 없이 자체 운영 가능</li>
+            </ul>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ind">Security</span>
+            <h3 style="margin:10px 0 6px">보안 및 데이터 주권</h3>
+            <ul class="feature-list">
+              <li><strong>데이터 주권:</strong> 모든 데이터가 고객사 서버에만 존재</li>
+              <li><strong>소스 코드 제공:</strong> 전체 소스 코드 공개 및 커스터마이징 가능</li>
+              <li><strong>감사 추적:</strong> 모든 API 호출 및 코드 생성 로그 기록</li>
+              <li><strong>접근 제어:</strong> 사용자별 권한 관리 및 인증</li>
+              <li><strong>보안 컴플라이언스:</strong> 금융/공공/국방 보안 요구사항 충족</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>On-Premise 배포 시나리오</strong>
+          <ul class="feature-list">
+            <li><strong>금융권:</strong> 고객 금융 데이터 처리 시스템, 완전 격리 환경 필수</li>
+            <li><strong>제조업:</strong> 생산 라인 데이터 분석, 외부 유출 방지</li>
+            <li><strong>공공기관:</strong> 민감 정보 처리 시스템, 보안 요구사항 충족</li>
+            <li><strong>국방·에너지:</strong> 중요 인프라 시스템, Air-Gap 환경 지원</li>
+            <li><strong>물류·유통:</strong> 고객 정보 및 물류 데이터, 사내망 완전 격리</li>
+          </ul>
+        </div>
+
+        <div class="kpigrid" style="margin-top:20px">
+          <div class="kpi"><div class="big" style="color: #ff5566">100%</div><div class="lab">데이터 격리</div></div>
+          <div class="kpi"><div class="big" style="color: #ff5566">Air-Gap</div><div class="lab">완전 차단</div></div>
+          <div class="kpi"><div class="big" style="color: #ff5566">사내망</div><div class="lab">독립 배포</div></div>
+          <div class="kpi"><div class="big" style="color: #ff5566">소스</div><div class="lab">코드 제공</div></div>
+          <div class="kpi"><div class="big" style="color: #ff5566">감사</div><div class="lab">추적 가능</div></div>
+          <div class="kpi"><div class="big" style="color: #ff5566">보안</div><div class="lab">컴플라이언스</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="poc-workflow" class="section">
+      <div class="wrap">
+        <h2 class="title">POC 검증 워크플로우</h2>
+        <p class="desc">실제 도입 전 완벽한 사전 검증으로 SI 프로젝트의 리스크를 최소화합니다.</p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>POC 생성 및 배포 프로세스</h3>
+            <ul class="feature-list">
+              <li><strong>Step 1:</strong> 고객 요구사항 입력 (자연어)</li>
+              <li><strong>Step 2:</strong> AI 자동 분석 및 설계 (5-10분)</li>
+              <li><strong>Step 3:</strong> 독립 단일 시스템으로 POC 코드 생성 (30-40분, 프로젝트 크기에 따라 차이)</li>
+              <li><strong>Step 4:</strong> POC 자동 실행 및 검증 (10-15분)</li>
+              <li><strong>Step 5:</strong> 고객 환경에서 독립 POC 테스트</li>
+              <li><strong>Step 6:</strong> 피드백 반영 및 재생성 가능</li>
+              <li><strong>Step 7:</strong> POC 검증 완료 후 DIT가 실제 시스템에 최적화 연동 (1-2주)</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>DIT 최적화 연동 및 실 도입</h3>
+            <ul class="feature-list">
+              <li>POC 검증 완료 후 실 도입 여부 결정</li>
+              <li>DIT가 고객사 실제 시스템에 최적화 연동 작업 수행</li>
+              <li>독립 POC를 실제 운영 환경에 통합</li>
+              <li>On-Premise 환경에 본 시스템 설치 및 연동</li>
+              <li><strong>비용:</strong> 라이선스 비용 + DIT 최적화 비용 = 기존 SI 대비 70% 절감</li>
+              <li>POC 기반 개발로 요구사항 변경 리스크 최소화</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>POC 검증 및 DIT 연동 사례</strong>
+          <ul class="feature-list">
+            <li><strong>제조업 A사:</strong> 생산 라인 모니터링 POC 1시간 생성 → 독립 테스트 → DIT 최적화 연동 1주 → 실 도입 (비용 70% 절감)</li>
+            <li><strong>물류업 B사:</strong> 재고 관리 대시보드 POC 생성 → 피드백 반영 재생성 → DIT가 실제 시스템 연동 → 완벽한 통합</li>
+            <li><strong>금융권 C사:</strong> 데이터 분석 POC On-Premise 테스트 → 보안 검증 → DIT 최적화 연동 → 본 시스템 운영 (기존 SI 대비 70% 비용 절감)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <div class="wrap">
+        <h2 class="title">시스템 아키텍처</h2>
+        <p class="desc">On-Premise 배포를 위한 확장 가능한 모노레포 아키텍처</p>
+        
+        <div class="grid-3">
+          <div class="card">
+            <span class="badge ind">Backend</span>
+            <h3 style="margin:10px 0 6px">FastAPI 백엔드</h3>
+            <ul class="feature-list">
+              <li><strong>main.py:</strong> REST API 엔드포인트</li>
+              <li><strong>llm_client.py:</strong> vLLM 클라이언트 + 역할별 프롬프트</li>
+              <li><strong>workflow_engine.py:</strong> POC 자동 생성 엔진</li>
+              <li><strong>project_runner.py:</strong> POC 실행 관리</li>
+              <li><strong>projects.py:</strong> 파일 시스템 관리</li>
+              <li><strong>memory.py:</strong> 세션 메모리 관리</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <span class="badge ind">Frontend</span>
+            <h3 style="margin:10px 0 6px">React 프론트엔드</h3>
+            <ul class="feature-list">
+              <li><strong>요구사항 입력:</strong> 자연어 기반 POC 요청</li>
+              <li><strong>POC 생성:</strong> 워크플로우 진행 상황 실시간 표시</li>
+              <li><strong>프로젝트 관리:</strong> 생성된 POC 목록 및 실행</li>
+              <li><strong>파일 편집:</strong> 생성된 코드 확인 및 수정</li>
+              <li><strong>실시간 로그:</strong> 전체 프로세스 추적</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <span class="badge ind">LLM Engine</span>
+            <h3 style="margin:10px 0 6px">vLLM 통합</h3>
+            <ul class="feature-list">
+              <li><strong>On-Premise:</strong> 고객사 내부 서버에 vLLM 설치</li>
+              <li><strong>모델:</strong> openai/gpt-oss-20b (커스터마이징 가능)</li>
+              <li><strong>역할 프롬프트:</strong> 5가지 전문화된 AI 역할</li>
+              <li><strong>오프라인 동작:</strong> 인터넷 없이 완전 독립 운영</li>
+              <li><strong>데이터 격리:</strong> 모든 처리가 사내망에서만 발생</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="kpigrid" style="margin-top:16px">
+          <div class="kpi"><div class="big">FastAPI</div><div class="lab">Backend</div></div>
+          <div class="kpi"><div class="big">React 18</div><div class="lab">Frontend</div></div>
+          <div class="kpi"><div class="big">vLLM</div><div class="lab">On-Premise</div></div>
+          <div class="kpi"><div class="big">Python</div><div class="lab">Sandbox</div></div>
+          <div class="kpi"><div class="big">Docker</div><div class="lab">Container</div></div>
+          <div class="kpi"><div class="big">WSL2</div><div class="lab">Compatible</div></div>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>On-Premise 배포 구성</strong> – Docker Compose를 통해 백엔드, 프론트엔드, vLLM을 하나의 패키지로 배포합니다.
+          고객사 내부 서버에 설치 후 외부 네트워크와 완전히 격리된 환경에서 독립 운영이 가능하며,
+          모든 소스 코드를 제공하여 고객이 직접 커스터마이징할 수 있습니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="specs" class="section">
+      <div class="wrap">
+        <h2 class="title">기술 사양 · 호환성</h2>
+        <div class="card" style="overflow:auto">
+          <table style="width:100%; border-collapse:collapse; font-size:14px">
+            <thead>
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px; width:25%">항목</th>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">백엔드 프레임워크</td><td style="padding:8px">FastAPI 0.104+, Python 3.8+ (3.10 권장)</td></tr>
+              <tr><td style="padding:8px">프론트엔드</td><td style="padding:8px">React 18, Vite 5, Modern JavaScript (ES2020+)</td></tr>
+              <tr><td style="padding:8px">LLM 엔진</td><td style="padding:8px">vLLM (OpenAI 호환 API), 모델: openai/gpt-oss-20b 또는 커스텀</td></tr>
+              <tr><td style="padding:8px">지원 POC 타입</td><td style="padding:8px">Flask, FastAPI, Node.js, 정적 HTML, React, Vue (자동 감지)</td></tr>
+              <tr><td style="padding:8px">배포 환경</td><td style="padding:8px"><strong>On-Premise (사내망 완전 격리)</strong>, WSL2, Ubuntu 20.04+, Docker, Windows 10/11</td></tr>
+              <tr><td style="padding:8px">오프라인 설치</td><td style="padding:8px">_wheels 폴더 기반 완전 오프라인 패키지 설치 지원</td></tr>
+              <tr><td style="padding:8px">데이터 격리</td><td style="padding:8px">모든 데이터 및 처리가 고객사 내부 서버에서만 발생, 외부 유출 방지</td></tr>
+              <tr><td style="padding:8px">보안</td><td style="padding:8px">Air-Gap 환경 지원, 인터넷 차단 가능, 소스 코드 전체 제공</td></tr>
+              <tr><td style="padding:8px">포트 구성</td><td style="padding:8px">백엔드: 8000, 프론트엔드: 3000, POC: 4000/5000 (변경 가능)</td></tr>
+              <tr><td style="padding:8px">추천 사양</td><td style="padding:8px">CPU: Intel Xeon or i7, RAM: 32GB, SSD: 512GB, GPU: NVIDIA (vLLM 가속)</td></tr>
+              <tr><td style="padding:8px">최소 사양</td><td style="padding:8px">CPU: Intel i5 8세대+, RAM: 16GB, SSD: 256GB</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>On-Premise 배포 패키지</strong> – 전체 시스템을 하나의 Docker Compose 패키지로 제공합니다.
+          고객사 서버에 설치 후 외부 네트워크 없이 완전 독립 운영이 가능하며, vLLM 모델도 사내에서 호스팅됩니다.
+          모든 Python 패키지는 _wheels 폴더에 포함되어 있어 인터넷 없이도 설치 가능합니다.
+          소스 코드 전체가 제공되므로 고객이 직접 커스터마이징하거나 추가 개발이 가능합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="use-cases" class="section">
+      <div class="wrap">
+        <h2 class="title">활용 사례 및 효과</h2>
+        <p class="desc">다양한 산업 분야에서 POC 검증 및 실 도입 사례를 통해 입증된 효과</p>
+        
+        <div class="kpigrid">
+          <div class="kpi"><div class="big" style="color: var(--accent)">70%</div><div class="lab">비용 절감</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">90%</div><div class="lab">리스크 감소</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">~1시간</div><div class="lab">POC 생성</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">1-2주</div><div class="lab">DIT 최적화</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">100%</div><div class="lab">데이터 격리</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">독립</div><div class="lab">단일 시스템</div></div>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
+          <div class="card">
+            <h3>제조업: 생산 라인 모니터링</h3>
+            <ul class="feature-list">
+              <li><strong>과제:</strong> 생산 라인 실시간 모니터링 시스템 도입 검토</li>
+              <li><strong>기존 방식:</strong> SI 프로젝트 4개월, 개발비 1억원 + 연동비 2천만원 = 1.2억원</li>
+              <li><strong>AI 방식:</strong> POC 1시간 생성 → 독립 테스트 → DIT 최적화 연동 1주</li>
+              <li><strong>비용:</strong> 라이선스 + DIT 최적화 = 3,600만원 (70% 절감)</li>
+              <li><strong>효과:</strong> 도입 리스크 제거, POC로 사전 완벽 검증</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>물류업: 재고 관리 대시보드</h3>
+            <ul class="feature-list">
+              <li><strong>과제:</strong> 실시간 재고 현황 및 입출고 관리 시스템</li>
+              <li><strong>기존 방식:</strong> SI 프로젝트 3개월, 개발비 5천만원 + 연동비 1천만원 = 6천만원</li>
+              <li><strong>AI 방식:</strong> POC 1시간 생성 → 피드백 반영 재생성 → DIT 실제 시스템 연동</li>
+              <li><strong>비용:</strong> 라이선스 + DIT 최적화 = 1,800만원 (70% 절감)</li>
+              <li><strong>효과:</strong> 요구사항 변경에도 유연하게 대응, POC 재생성 가능</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>금융권: 데이터 분석 시스템</h3>
+            <ul class="feature-list">
+              <li><strong>과제:</strong> 고객 금융 데이터 분석 및 시각화 시스템</li>
+              <li><strong>보안 요구사항:</strong> 데이터 외부 유출 절대 불가</li>
+              <li><strong>기존 방식:</strong> SI 프로젝트 5개월, 개발비 2억원 + 보안 강화 5천만원 = 2.5억원</li>
+              <li><strong>AI 방식:</strong> POC On-Premise 테스트 → DIT 최적화 연동 → Air-Gap 환경 구축</li>
+              <li><strong>비용:</strong> 라이선스 + DIT 최적화 + 보안 구축 = 7,500만원 (70% 절감)</li>
+              <li><strong>효과:</strong> 데이터 주권 보장, 보안 컴플라이언스 충족</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>공공기관: 민원 처리 시스템</h3>
+            <ul class="feature-list">
+              <li><strong>과제:</strong> 민원 자동 분류 및 처리 시스템</li>
+              <li><strong>기존 방식:</strong> 공공 SI 프로젝트 6개월, 개발비 2억원 + 유지보수 5천만원 = 2.5억원</li>
+              <li><strong>AI 방식:</strong> POC 1시간 생성 → 독립 테스트 → DIT 사내망 최적화 연동</li>
+              <li><strong>비용:</strong> 라이선스 + DIT 최적화 = 7,500만원 (70% 절감)</li>
+              <li><strong>효과:</strong> 예산 대폭 절감, 민감 데이터 완전 보호, POC로 사전 검증 완료</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2 class="title">도입/데모 문의</h2>
+        <div class="grid-3">
+          <div class="card"><b>Email</b><br><span class="muted">deepai-it@deepai-it.com</span></div>
+          <div class="card"><b>Phone</b><br><span class="muted">010-6757-4367</span></div>
+          <div class="card"><b>Address</b><br><span class="muted">Seongnam, Republic of Korea<br>Ulsan, Republic of Korea</span></div>
+        </div>
+
+        <div class="highlight" style="margin-top:20px; text-align:center">
+          실제 요구사항으로 POC를 무료로 생성해드립니다.
+          <br>약 1시간 내 동작하는 독립 시스템 프로토타입을 직접 확인하세요.
+          <br><strong>DIT가 실제 시스템 연동 최적화를 지원합니다.</strong>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="../src/logo3.png" alt="DIT logo" class="footer-logo">
+      </div>
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>DIT - DeepAI Industrial Transfer</h4>
+          <p>Enterprise AI Solutions for Manufacturing</p>
+          <p>Smart Factory Innovation Partner</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Solutions</h4>
+          <a href="../document_assistance/">Document Assistant</a>
+          <a href="../safety_monitoring/">Vision AI</a>
+          <a href="../engine/">Engine Monitoring</a>
+          <a href="../robot_analysis/">Robot Analysis</a>
+          <a href="../ai_programming_assistant/">AI Programming Assistant</a>
+          <a href="../performance_ai/">Performance Optimization</a>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contact Information</h4>
+          <p>Email: deepai-it@deepai-it.com</p>
+          <p>Phone: 010-6757-4367</p>
+          <p>Location 1: Seongnam, Republic of Korea</p>
+          <p>Location 2: Ulsan, Republic of Korea</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 40px; padding-top: 20px;">
+        © 2025 DIT · All Rights Reserved
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // POC Workflow Dashboard
+    function drawWorkflowScreen() {
+      const canvas = document.getElementById('workflowScreen');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = '#0f1116';
+      ctx.fillRect(0, 0, w, h);
+
+      // Header
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(0, 0, w, 50);
+      
+      const gradient = ctx.createLinearGradient(0, 0, 280, 0);
+      gradient.addColorStop(0, '#59ffa7');
+      gradient.addColorStop(1, '#7aa2ff');
+      ctx.fillStyle = gradient;
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('POC Workflow', 20, 30);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('~1 hour', w - 60, 30);
+
+      // Workflow Steps
+      const steps = [
+        { name: 'Orchestrator', status: 'completed', color: '#59ffa7', time: '2min' },
+        { name: 'Planner', status: 'completed', color: '#59ffa7', time: '8min' },
+        { name: 'Coder', status: 'active', color: '#7aa2ff', time: '35min' },
+        { name: 'Runner', status: 'pending', color: '#9aa4b2', time: '12min' },
+        { name: 'Debugger', status: 'pending', color: '#9aa4b2', time: '8min' }
+      ];
+
+      steps.forEach((step, i) => {
+        const y = 90 + i * 75;
+        
+        // Step container
+        ctx.fillStyle = '#1a1d24';
+        ctx.fillRect(30, y, w - 60, 60);
+        if (step.status === 'active') {
+          ctx.strokeStyle = step.color;
+          ctx.lineWidth = 2;
+          ctx.strokeRect(30, y, w - 60, 60);
+        }
+        
+        // Step number
+        ctx.beginPath();
+        ctx.arc(60, y + 30, 18, 0, Math.PI * 2);
+        ctx.fillStyle = step.color;
+        ctx.fill();
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText((i + 1).toString(), 60, y + 36);
+        
+        // Step name
+        ctx.fillStyle = step.status === 'active' ? step.color : '#e7ecf3';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(step.name, 95, y + 28);
+        
+        // Status and time
+        ctx.fillStyle = '#9aa4b2';
+        ctx.font = '11px sans-serif';
+        const statusText = step.status === 'completed' ? '✓ Completed' : step.status === 'active' ? '● Running...' : 'Waiting';
+        ctx.fillText(statusText, 95, y + 45);
+        
+        ctx.fillStyle = '#9aa4b2';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(step.time, w - 45, y + 36);
+        
+        // Connection line
+        if (i < steps.length - 1) {
+          ctx.strokeStyle = '#333';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(60, y + 60);
+          ctx.lineTo(60, y + 75);
+          ctx.stroke();
+        }
+      });
+
+      // Progress bar at bottom
+      const progress = 0.6;
+      ctx.fillStyle = '#2a2d34';
+      ctx.fillRect(30, h - 40, w - 60, 8);
+      
+      const progGrad = ctx.createLinearGradient(30, h - 40, 30 + (w - 60) * progress, h - 40);
+      progGrad.addColorStop(0, '#59ffa7');
+      progGrad.addColorStop(1, '#7aa2ff');
+      ctx.fillStyle = progGrad;
+      ctx.fillRect(30, h - 40, (w - 60) * progress, 8);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '11px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('POC Generation: 60% Complete (Estimated: 25min remaining)', w / 2, h - 15);
+    }
+
+    function drawProjectScreen() {
+      const canvas = document.getElementById('projectScreen');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = '#0f1116';
+      ctx.fillRect(0, 0, w, h);
+
+      // Header
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(0, 0, w, 50);
+      
+      const gradient = ctx.createLinearGradient(0, 0, 250, 0);
+      gradient.addColorStop(0, '#59ffa7');
+      gradient.addColorStop(1, '#7aa2ff');
+      ctx.fillStyle = gradient;
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('POC Management', 20, 30);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('On-Premise', w - 80, 30);
+
+      // Project list
+      const projects = [
+        { name: 'production-monitor', type: 'Flask', status: 'running', port: 5000, desc: 'POC Generated' },
+        { name: 'inventory-dashboard', type: 'FastAPI', status: 'stopped', port: null, desc: 'Ready to Test' },
+        { name: 'data-analysis', type: 'React', status: 'stopped', port: null, desc: 'POC Generated' }
+      ];
+
+      projects.forEach((proj, i) => {
+        const y = 70 + i * 130;
+        
+        // Project card
+        ctx.fillStyle = '#1a1d24';
+        ctx.fillRect(20, y, w - 40, 115);
+        if (proj.status === 'running') {
+          ctx.strokeStyle = '#59ffa7';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(20, y, w - 40, 115);
+        }
+        
+        // Project icon
+        ctx.fillStyle = '#2a2d34';
+        ctx.fillRect(35, y + 15, 50, 50);
+        ctx.fillStyle = proj.status === 'running' ? '#59ffa7' : '#9aa4b2';
+        ctx.font = 'bold 24px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('📁', 60, y + 50);
+        
+        // Project name
+        ctx.fillStyle = '#e7ecf3';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(proj.name, 100, y + 30);
+        
+        // Type badge
+        ctx.fillStyle = 'rgba(89,255,167,0.2)';
+        ctx.fillRect(100, y + 40, 70, 20);
+        ctx.fillStyle = '#59ffa7';
+        ctx.font = '10px sans-serif';
+        ctx.fillText(proj.type, 106, y + 54);
+        
+        // Description
+        ctx.fillStyle = '#9aa4b2';
+        ctx.font = '10px sans-serif';
+        ctx.fillText(proj.desc, 180, y + 54);
+        
+        // Status
+        if (proj.status === 'running') {
+          ctx.fillStyle = '#59ffa7';
+          ctx.fillText(`● Running on :${proj.port}`, 100, y + 75);
+        } else {
+          ctx.fillStyle = '#9aa4b2';
+          ctx.fillText('○ Stopped', 100, y + 75);
+        }
+        
+        // Action buttons
+        if (proj.status === 'running') {
+          // Stop button
+          ctx.fillStyle = '#ff5566';
+          ctx.fillRect(w - 140, y + 85, 60, 24);
+          ctx.fillStyle = '#fff';
+          ctx.font = '11px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('⏹ Stop', w - 110, y + 101);
+          
+          // Open button
+          ctx.fillStyle = '#59ffa7';
+          ctx.fillRect(w - 70, y + 85, 50, 24);
+          ctx.fillStyle = '#000';
+          ctx.fillText('🌐 Test', w - 45, y + 101);
+        } else {
+          // Start button
+          ctx.fillStyle = '#59ffa7';
+          ctx.fillRect(w - 70, y + 85, 50, 24);
+          ctx.fillStyle = '#000';
+          ctx.textAlign = 'center';
+          ctx.fillText('▶ Start', w - 45, y + 101);
+        }
+      });
+    }
+
+    window.addEventListener('load', () => {
+      drawWorkflowScreen();
+      drawProjectScreen();
+    });
+
+    window.addEventListener('resize', () => {
+      drawWorkflowScreen();
+      drawProjectScreen();
+    });
+  </script>
+  
+  <!-- 파티클 배경 스크립트 -->
+  <script src="../src/app.js"></script>
+
+</body>
+</html>

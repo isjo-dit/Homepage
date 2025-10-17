@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quality & Performance Optimization – DIT Professional Solution</title>
+  <link rel="stylesheet" href="../style_update.css">
+  <style>
+    /* Performance Optimization - Page-specific styles */
+    
+    /* AI-themed hero background */
+    .hero {
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(167,139,250,.15), transparent),
+                  radial-gradient(1000px 500px at 80% 120%, rgba(34,211,238,.08), transparent);
+    }
+    
+    /* AI-specific highlight with purple/cyan gradient */
+    .highlight {
+      background: linear-gradient(180deg, rgba(167,139,250,.08), rgba(34,211,238,.05) 50%), var(--card);
+    }
+    
+    /* AI glow effects */
+    .ai-glow {
+      box-shadow: 0 0 20px rgba(167,139,250,.3);
+      border-color: var(--ai-purple);
+    }
+    
+    /* Shot container with AI hover effects */
+    .shot-container {
+      position: relative;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .shot-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(167,139,250,0.3);
+      border-color: var(--ai-purple);
+    }
+    
+    /* AI-themed shot labels */
+    .shot-label {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      color: var(--ai-cyan);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .shot-label::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--ai-cyan);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    /* AI-themed KPI styling override */
+    .kpi .big { 
+      color: var(--ai-purple);
+    }
+  </style>
+</head>
+<body>
+  <!-- 파티클 배경 캔버스 -->
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <!-- Navigation -->
+  <header class="nav">
+    <div class="brand">
+      <a href="https://deepai-it.com">
+        <img src="../src/logo3.png" alt="DIT logo" class="brand-logo">
+      </a>
+    </div>
+    <ul>
+      <li><a href="https://deepai-it.com/#strengths">Advantages</a></li>
+      <li class="dropdown">
+        <a href="">Solutions<span class="dropdown-arrow"></span></a>
+        <div class="dropdown-content">
+          <a href="../document_assistance/">Document Assistant</a>
+          <a href="../safety_monitoring/">Vision AI</a>
+          <a href="../engine/">Engine Monitoring</a>
+          <a href="../robot_analysis/">Robot Analysis</a>
+          <a href="../ai_programming_assistant/">AI Programming Assistant</a>
+          <a href="../performance_ai/">Performance Optimization</a>
+        </div>
+      </li>
+      <li><a href="https://deepai-it.com/#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section id="overview" class="hero">
+      <div class="wrap">
+        <h1 class="h1">Quality & Performance<br>Optimization System</h1>
+        <p class="sub">AI 기반 <strong>조건별 성능 예측</strong>과 <strong>실시간 최적화</strong>를 통해<br>
+        생산성과 효율성을 극대화하고 품질을 향상시키는 지능형 솔루션</p>
+        <div class="stats">
+          <div class="stat"><div class="v">97.8%</div><div class="l">예측 정확도</div></div>
+          <div class="stat"><div class="v">0.2s</div><div class="l">실시간 분석</div></div>
+          <div class="stat"><div class="v">40+</div><div class="l">성능 파라미터</div></div>
+          <div class="stat"><div class="v">Smart</div><div class="l">최적화</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screens" class="section">
+      <div class="wrap">
+        <h2 class="title">성능 최적화 대시보드</h2>
+        <p class="desc">Control 데이터 기반 Condition 추정으로 실시간 성능 바운더리를 예측하고 최적 운영점을 제시합니다.</p>
+        <div class="grid-2">
+          <div class="shot-container">
+            <span class="shot-label">Performance Boundary</span>
+            <canvas id="performanceScreen" width="800" height="500"></canvas>
+          </div>
+          <div class="shot-container">
+            <span class="shot-label">Optimization Dashboard</span>
+            <canvas id="optimizationScreen" width="800" height="500"></canvas>
+          </div>
+        </div>
+        <div class="highlight ai-glow" style="margin-top:16px; text-align:center">
+          <strong>AI 성능 예측 엔진</strong> – Control 파라미터와 외부 조건을 실시간 분석하여<br>
+          운영 상황별 최적 성능 바운더리를 동적으로 예측하고 최적화 방향을 제시합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="system-overview" class="section">
+      <div class="wrap">
+        <h2 class="title">솔루션 개요</h2>
+        <p class="desc">Control과 Condition 데이터를 AI로 분석하여 성능을 최적화합니다.</p>
+        <div class="highlight">
+          <ul class="feature-list">
+            <li><strong>대상:</strong> 제조 설비, 생산 라인, 공정 시스템, 에너지 설비 등 모든 산업용 운영 시스템</li>
+            <li><strong>목적:</strong> 외부 조건 변화에 따른 성능 추정 및 실시간 최적화로 생산성 향상 및 비용 절감</li>
+            <li><strong>핵심 기술:</strong> Condition-aware Performance Modeling, Dynamic Boundary Prediction, Multi-objective Optimization</li>
+            <li><strong>효과:</strong> 생산성 25% 향상, 에너지 효율 30% 개선, 품질 편차 60% 감소, 운영 비용 35% 절감</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="ai-features" class="section">
+      <div class="wrap">
+        <h2 class="title">AI 핵심 기술</h2>
+        <p class="desc">조건 기반 성능 예측과 다목적 최적화를 통한 차세대 성능 관리 시스템</p>
+
+        <div class="grid-3">
+          <article class="card ai-glow">
+            <span class="badge ai">Performance Modeling</span>
+            <h3 style="margin:10px 0 6px">조건별 성능 예측</h3>
+            <ul class="feature-list">
+              <li>Control-Condition 상관관계 학습</li>
+              <li>외부 조건별 성능 바운더리 추정</li>
+              <li>다변량 성능 지표 동시 예측</li>
+              <li>실시간 성능 트렌드 분석</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Deep Learning</span>
+              <span class="tech-tag">Regression</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Dynamic Boundary</span>
+            <h3 style="margin:10px 0 6px">적응형 바운더리</h3>
+            <ul class="feature-list">
+              <li>환경 조건 기반 동적 한계 설정</li>
+              <li>계절/시간/부하별 바운더리 조정</li>
+              <li>안전 마진 자동 계산</li>
+              <li>최적 운영 영역 실시간 업데이트</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Adaptive</span>
+              <span class="tech-tag">Real-time</span>
+            </div>
+          </article>
+
+          <article class="card ai-glow">
+            <span class="badge ai">Optimization</span>
+            <h3 style="margin:10px 0 6px">다목적 최적화</h3>
+            <ul class="feature-list">
+              <li>생산성-품질-비용 동시 최적화</li>
+              <li>제약조건 기반 최적해 탐색</li>
+              <li>실시간 최적화 권장사항 제공</li>
+              <li>자동 파라미터 튜닝</li>
+            </ul>
+            <div class="tech-stack">
+              <span class="tech-tag">Multi-objective</span>
+              <span class="tech-tag">Pareto</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <b>성능 최적화 프로세스</b>
+          <ul class="feature-list">
+            <li><strong>1단계:</strong> Control 데이터(설정값, 조작량)와 Condition 데이터(온도, 습도, 부하 등) 실시간 수집</li>
+            <li><strong>2단계:</strong> AI 모델로 현재 조건에서의 성능 바운더리 예측 (최대/최소 성능 한계)</li>
+            <li><strong>3단계:</strong> 외부 조건 변화 시나리오별 성능 영향도 분석</li>
+            <li><strong>4단계:</strong> 다목적 최적화 알고리즘으로 생산성, 품질, 비용을 균형있게 최적화</li>
+            <li><strong>5단계:</strong> 실시간 최적 운영점 제시 및 자동 제어 연동</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="alarm-types" class="section">
+      <div class="wrap">
+        <h2 class="title">스마트 알람 & 권장사항</h2>
+        <p class="desc">성능 저하 조기 감지와 최적화 기회 포착으로 운영 효율을 극대화합니다.</p>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="badge pro">Performance</span>
+            <h3 style="margin:10px 0 6px">성능 알람</h3>
+            <ul class="feature-list">
+              <li><strong>Boundary Violation:</strong> 성능이 예측 바운더리를 벗어날 때 경고</li>
+              <li><strong>Efficiency Drop:</strong> 효율 저하 패턴 감지 시 알림</li>
+              <li><strong>Suboptimal Operation:</strong> 최적점 대비 성능 차이 알림</li>
+              <li><strong>Quality Deviation:</strong> 품질 지표 편차 발생 시 경고</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Optimization</span>
+            <h3 style="margin:10px 0 6px">최적화 권장</h3>
+            <ul class="feature-list">
+              <li><strong>Parameter Tuning:</strong> 최적 파라미터 조정 방향 제시</li>
+              <li><strong>Load Balancing:</strong> 부하 분산 최적화 권장</li>
+              <li><strong>Energy Saving:</strong> 에너지 절감 기회 탐지</li>
+              <li><strong>Predictive Adjustment:</strong> 조건 변화 예측 및 사전 조정</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge pro">Condition-based</span>
+            <h3 style="margin:10px 0 6px">조건 기반 경고</h3>
+            <ul class="feature-list">
+              <li><strong>Environmental Impact:</strong> 외부 환경 영향 분석</li>
+              <li><strong>Seasonal Pattern:</strong> 계절별 성능 패턴 변화 감지</li>
+              <li><strong>Load Variation:</strong> 부하 변동에 따른 영향 예측</li>
+              <li><strong>Constraint Violation:</strong> 운영 제약 조건 위반 감지</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <span class="badge ai">Intelligent</span>
+            <h3 style="margin:10px 0 6px">지능형 인사이트</h3>
+            <ul class="feature-list">
+              <li><strong>Root Cause:</strong> 성능 저하 원인 자동 분석</li>
+              <li><strong>Best Practice:</strong> 고성능 운영 패턴 학습 및 제안</li>
+              <li><strong>Trend Forecast:</strong> 성능 트렌드 예측 및 대응 방안</li>
+              <li><strong>Trade-off Analysis:</strong> 성능 간 상충관계 분석</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="highlight ai-glow">
+          <strong>스마트 우선순위 시스템</strong> – AI가 알람의 중요도와 개선 잠재력을 자동 평가합니다.<br>
+          <strong style="color: var(--danger)">Critical (즉시 조치)</strong> / 
+          <strong style="color: var(--warning)">High Impact (높은 개선 효과)</strong> / 
+          <strong style="color: var(--accent)">Opportunity (최적화 기회)</strong>로 구분되며, 
+          과거 데이터 기반으로 개선 효과를 정량화하여 제시합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="architecture" class="section">
+      <div class="wrap">
+        <h2 class="title">시스템 아키텍처</h2>
+        <p class="desc">확장 가능한 성능 최적화 플랫폼</p>
+        
+        <div class="grid-3">
+          <div class="card">
+            <span class="badge ind">Data Integration</span>
+            <h3 style="margin:10px 0 6px">데이터 통합 계층</h3>
+            <ul class="feature-list">
+              <li><strong>Control Data:</strong> PLC/DCS/SCADA 실시간 수집</li>
+              <li><strong>Condition Data:</strong> 센서/계측기/환경 데이터 통합</li>
+              <li><strong>Performance Metrics:</strong> 생산성/품질/효율 지표 수집</li>
+              <li><strong>External Factors:</strong> 날씨/계절/시장 정보 연동</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <span class="badge ind">AI Analytics</span>
+            <h3 style="margin:10px 0 6px">AI 분석 계층</h3>
+            <ul class="feature-list">
+              <li><strong>Performance Model:</strong> 조건별 성능 예측 모델</li>
+              <li><strong>Boundary Engine:</strong> 동적 바운더리 계산</li>
+              <li><strong>Optimizer:</strong> 다목적 최적화 엔진</li>
+              <li><strong>Recommender:</strong> 최적화 권장사항 생성</li>
+              <li><strong>Simulator:</strong> What-if 시나리오 분석</li>
+            </ul>
+          </div>
+          
+          <div class="card">
+            <span class="badge ind">Application</span>
+            <h3 style="margin:10px 0 6px">응용 계층</h3>
+            <ul class="feature-list">
+              <li><strong>Dashboard:</strong> 실시간 성능 모니터링</li>
+              <li><strong>Optimization UI:</strong> 최적화 제어 인터페이스</li>
+              <li><strong>Alert System:</strong> 다채널 알람 시스템</li>
+              <li><strong>Report:</strong> 성능 분석 리포트 자동 생성</li>
+              <li><strong>API:</strong> 외부 시스템 연동</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="kpigrid" style="margin-top:16px">
+          <div class="kpi"><div class="big">Real-time</div><div class="lab">실시간 최적화</div></div>
+          <div class="kpi"><div class="big">97.8%</div><div class="lab">예측 정확도</div></div>
+          <div class="kpi"><div class="big">200ms</div><div class="lab">분석 속도</div></div>
+          <div class="kpi"><div class="big">40+</div><div class="lab">파라미터</div></div>
+          <div class="kpi"><div class="big">Multi</div><div class="lab">다목적 최적화</div></div>
+          <div class="kpi"><div class="big">Cloud</div><div class="lab">하이브리드</div></div>
+        </div>
+
+        <div class="highlight" style="margin-top:20px">
+          <strong>하이브리드 최적화</strong> – Edge에서 실시간 성능 모니터링 및 즉각 대응, Cloud에서 장기 트렌드 분석 및 모델 업데이트를 수행합니다.
+          오프라인 환경에서도 Edge 디바이스에서 독립적으로 최적화를 수행하며, 온라인 복구 시 자동으로 학습 데이터를 동기화하여 모델 성능을 지속적으로 개선합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="specs" class="section">
+      <div class="wrap">
+        <h2 class="title">기술 사양 · 호환성</h2>
+        <div class="card" style="overflow:auto">
+          <table style="width:100%; border-collapse:collapse; font-size:14px">
+            <thead>
+              <tr>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px; width:25%">항목</th>
+                <th style="text-align:left; border-bottom:1px solid #333; padding:8px">내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">적용 대상</td><td style="padding:8px">제조 설비, 생산 라인, 공정 시스템, 에너지 설비, 물류 시스템</td></tr>
+              <tr><td style="padding:8px">지원 프로토콜</td><td style="padding:8px">Modbus TCP/RTU, OPC-UA, MQTT, EtherNet/IP, Profinet, BACnet</td></tr>
+              <tr><td style="padding:8px">제어기 호환성</td><td style="padding:8px">Siemens, Allen-Bradley, Schneider, Mitsubishi, Omron, 모든 PLC/DCS/SCADA</td></tr>
+              <tr><td style="padding:8px">분석 주기</td><td style="padding:8px">데이터 수집 100ms, 성능 예측 200ms, 최적화 계산 1초, 바운더리 업데이트 10분</td></tr>
+              <tr><td style="padding:8px">파라미터</td><td style="padding:8px">최대 128개 파라미터 동시 분석 및 최적화 (확장 가능)</td></tr>
+              <tr><td style="padding:8px">AI 모델</td><td style="padding:8px">Gradient Boosting, Neural Networks, Bayesian Optimization, Genetic Algorithm</td></tr>
+              <tr><td style="padding:8px">데이터베이스</td><td style="padding:8px">InfluxDB (시계열), PostgreSQL (메타), Redis (캐시)</td></tr>
+              <tr><td style="padding:8px">배포 환경</td><td style="padding:8px">On-Premise, Cloud (AWS/Azure/GCP), Hybrid, Edge Computing</td></tr>
+              <tr><td style="padding:8px">운영체제</td><td style="padding:8px">Windows 10/11, Ubuntu 20.04+, Industrial Linux, Docker/Kubernetes</td></tr>
+              <tr><td style="padding:8px">추천 사양</td><td style="padding:8px">CPU: Intel i7/Xeon, RAM: 32GB, SSD: 512GB, GPU: 선택사항</td></tr>
+              <tr><td style="padding:8px">최소 사양</td><td style="padding:8px">CPU: Intel i5 8세대+, RAM: 16GB, SSD: 256GB</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="highlight ai-glow" style="margin-top:20px">
+          <strong>범용성 및 확장성</strong> – 모듈식 설계로 다양한 산업 분야에 신속하게 적용 가능합니다.
+          설비 종류, 제어 시스템, 성능 지표에 관계없이 표준 인터페이스를 통해 연동됩니다.
+          Transfer Learning을 통해 신규 설비나 공정에도 최소한의 데이터로 빠르게 적응하며, 업종별 특화 모델을 제공합니다.
+        </div>
+      </div>
+    </section>
+
+    <section id="performance" class="section">
+      <div class="wrap">
+        <h2 class="title">성능 지표</h2>
+        <p class="desc">실제 산업 현장에서 검증된 최적화 효과</p>
+        
+        <div class="kpigrid">
+          <div class="kpi"><div class="big" style="color: var(--accent)">25%</div><div class="lab">생산성 향상</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">30%</div><div class="lab">에너지 절감</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">60%</div><div class="lab">품질 편차 감소</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">35%</div><div class="lab">비용 절감</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">97.8%</div><div class="lab">예측 정확도</div></div>
+          <div class="kpi"><div class="big" style="color: var(--accent)">200ms</div><div class="lab">응답 속도</div></div>
+        </div>
+
+        <div class="grid-2" style="margin-top:20px">
+          <div class="card">
+            <h3>적용 사례</h3>
+            <ul class="feature-list">
+              <li>제조업: 사출 성형 공정 최적화로 불량률 65% 감소</li>
+              <li>에너지: 발전소 효율 최적화로 연료비 28% 절감</li>
+              <li>화학 공정: 반응 조건 최적화로 수율 15% 향상</li>
+              <li>물류: 창고 운영 최적화로 처리량 32% 증가</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>지속적 개선</h3>
+            <ul class="feature-list">
+              <li>주간 성능 모델 업데이트 및 최적화</li>
+              <li>운영 패턴 학습으로 정확도 지속 향상</li>
+              <li>A/B 테스트로 최적화 전략 검증</li>
+              <li>계절별 모델 자동 적응</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2 class="title">도입/데모 문의</h2>
+        <div class="grid-3">
+          <div class="card"><b>Email</b><br><span style="color:var(--muted)">deepai-it@deepai-it.com</span></div>
+          <div class="card"><b>Phone</b><br><span style="color:var(--muted)">010-6757-4367</span></div>
+          <div class="card"><b>Location</b><br><span style="color:var(--muted)">Seongnam, Republic of Korea<br>Ulsan, Republic of Korea</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="../src/logo3.png" alt="DIT logo" class="footer-logo">
+      </div>
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4>DIT - DeepAI Industrial Transfer</h4>
+          <p>Enterprise AI Solutions for Manufacturing</p>
+          <p>Smart Factory Innovation Partner</p>
+        </div>
+
+        <div class="footer-section">
+          <h4>Solutions</h4>
+          <a href="../document_assistance/">Document Assistant</a>
+          <a href="../safety_monitoring/">Vision AI</a>
+          <a href="../engine/">Engine Monitoring</a>
+          <a href="../robot_analysis/">Robot Analysis</a>
+          <a href="../ai_programming_assistant/">AI Programming Assistant</a>
+          <a href="../performance_ai/">Performance Optimization</a>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contact Information</h4>
+          <p>Email: deepai-it@deepai-it.com</p>
+          <p>Phone: 010-6757-4367</p>
+          <p>Location 1: Seongnam, Republic of Korea</p>
+          <p>Location 2: Ulsan, Republic of Korea</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 40px; padding-top: 20px;">
+        © 2025 DIT · All Rights Reserved
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Performance Boundary Dashboard - 텍스트가 박스를 벗어나지 않도록 개선
+    function drawPerformanceScreen() {
+      const canvas = document.getElementById('performanceScreen');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = '#0f1116';
+      ctx.fillRect(0, 0, w, h);
+
+      // Header
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(0, 0, w, 50);
+      
+      const gradient = ctx.createLinearGradient(0, 0, 250, 0);
+      gradient.addColorStop(0, '#a78bfa');
+      gradient.addColorStop(1, '#22d3ee');
+      ctx.fillStyle = gradient;
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('Performance Boundary', 20, 30);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('Real-time', w - 80, 30);
+
+      // Current Performance Gauge
+      const centerX = 140;
+      const centerY = 140;
+      const radius = 55;
+      const performance = 87;
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.fillStyle = '#1a1d24';
+      ctx.fill();
+      ctx.strokeStyle = '#333';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Progress arc
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius - 5, -Math.PI / 2, -Math.PI / 2 + (performance / 100) * Math.PI * 2);
+      ctx.strokeStyle = '#a78bfa';
+      ctx.lineWidth = 7;
+      ctx.stroke();
+
+      ctx.fillStyle = '#a78bfa';
+      ctx.font = 'bold 32px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(performance, centerX, centerY + 8);
+      ctx.font = '11px sans-serif';
+      ctx.fillStyle = '#9aa4b2';
+      ctx.fillText('Performance', centerX, centerY + 25);
+
+      // Status
+      ctx.fillStyle = '#22d3ee';
+      ctx.fillRect(centerX + 70, centerY - 8, 6, 16);
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = '12px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('OPTIMAL', centerX + 82, centerY + 4);
+
+      // Performance Boundary Chart
+      drawBoundaryChart(ctx, 300, 70, 460, 160);
+
+      // Condition Impact
+      drawConditionImpact(ctx, 20, 280, 350, 190);
+
+      // Recommendations
+      drawRecommendations(ctx, 390, 280, 380, 190);
+    }
+
+    function drawOptimizationScreen() {
+      const canvas = document.getElementById('optimizationScreen');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width;
+      const h = canvas.height;
+
+      ctx.fillStyle = '#0f1116';
+      ctx.fillRect(0, 0, w, h);
+
+      // Header
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(0, 0, w, 50);
+      
+      const gradient = ctx.createLinearGradient(0, 0, 220, 0);
+      gradient.addColorStop(0, '#a78bfa');
+      gradient.addColorStop(1, '#22d3ee');
+      ctx.fillStyle = gradient;
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('Optimization', 20, 30);
+      
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '11px sans-serif';
+      ctx.fillText('Multi-Objective', w - 100, 30);
+
+      // KPI Cards
+      const kpis = [
+        { label: 'Productivity', value: '94%', color: '#a78bfa' },
+        { label: 'Quality', value: '96%', color: '#22d3ee' },
+        { label: 'Efficiency', value: '89%', color: '#f59e0b' },
+        { label: 'Cost', value: '-18%', color: '#8b5cf6' }
+      ];
+
+      kpis.forEach((kpi, i) => {
+        const x = 25 + (i % 2) * 185;
+        const y = 70 + Math.floor(i / 2) * 80;
+        
+        ctx.fillStyle = '#1a1d24';
+        ctx.fillRect(x, y, 165, 65);
+        ctx.strokeStyle = kpi.color;
+        ctx.strokeRect(x, y, 165, 65);
+        
+        ctx.fillStyle = '#9aa4b2';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(kpi.label, x + 8, y + 16);
+        
+        ctx.fillStyle = kpi.color;
+        ctx.font = 'bold 22px sans-serif';
+        ctx.fillText(kpi.value, x + 8, y + 42);
+      });
+
+      // Pareto Front
+      drawParetoFront(ctx, 410, 70, 360, 140);
+
+      // Parameter Bars
+      drawParameterBars(ctx, 20, 250, 360, 220);
+
+      // Control Actions
+      drawControlActions(ctx, 410, 250, 360, 220);
+    }
+
+    function drawBoundaryChart(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Dynamic Boundary', x + 10, y + 18);
+
+      // Boundaries
+      const points = 40;
+      
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 2]);
+      ctx.beginPath();
+      for (let i = 0; i <= points; i++) {
+        const px = x + 15 + (i / points) * (w - 30);
+        const upper = 85 + Math.sin(i * 0.2) * 4;
+        const py = y + h - 25 - ((upper - 60) / 40) * (h - 45);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      ctx.strokeStyle = '#ef4444';
+      ctx.beginPath();
+      for (let i = 0; i <= points; i++) {
+        const px = x + 15 + (i / points) * (w - 30);
+        const lower = 65 + Math.sin(i * 0.15) * 3;
+        const py = y + h - 25 - ((lower - 60) / 40) * (h - 45);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = '#a78bfa';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let i = 0; i <= points; i++) {
+        const px = x + 15 + (i / points) * (w - 30);
+        const current = 75 + Math.sin(i * 0.25) * 3.5;
+        const py = y + h - 25 - ((current - 60) / 40) * (h - 45);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // Legend
+      ctx.font = '9px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#22d3ee';
+      ctx.fillText('Upper', x + w - 80, y + 30);
+      ctx.fillStyle = '#a78bfa';
+      ctx.fillText('Current', x + w - 80, y + 43);
+      ctx.fillStyle = '#ef4444';
+      ctx.fillText('Lower', x + w - 80, y + 56);
+    }
+
+    function drawConditionImpact(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Condition Impact', x + 10, y + 18);
+
+      const conditions = [
+        { name: 'Temperature', impact: 0.72 },
+        { name: 'Humidity', impact: 0.45 },
+        { name: 'Load', impact: 0.88 },
+        { name: 'Material', impact: 0.35 }
+      ];
+
+      conditions.forEach((cond, i) => {
+        const cy = y + 45 + i * 35;
+        
+        ctx.fillStyle = '#2a2d34';
+        ctx.fillRect(x + 110, cy, w - 130, 16);
+        
+        const barW = (w - 130) * cond.impact;
+        const barGrad = ctx.createLinearGradient(x + 110, cy, x + 110 + barW, cy);
+        barGrad.addColorStop(0, '#a78bfa');
+        barGrad.addColorStop(1, '#22d3ee');
+        ctx.fillStyle = barGrad;
+        ctx.fillRect(x + 110, cy, barW, 16);
+        
+        ctx.fillStyle = '#e7ecf3';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(cond.name, x + 10, cy + 11);
+        
+        ctx.fillStyle = '#9aa4b2';
+        ctx.textAlign = 'right';
+        ctx.fillText((cond.impact * 100).toFixed(0) + '%', x + w - 10, cy + 11);
+      });
+    }
+
+    function drawRecommendations(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#22d3ee';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('AI Recommendations', x + 10, y + 18);
+
+      const recs = [
+        { text: 'Increase flow to 82%', priority: 'High' },
+        { text: 'Adjust temp to 88°C', priority: 'Med' },
+        { text: 'Reduce cycle by 3%', priority: 'High' },
+        { text: 'Schedule maintenance', priority: 'Low' }
+      ];
+
+      ctx.font = '10px sans-serif';
+      recs.forEach((rec, i) => {
+        const ry = y + 42 + i * 36;
+        
+        const priorityColor = rec.priority === 'High' ? '#ef4444' : rec.priority === 'Med' ? '#f59e0b' : '#6b7280';
+        ctx.fillStyle = priorityColor;
+        ctx.fillRect(x + 10, ry, 42, 14);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 8px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(rec.priority, x + 31, ry + 10);
+        
+        ctx.fillStyle = '#9aa4b2';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(rec.text, x + 58, ry + 10);
+      });
+    }
+
+    function drawParetoFront(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Pareto: Quality vs Cost', x + 10, y + 18);
+
+      const paretoPoints = [];
+      for (let i = 0; i < 18; i++) {
+        paretoPoints.push({
+          quality: 70 + Math.random() * 25,
+          cost: 60 + Math.random() * 30
+        });
+      }
+
+      paretoPoints.forEach(point => {
+        const px = x + 25 + ((point.quality - 70) / 25) * (w - 50);
+        const py = y + h - 25 - ((point.cost - 60) / 30) * (h - 50);
+        
+        ctx.beginPath();
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#22d3ee';
+        ctx.fill();
+      });
+
+      const currentX = x + 25 + ((90 - 70) / 25) * (w - 50);
+      const currentY = y + h - 25 - ((75 - 60) / 30) * (h - 50);
+      ctx.beginPath();
+      ctx.arc(currentX, currentY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#a78bfa';
+      ctx.fill();
+
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = '9px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Quality →', x + w - 55, y + h - 8);
+      ctx.save();
+      ctx.translate(x + 12, y + 30);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('Cost →', 0, 0);
+      ctx.restore();
+    }
+
+    function drawParameterBars(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#333';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Optimization Potential', x + 10, y + 18);
+
+      const params = [
+        { name: 'Temp', potential: 0.78 },
+        { name: 'Press', potential: 0.45 },
+        { name: 'Flow', potential: 0.92 },
+        { name: 'Speed', potential: 0.58 },
+        { name: 'Feed', potential: 0.67 }
+      ];
+
+      params.forEach((p, i) => {
+        const by = y + 42 + i * 32;
+        const bh = 14;
+        const bw = w - 150;
+
+        ctx.fillStyle = '#2a2d34';
+        ctx.fillRect(x + 110, by, bw, bh);
+
+        const barW = bw * p.potential;
+        const potGrad = ctx.createLinearGradient(x + 110, by, x + 110 + barW, by);
+        potGrad.addColorStop(0, '#a78bfa');
+        potGrad.addColorStop(1, '#22d3ee');
+        ctx.fillStyle = potGrad;
+        ctx.fillRect(x + 110, by, barW, bh);
+
+        ctx.fillStyle = '#e7ecf3';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(p.name, x + 10, by + 10);
+
+        ctx.fillStyle = '#9aa4b2';
+        ctx.textAlign = 'right';
+        ctx.fillText((p.potential * 100).toFixed(0) + '%', x + w - 10, by + 10);
+      });
+    }
+
+    function drawControlActions(ctx, x, y, w, h) {
+      ctx.fillStyle = '#1a1d24';
+      ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = '#22d3ee';
+      ctx.strokeRect(x, y, w, h);
+
+      ctx.fillStyle = '#e7ecf3';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Control Actions', x + 10, y + 18);
+
+      const actions = [
+        { param: 'Temp', current: '85°C', optimal: '88°C', impact: '+2.5%' },
+        { param: 'Flow', current: '75%', optimal: '82%', impact: '+3.1%' },
+        { param: 'Press', current: '4.2bar', optimal: '4.5bar', impact: '+1.8%' },
+        { param: 'Cycle', current: '45s', optimal: '43s', impact: '+4.4%' }
+      ];
+
+      ctx.fillStyle = '#2a2d34';
+      ctx.fillRect(x + 10, y + 35, w - 20, 18);
+      ctx.fillStyle = '#9aa4b2';
+      ctx.font = 'bold 9px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Param', x + 15, y + 47);
+      ctx.fillText('Current', x + 85, y + 47);
+      ctx.fillText('Optimal', x + 170, y + 47);
+      ctx.fillText('Impact', x + 255, y + 47);
+
+      ctx.font = '10px sans-serif';
+      actions.forEach((action, i) => {
+        const ry = y + 60 + i * 32;
+        
+        if (i % 2 === 0) {
+          ctx.fillStyle = 'rgba(42, 45, 52, 0.3)';
+          ctx.fillRect(x + 10, ry, w - 20, 28);
+        }
+        
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#e7ecf3';
+        ctx.fillText(action.param, x + 15, ry + 16);
+        ctx.fillStyle = '#9aa4b2';
+        ctx.fillText(action.current, x + 85, ry + 16);
+        ctx.fillStyle = '#22d3ee';
+        ctx.fillText(action.optimal, x + 170, ry + 16);
+        ctx.fillStyle = '#a78bfa';
+        ctx.fillText(action.impact, x + 255, ry + 16);
+      });
+    }
+
+    window.addEventListener('load', () => {
+      drawPerformanceScreen();
+      drawOptimizationScreen();
+    });
+
+    window.addEventListener('resize', () => {
+      drawPerformanceScreen();
+      drawOptimizationScreen();
+    });
+  </script>
+  
+  <!-- 파티클 배경 스크립트 -->
+  <script src="../src/app.js"></script>
+
+</body>
+</html>
